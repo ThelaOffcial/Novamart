@@ -1,6 +1,3 @@
-<!-- ========================================= -->
-<!--  FILE: login.html                         -->
-<!-- ========================================= -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +11,6 @@
     <link rel="stylesheet" href="style.css" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>" />
     <style>
-        /* Additional styles specific to login page */
         .auth-container {
             max-width: 460px;
             margin: 60px auto;
@@ -113,12 +109,6 @@
             background: #DCFCE7;
             color: var(--success);
         }
-        .auth-divider {
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            margin: 4px 0;
-        }
         .auth-container .back-link {
             display: inline-block;
             margin-top: 16px;
@@ -129,54 +119,32 @@
         .auth-container .back-link:hover {
             color: var(--primary-dark);
         }
-        @media (max-width: 480px) {
-            .auth-container {
-                margin: 30px 16px;
-                padding: 24px 20px;
-            }
-        }
     </style>
 </head>
 <body>
-
-    <!-- ===== TOP BAR ===== -->
+    <!-- TOP BAR -->
     <div class="top-bar">
         <div class="container top-bar__inner">
             <span class="top-bar__tagline"><i class="fas fa-truck-fast"></i> Free shipping on orders over $50</span>
             <div class="top-bar__links">
-                <a href="login.html"><i class="fas fa-user"></i> Account</a>
                 <a href="#"><i class="fas fa-box"></i> Orders</a>
                 <a href="#"><i class="fas fa-circle-question"></i> Help</a>
             </div>
         </div>
     </div>
 
-    <!-- ===== HEADER ===== -->
-    <header class="header" id="mainHeader">
+    <!-- HEADER -->
+    <header class="header">
         <div class="container header__inner">
-            <a href="index.html" class="logo">
+            <a href="index-firebase.html" class="logo">
                 <span class="logo__icon">🛒</span>
                 <span class="logo__text">Nova<span class="logo__highlight">Mart</span></span>
                 <span class="logo__badge">Global</span>
             </a>
-            <div class="header-actions">
-                <a href="wishlist.html" class="header-action" id="headerWishlist">
-                    <i class="fas fa-heart"></i>
-                    <span class="header-action__badge" id="wishlistCount">0</span>
-                </a>
-                <a href="cart.html" class="header-action" id="headerCart">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="header-action__badge" id="cartCount">0</span>
-                </a>
-                <a href="login.html" class="header-action header-action--user">
-                    <i class="fas fa-user-circle"></i>
-                    <span class="header-action__label" id="userNameLabel">Sign In</span>
-                </a>
-            </div>
         </div>
     </header>
 
-    <!-- ===== AUTH CONTAINER ===== -->
+    <!-- AUTH CONTAINER -->
     <div class="container">
         <div class="auth-container">
             <h1>Welcome Back</h1>
@@ -200,7 +168,6 @@
                 </div>
                 <div class="auth-message" id="loginMessage"></div>
                 <button type="submit" class="btn btn--primary">Sign In</button>
-                <div class="auth-divider">— or —</div>
                 <button type="button" class="btn btn--outline" id="switchToRegister">Create New Account</button>
             </form>
 
@@ -224,125 +191,22 @@
                 </div>
                 <div class="auth-message" id="registerMessage"></div>
                 <button type="submit" class="btn btn--primary">Create Account</button>
-                <div class="auth-divider">— or —</div>
                 <button type="button" class="btn btn--outline" id="switchToLogin">Already have an account? Sign In</button>
             </form>
 
-            <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to shopping</a>
+            <a href="index-firebase.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to shopping</a>
         </div>
     </div>
 
-    <!-- ===== TOAST ===== -->
+    <!-- TOAST -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- ===== SCRIPTS ===== -->
-    <script src="products.js"></script>
-    <script src="auth.js"></script>
-    <script src="cart.js"></script>
-    <script src="wishlist.js"></script>
-    <script>
-        (function() {
-            'use strict';
-
-            // DOM refs
-            const tabs = document.querySelectorAll('#authTabs button');
-            const loginForm = document.getElementById('loginForm');
-            const registerForm = document.getElementById('registerForm');
-            const loginMessage = document.getElementById('loginMessage');
-            const registerMessage = document.getElementById('registerMessage');
-            const switchToRegister = document.getElementById('switchToRegister');
-            const switchToLogin = document.getElementById('switchToLogin');
-
-            // Badge updates
-            function updateBadges() {
-                const cartCount = document.getElementById('cartCount');
-                const wishlistCount = document.getElementById('wishlistCount');
-                if (cartCount) cartCount.textContent = Cart.getTotalItems();
-                if (wishlistCount) wishlistCount.textContent = Wishlist.getWishlist().length;
-                const user = Auth.getCurrentUser();
-                const label = document.getElementById('userNameLabel');
-                if (label) label.textContent = user ? user.name : 'Sign In';
-            }
-
-            // Show toast
-            function showToast(message, type = 'info') {
-                const container = document.getElementById('toastContainer');
-                const toast = document.createElement('div');
-                toast.className = `toast toast--${type}`;
-                toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i> ${message}`;
-                container.appendChild(toast);
-                setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3000);
-            }
-
-            // Tab switching
-            function switchTab(tabId) {
-                tabs.forEach(btn => btn.classList.toggle('active', btn.dataset.tab === tabId));
-                loginForm.classList.toggle('active', tabId === 'login');
-                registerForm.classList.toggle('active', tabId === 'register');
-                loginMessage.textContent = '';
-                loginMessage.className = 'auth-message';
-                registerMessage.textContent = '';
-                registerMessage.className = 'auth-message';
-            }
-
-            tabs.forEach(btn => {
-                btn.addEventListener('click', () => switchTab(btn.dataset.tab));
-            });
-            switchToRegister.addEventListener('click', () => switchTab('register'));
-            switchToLogin.addEventListener('click', () => switchTab('login'));
-
-            // Login handler
-            loginForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const email = document.getElementById('loginEmail').value.trim();
-                const password = document.getElementById('loginPassword').value.trim();
-                const result = Auth.login(email, password);
-                if (result.success) {
-                    loginMessage.textContent = '✅ Login successful! Redirecting...';
-                    loginMessage.className = 'auth-message success';
-                    showToast('Welcome back, ' + result.user.name + '!', 'success');
-                    updateBadges();
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 1000);
-                } else {
-                    loginMessage.textContent = '❌ ' + result.message;
-                    loginMessage.className = 'auth-message error';
-                }
-            });
-
-            // Register handler
-            registerForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const name = document.getElementById('regName').value.trim();
-                const email = document.getElementById('regEmail').value.trim();
-                const password = document.getElementById('regPassword').value;
-                const confirm = document.getElementById('regConfirm').value;
-                const result = Auth.signUp(name, email, password, confirm);
-                if (result.success) {
-                    registerMessage.textContent = '✅ Account created! Redirecting...';
-                    registerMessage.className = 'auth-message success';
-                    showToast('Welcome, ' + result.user.name + '!', 'success');
-                    updateBadges();
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 1000);
-                } else {
-                    registerMessage.textContent = '❌ ' + result.message;
-                    registerMessage.className = 'auth-message error';
-                }
-            });
-
-            // If already logged in, redirect to home
-            if (Auth.isLoggedIn()) {
-                // But if they're on login page, maybe they want to logout? We'll let them stay.
-                // Just update UI.
-            }
-
-            // Init badges
-            updateBadges();
-
-        })();
-    </script>
+    <!-- SCRIPTS -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="firebase-auth.js"></script>
+    <script src="login-firebase.js"></script>
 </body>
 </html>
