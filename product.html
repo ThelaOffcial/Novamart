@@ -1,0 +1,544 @@
+<!-- ========================================= -->
+<!--  FILE: product.html                       -->
+<!-- ========================================= -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NovaMart Global — Product Details</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>" />
+    <style>
+        .product-detail {
+            padding: 32px 0 60px;
+        }
+        .product-detail__grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            background: #fff;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 32px;
+            margin-bottom: 40px;
+        }
+        .product-detail__gallery img {
+            width: 100%;
+            border-radius: var(--radius);
+            background: var(--bg);
+        }
+        .product-detail__info h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .product-detail__info .rating-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+        .product-detail__info .rating-row i {
+            color: #F59E0B;
+        }
+        .product-detail__info .price-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+        .product-detail__info .price-row .current {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .product-detail__info .price-row .original {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            text-decoration: line-through;
+        }
+        .product-detail__info .price-row .discount {
+            background: var(--danger);
+            color: #fff;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .product-detail__info .stock-info {
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+        .product-detail__info .stock-info .in-stock { color: var(--success); }
+        .product-detail__info .stock-info .out-stock { color: var(--danger); }
+        .product-detail__info .shipping-info {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+        .product-detail__info .qty-selector {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .product-detail__info .qty-selector label {
+            font-weight: 600;
+        }
+        .product-detail__info .qty-selector input {
+            width: 64px;
+            padding: 8px 8px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        .product-detail__info .qty-selector input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        .product-detail__info .action-btns {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .product-detail__info .action-btns .btn {
+            padding: 12px 28px;
+            font-size: 1rem;
+        }
+        .product-detail__info .action-btns .btn--wishlist {
+            background: var(--bg);
+            border: 2px solid var(--border);
+            color: var(--text-secondary);
+        }
+        .product-detail__info .action-btns .btn--wishlist.active {
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+        .product-detail__info .action-btns .btn--wishlist:hover {
+            background: var(--danger);
+            color: #fff;
+            border-color: var(--danger);
+        }
+        .product-detail__desc {
+            background: #fff;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 28px 32px;
+            margin-bottom: 40px;
+        }
+        .product-detail__desc h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .product-detail__desc p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        .reviews-section {
+            background: #fff;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 28px 32px;
+            margin-bottom: 40px;
+        }
+        .reviews-section h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .review-item {
+            border-bottom: 1px solid var(--border);
+            padding: 16px 0;
+        }
+        .review-item:last-child { border-bottom: none; }
+        .review-item .review-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+        }
+        .review-item .review-header .stars { color: #F59E0B; }
+        .review-item .review-text { color: var(--text-secondary); margin-top: 4px; }
+        .review-item .review-date { font-size: 0.8rem; color: var(--text-secondary); }
+        .review-form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .review-form .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .review-form input, .review-form textarea, .review-form select {
+            padding: 10px 14px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            background: var(--bg);
+            transition: var(--transition);
+        }
+        .review-form input:focus, .review-form textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            background: #fff;
+        }
+        .review-form textarea { min-height: 80px; resize: vertical; }
+        .review-form .btn { align-self: flex-start; }
+        .related-products {
+            margin-top: 40px;
+        }
+        .related-products .product-grid {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+        @media (max-width: 768px) {
+            .product-detail__grid {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+            .product-detail__info h1 { font-size: 1.4rem; }
+            .review-form .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 480px) {
+            .product-detail__grid { padding: 14px; }
+            .product-detail__info .action-btns .btn {
+                flex: 1;
+                justify-content: center;
+            }
+            .related-products .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== TOP BAR ===== -->
+    <div class="top-bar">
+        <div class="container top-bar__inner">
+            <span class="top-bar__tagline"><i class="fas fa-truck-fast"></i> Free shipping on orders over $50</span>
+            <div class="top-bar__links">
+                <a href="login.html"><i class="fas fa-user"></i> Account</a>
+                <a href="#"><i class="fas fa-box"></i> Orders</a>
+                <a href="#"><i class="fas fa-circle-question"></i> Help</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== HEADER ===== -->
+    <header class="header" id="mainHeader">
+        <div class="container header__inner">
+            <a href="index.html" class="logo">
+                <span class="logo__icon">🛒</span>
+                <span class="logo__text">Nova<span class="logo__highlight">Mart</span></span>
+                <span class="logo__badge">Global</span>
+            </a>
+            <div class="header-actions">
+                <a href="wishlist.html" class="header-action" id="headerWishlist">
+                    <i class="fas fa-heart"></i>
+                    <span class="header-action__badge" id="wishlistCount">0</span>
+                </a>
+                <a href="cart.html" class="header-action" id="headerCart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="header-action__badge" id="cartCount">0</span>
+                </a>
+                <a href="login.html" class="header-action header-action--user">
+                    <i class="fas fa-user-circle"></i>
+                    <span class="header-action__label" id="userNameLabel">Sign In</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== PRODUCT DETAIL ===== -->
+    <section class="product-detail">
+        <div class="container" id="productDetailContainer">
+            <!-- Rendered by JS -->
+        </div>
+    </section>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="products.js"></script>
+    <script src="auth.js"></script>
+    <script src="cart.js"></script>
+    <script src="wishlist.js"></script>
+    <script>
+        (function() {
+            'use strict';
+
+            const container = document.getElementById('productDetailContainer');
+            const productMap = {};
+            PRODUCTS.forEach(p => productMap[p.id] = p);
+
+            // Get product ID from URL
+            const params = new URLSearchParams(window.location.search);
+            const productId = parseInt(params.get('id'));
+
+            function showToast(message, type = 'info') {
+                const container = document.getElementById('toastContainer');
+                const toast = document.createElement('div');
+                toast.className = `toast toast--${type}`;
+                toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i> ${message}`;
+                container.appendChild(toast);
+                setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3000);
+            }
+
+            function updateBadges() {
+                const cartCount = document.getElementById('cartCount');
+                const wishlistCount = document.getElementById('wishlistCount');
+                if (cartCount) cartCount.textContent = Cart.getTotalItems();
+                if (wishlistCount) wishlistCount.textContent = Wishlist.getWishlist().length;
+                const user = Auth.getCurrentUser();
+                const label = document.getElementById('userNameLabel');
+                if (label) label.textContent = user ? user.name : 'Sign In';
+            }
+
+            // Reviews storage
+            function getReviews(productId) {
+                const all = JSON.parse(localStorage.getItem('novamart_reviews')) || {};
+                return all[productId] || [];
+            }
+
+            function saveReviews(productId, reviews) {
+                const all = JSON.parse(localStorage.getItem('novamart_reviews')) || {};
+                all[productId] = reviews;
+                localStorage.setItem('novamart_reviews', JSON.stringify(all));
+            }
+
+            function addReview(productId, name, rating, comment) {
+                const reviews = getReviews(productId);
+                reviews.push({
+                    id: Date.now(),
+                    name: name.trim() || 'Anonymous',
+                    rating: parseInt(rating),
+                    comment: comment.trim(),
+                    date: new Date().toISOString()
+                });
+                saveReviews(productId, reviews);
+                return reviews;
+            }
+
+            function renderProduct() {
+                if (!productId || !productMap[productId]) {
+                    container.innerHTML = `
+                        <div style="text-align:center; padding:60px 20px; background:#fff; border-radius:var(--radius); border:1px solid var(--border);">
+                            <i class="fas fa-exclamation-triangle" style="font-size:3rem; color:var(--danger);"></i>
+                            <h3 style="margin-top:16px;">Product not found</h3>
+                            <p style="color:var(--text-secondary);">The product you're looking for doesn't exist.</p>
+                            <a href="index.html" class="btn btn--primary" style="margin-top:16px;">Back to Shop</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const p = productMap[productId];
+                const inStock = p.stock > 0;
+                const isWishlist = Wishlist.isInWishlist(p.id);
+                const reviews = getReviews(p.id);
+
+                // Product detail HTML
+                let html = `
+                    <div class="product-detail__grid">
+                        <div class="product-detail__gallery">
+                            <img src="${p.image}" alt="${p.name}" />
+                        </div>
+                        <div class="product-detail__info">
+                            <h1>${p.name}</h1>
+                            <div class="rating-row">
+                                <span><i class="fas fa-star"></i> ${p.rating} (${p.reviewCount} reviews)</span>
+                                <span><i class="fas fa-shopping-bag"></i> Sold ${p.soldCount}</span>
+                            </div>
+                            <div class="price-row">
+                                <span class="current">$${p.price.toFixed(2)}</span>
+                                ${p.originalPrice > p.price ? `<span class="original">$${p.originalPrice.toFixed(2)}</span>` : ''}
+                                ${p.discount > 0 ? `<span class="discount">-${p.discount}%</span>` : ''}
+                            </div>
+                            <div class="stock-info">
+                                ${inStock ? `<span class="in-stock"><i class="fas fa-check-circle"></i> In Stock (${p.stock} available)</span>` :
+                                    `<span class="out-stock"><i class="fas fa-times-circle"></i> Out of Stock</span>`}
+                            </div>
+                            <div class="shipping-info">
+                                <i class="fas fa-truck"></i> ${p.shippingInfo || 'Free shipping'}
+                            </div>
+                            <div class="qty-selector">
+                                <label for="qtyInput">Quantity:</label>
+                                <input type="number" id="qtyInput" value="1" min="1" max="${p.stock || 1}" ${!inStock ? 'disabled' : ''} />
+                            </div>
+                            <div class="action-btns">
+                                <button class="btn btn--primary" id="addToCartBtn" ${!inStock ? 'disabled' : ''}>
+                                    <i class="fas fa-cart-plus"></i> Add to Cart
+                                </button>
+                                <button class="btn btn--wishlist ${isWishlist ? 'active' : ''}" id="wishlistBtn">
+                                    <i class="fas fa-heart"></i> ${isWishlist ? 'Remove from' : 'Add to'} Wishlist
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Description
+                html += `
+                    <div class="product-detail__desc">
+                        <h3>Product Description</h3>
+                        <p>${p.description}</p>
+                        <p style="margin-top:8px;"><strong>Category:</strong> ${p.category}</p>
+                        <p><strong>Tags:</strong> ${p.tags.join(', ')}</p>
+                    </div>
+                `;
+
+                // Reviews
+                html += `
+                    <div class="reviews-section">
+                        <h3><i class="fas fa-comment-dots"></i> Customer Reviews (${reviews.length})</h3>
+                        ${reviews.length === 0 ? '<p style="color:var(--text-secondary);">No reviews yet. Be the first!</p>' : ''}
+                        ${reviews.slice().reverse().map(r => `
+                            <div class="review-item">
+                                <div class="review-header">
+                                    <span>${r.name}</span>
+                                    <span class="stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
+                                </div>
+                                <div class="review-text">${r.comment}</div>
+                                <div class="review-date">${new Date(r.date).toLocaleDateString()}</div>
+                            </div>
+                        `).join('')}
+                        <div class="review-form">
+                            <h4 style="font-weight:600; margin-top:8px;">Write a Review</h4>
+                            <div class="form-row">
+                                <input type="text" id="reviewName" placeholder="Your name" value="${Auth.getCurrentUser()?.name || ''}" />
+                                <select id="reviewRating">
+                                    <option value="5">★★★★★ (5)</option>
+                                    <option value="4">★★★★☆ (4)</option>
+                                    <option value="3">★★★☆☆ (3)</option>
+                                    <option value="2">★★☆☆☆ (2)</option>
+                                    <option value="1">★☆☆☆☆ (1)</option>
+                                </select>
+                            </div>
+                            <textarea id="reviewComment" placeholder="Share your experience with this product..."></textarea>
+                            <button class="btn btn--primary" id="submitReviewBtn">Submit Review</button>
+                        </div>
+                    </div>
+                `;
+
+                // Related products (same category, excluding current)
+                const related = PRODUCTS.filter(prod => prod.category === p.category && prod.id !== p.id).slice(0, 6);
+                if (related.length > 0) {
+                    html += `
+                        <div class="related-products">
+                            <h3 style="font-size:1.3rem; font-weight:700; margin-bottom:16px;">Customers Also Viewed</h3>
+                            <div class="product-grid" id="relatedGrid">
+                            </div>
+                        </div>
+                    `;
+                }
+
+                container.innerHTML = html;
+
+                // ---- Event listeners ----
+
+                // Add to Cart
+                document.getElementById('addToCartBtn')?.addEventListener('click', () => {
+                    const qtyInput = document.getElementById('qtyInput');
+                    let qty = parseInt(qtyInput.value) || 1;
+                    if (qty < 1) qty = 1;
+                    if (p.stock && qty > p.stock) qty = p.stock;
+                    Cart.addToCart(p.id, qty);
+                    updateBadges();
+                    showToast(`${qty} × ${p.name} added to cart!`, 'success');
+                });
+
+                // Wishlist toggle
+                document.getElementById('wishlistBtn')?.addEventListener('click', () => {
+                    Wishlist.toggleWishlist(p.id);
+                    const now = Wishlist.isInWishlist(p.id);
+                    const btn = document.getElementById('wishlistBtn');
+                    btn.classList.toggle('active', now);
+                    btn.innerHTML = `<i class="fas fa-heart"></i> ${now ? 'Remove from' : 'Add to'} Wishlist`;
+                    updateBadges();
+                    showToast(now ? 'Added to wishlist' : 'Removed from wishlist', 'info');
+                });
+
+                // Submit review
+                document.getElementById('submitReviewBtn')?.addEventListener('click', () => {
+                    const name = document.getElementById('reviewName').value.trim() || 'Anonymous';
+                    const rating = parseInt(document.getElementById('reviewRating').value);
+                    const comment = document.getElementById('reviewComment').value.trim();
+                    if (!comment) {
+                        showToast('Please write a comment.', 'error');
+                        return;
+                    }
+                    addReview(p.id, name, rating, comment);
+                    showToast('Review submitted!', 'success');
+                    // Re-render to show updated reviews
+                    renderProduct();
+                    // Scroll to reviews
+                    document.querySelector('.reviews-section')?.scrollIntoView({ behavior: 'smooth' });
+                });
+
+                // Render related products (if any)
+                const relatedGrid = document.getElementById('relatedGrid');
+                if (relatedGrid) {
+                    relatedGrid.innerHTML = '';
+                    related.forEach(prod => {
+                        // Use a simplified card from app.js if available, or build manually
+                        const card = document.createElement('div');
+                        card.className = 'product-card';
+                        card.style.cursor = 'pointer';
+                        card.innerHTML = `
+                            <div class="product-card__image">
+                                <img src="${prod.image}" alt="${prod.name}" loading="lazy" />
+                                ${prod.discount > 0 ? `<span class="product-card__badge">-${prod.discount}%</span>` : ''}
+                            </div>
+                            <div class="product-card__body">
+                                <div class="product-card__name">${prod.name}</div>
+                                <div class="product-card__rating">
+                                    <i class="fas fa-star"></i> ${prod.rating} (${prod.reviewCount})
+                                </div>
+                                <div class="product-card__price">
+                                    <span class="current">$${prod.price.toFixed(2)}</span>
+                                    ${prod.originalPrice > prod.price ? `<span class="original">$${prod.originalPrice.toFixed(2)}</span>` : ''}
+                                </div>
+                            </div>
+                        `;
+                        card.addEventListener('click', () => {
+                            window.location.href = `product.html?id=${prod.id}`;
+                        });
+                        relatedGrid.appendChild(card);
+                    });
+                }
+
+                // Save to recently viewed
+                saveRecentlyViewed(p.id);
+            }
+
+            // Recently viewed helper
+            function saveRecentlyViewed(productId) {
+                let recent = JSON.parse(localStorage.getItem('novamart_recently_viewed')) || [];
+                recent = recent.filter(id => id !== productId);
+                recent.unshift(productId);
+                if (recent.length > 10) recent.pop();
+                localStorage.setItem('novamart_recently_viewed', JSON.stringify(recent));
+            }
+
+            // Init
+            updateBadges();
+            renderProduct();
+
+        })();
+    </script>
+</body>
+</html>

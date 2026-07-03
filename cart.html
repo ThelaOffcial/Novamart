@@ -1,0 +1,431 @@
+<!-- ========================================= -->
+<!--  FILE: cart.html                          -->
+<!-- ========================================= -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NovaMart Global — Shopping Cart</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>" />
+    <style>
+        .cart-page {
+            padding: 40px 0 60px;
+        }
+        .cart-page h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .cart-page .subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+        }
+        .cart-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 32px;
+        }
+        .cart-items {
+            background: #fff;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        .cart-item {
+            display: grid;
+            grid-template-columns: 80px 1fr auto;
+            gap: 16px;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+        }
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        .cart-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            background: var(--bg);
+        }
+        .cart-item__info h4 {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+        .cart-item__info .price {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        .cart-item__info .original {
+            color: var(--text-secondary);
+            text-decoration: line-through;
+            font-size: 0.85rem;
+            margin-left: 8px;
+        }
+        .cart-item__qty {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .cart-item__qty button {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cart-item__qty button:hover {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+        .cart-item__qty span {
+            font-weight: 600;
+            min-width: 30px;
+            text-align: center;
+        }
+        .cart-item__remove {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            padding: 4px 8px;
+        }
+        .cart-item__remove:hover {
+            color: var(--danger);
+        }
+        .cart-summary {
+            background: #fff;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 24px 28px;
+            align-self: start;
+            position: sticky;
+            top: 100px;
+        }
+        .cart-summary h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .cart-summary .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+        .cart-summary .row.total {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            border-top: 2px solid var(--border);
+            padding-top: 16px;
+            margin-top: 8px;
+        }
+        .cart-summary .btn {
+            width: 100%;
+            margin-top: 16px;
+            padding: 14px;
+            font-size: 1rem;
+        }
+        .cart-empty {
+            text-align: center;
+            padding: 60px 20px;
+            background: #fff;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+        .cart-empty i {
+            font-size: 3rem;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+        .cart-empty h3 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+        }
+        .cart-empty .btn {
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            .cart-layout {
+                grid-template-columns: 1fr;
+            }
+            .cart-item {
+                grid-template-columns: 60px 1fr;
+                gap: 12px;
+            }
+            .cart-item img {
+                width: 60px;
+                height: 60px;
+            }
+            .cart-item__qty {
+                grid-column: 2 / 3;
+                justify-self: start;
+            }
+            .cart-item__remove {
+                grid-column: 3 / 4;
+                grid-row: 1 / 2;
+            }
+        }
+        @media (max-width: 480px) {
+            .cart-item {
+                grid-template-columns: 50px 1fr;
+                padding: 12px 14px;
+            }
+            .cart-item img {
+                width: 50px;
+                height: 50px;
+            }
+            .cart-summary {
+                padding: 16px 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== TOP BAR ===== -->
+    <div class="top-bar">
+        <div class="container top-bar__inner">
+            <span class="top-bar__tagline"><i class="fas fa-truck-fast"></i> Free shipping on orders over $50</span>
+            <div class="top-bar__links">
+                <a href="login.html"><i class="fas fa-user"></i> Account</a>
+                <a href="#"><i class="fas fa-box"></i> Orders</a>
+                <a href="#"><i class="fas fa-circle-question"></i> Help</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== HEADER ===== -->
+    <header class="header" id="mainHeader">
+        <div class="container header__inner">
+            <a href="index.html" class="logo">
+                <span class="logo__icon">🛒</span>
+                <span class="logo__text">Nova<span class="logo__highlight">Mart</span></span>
+                <span class="logo__badge">Global</span>
+            </a>
+            <div class="header-actions">
+                <a href="wishlist.html" class="header-action" id="headerWishlist">
+                    <i class="fas fa-heart"></i>
+                    <span class="header-action__badge" id="wishlistCount">0</span>
+                </a>
+                <a href="cart.html" class="header-action" id="headerCart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="header-action__badge" id="cartCount">0</span>
+                </a>
+                <a href="login.html" class="header-action header-action--user">
+                    <i class="fas fa-user-circle"></i>
+                    <span class="header-action__label" id="userNameLabel">Sign In</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== CART PAGE ===== -->
+    <section class="cart-page">
+        <div class="container">
+            <h1><i class="fas fa-shopping-cart" style="color:var(--primary);"></i> Shopping Cart</h1>
+            <p class="subtitle">Review your items and proceed to checkout.</p>
+            <div id="cartContainer">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="products.js"></script>
+    <script src="auth.js"></script>
+    <script src="cart.js"></script>
+    <script src="wishlist.js"></script>
+    <script>
+        (function() {
+            'use strict';
+
+            const container = document.getElementById('cartContainer');
+            const productMap = {};
+            PRODUCTS.forEach(p => productMap[p.id] = p);
+
+            function showToast(message, type = 'info') {
+                const container = document.getElementById('toastContainer');
+                const toast = document.createElement('div');
+                toast.className = `toast toast--${type}`;
+                toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i> ${message}`;
+                container.appendChild(toast);
+                setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3000);
+            }
+
+            function updateBadges() {
+                const cartCount = document.getElementById('cartCount');
+                const wishlistCount = document.getElementById('wishlistCount');
+                if (cartCount) cartCount.textContent = Cart.getTotalItems();
+                if (wishlistCount) wishlistCount.textContent = Wishlist.getWishlist().length;
+                const user = Auth.getCurrentUser();
+                const label = document.getElementById('userNameLabel');
+                if (label) label.textContent = user ? user.name : 'Sign In';
+            }
+
+            function renderCart() {
+                const cartItems = Cart.getFullCart(PRODUCTS);
+                const totalItems = Cart.getTotalItems();
+
+                if (cartItems.length === 0 || totalItems === 0) {
+                    container.innerHTML = `
+                        <div class="cart-empty">
+                            <i class="fas fa-shopping-cart"></i>
+                            <h3>Your cart is empty</h3>
+                            <p>Looks like you haven't added anything yet.</p>
+                            <a href="index.html" class="btn btn--primary">Start Shopping</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let subtotal = 0;
+                let itemsHtml = '';
+                cartItems.forEach(item => {
+                    const p = item.product;
+                    if (!p) return;
+                    const total = p.price * item.quantity;
+                    subtotal += total;
+                    itemsHtml += `
+                        <div class="cart-item" data-id="${p.id}">
+                            <img src="${p.image}" alt="${p.name}" />
+                            <div class="cart-item__info">
+                                <h4>${p.name}</h4>
+                                <div>
+                                    <span class="price">$${p.price.toFixed(2)}</span>
+                                    ${p.originalPrice > p.price ? `<span class="original">$${p.originalPrice.toFixed(2)}</span>` : ''}
+                                </div>
+                            </div>
+                            <div style="display:flex; align-items:center; gap:12px; grid-column: 3 / 4; justify-self: end;">
+                                <div class="cart-item__qty">
+                                    <button class="qty-dec" data-id="${p.id}">−</button>
+                                    <span>${item.quantity}</span>
+                                    <button class="qty-inc" data-id="${p.id}">+</button>
+                                </div>
+                                <button class="cart-item__remove" data-id="${p.id}" title="Remove item">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                const shipping = subtotal > 50 ? 0 : 5.99;
+                const total = subtotal + shipping;
+
+                const html = `
+                    <div class="cart-layout">
+                        <div class="cart-items">
+                            ${itemsHtml}
+                        </div>
+                        <div class="cart-summary">
+                            <h3>Order Summary</h3>
+                            <div class="row"><span>Subtotal</span><span>$${subtotal.toFixed(2)}</span></div>
+                            <div class="row"><span>Shipping</span><span>${shipping === 0 ? 'Free' : '$' + shipping.toFixed(2)}</span></div>
+                            <div class="row total"><span>Total</span><span>$${total.toFixed(2)}</span></div>
+                            <button class="btn btn--primary" id="checkoutBtn"><i class="fas fa-lock"></i> Proceed to Checkout</button>
+                            <button class="btn btn--outline" id="clearCartBtn" style="margin-top:8px; width:100%;">Clear Cart</button>
+                        </div>
+                    </div>
+                `;
+
+                container.innerHTML = html;
+
+                // Event listeners
+                container.querySelectorAll('.qty-inc').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const id = parseInt(btn.dataset.id);
+                        const item = Cart.getFullCart(PRODUCTS).find(i => i.productId === id);
+                        if (item) {
+                            Cart.updateQuantity(id, item.quantity + 1);
+                            updateBadges();
+                            renderCart();
+                        }
+                    });
+                });
+
+                container.querySelectorAll('.qty-dec').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const id = parseInt(btn.dataset.id);
+                        const item = Cart.getFullCart(PRODUCTS).find(i => i.productId === id);
+                        if (item && item.quantity > 1) {
+                            Cart.updateQuantity(id, item.quantity - 1);
+                            updateBadges();
+                            renderCart();
+                        } else if (item) {
+                            Cart.removeFromCart(id);
+                            updateBadges();
+                            renderCart();
+                            showToast('Item removed from cart', 'info');
+                        }
+                    });
+                });
+
+                container.querySelectorAll('.cart-item__remove').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const id = parseInt(btn.dataset.id);
+                        Cart.removeFromCart(id);
+                        updateBadges();
+                        renderCart();
+                        showToast('Item removed from cart', 'info');
+                    });
+                });
+
+                document.getElementById('clearCartBtn')?.addEventListener('click', () => {
+                    Cart.clearCart();
+                    updateBadges();
+                    renderCart();
+                    showToast('Cart cleared', 'info');
+                });
+
+                document.getElementById('checkoutBtn')?.addEventListener('click', () => {
+                    if (Cart.getTotalItems() === 0) {
+                        showToast('Your cart is empty', 'error');
+                        return;
+                    }
+                    // Simple checkout simulation
+                    const orderId = 'NVM-' + Math.floor(10000 + Math.random() * 90000);
+                    showToast(`Order #${orderId} placed! Status: Processing`, 'success');
+                    Cart.clearCart();
+                    updateBadges();
+                    renderCart();
+                });
+            }
+
+            // Init
+            updateBadges();
+            renderCart();
+
+        })();
+    </script>
+</body>
+</html>

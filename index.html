@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>NovaMart Global — Shop the Best Deals Online</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+
+    <!-- Font Awesome 6 (Free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Favicon (inline SVG) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>" />
+</head>
+<body>
+    <!-- ============================== -->
+    <!--          TOP BAR              -->
+    <!-- ============================== -->
+    <div class="top-bar">
+        <div class="container top-bar__inner">
+            <span class="top-bar__tagline"><i class="fas fa-truck-fast"></i> Free shipping on orders over $50</span>
+            <div class="top-bar__links">
+                <a href="#" id="topBarAccount"><i class="fas fa-user"></i> Account</a>
+                <a href="#" id="topBarOrders"><i class="fas fa-box"></i> Orders</a>
+                <a href="#" id="topBarHelp"><i class="fas fa-circle-question"></i> Help</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================== -->
+    <!--          HEADER / NAV          -->
+    <!-- ============================== -->
+    <header class="header" id="mainHeader">
+        <div class="container header__inner">
+            <!-- Logo -->
+            <a href="index.html" class="logo">
+                <span class="logo__icon">🛒</span>
+                <span class="logo__text">Nova<span class="logo__highlight">Mart</span></span>
+                <span class="logo__badge">Global</span>
+            </a>
+
+            <!-- Search Bar -->
+            <div class="search-bar" id="searchBar">
+                <input type="text" id="searchInput" placeholder="Search for products..." autocomplete="off" />
+                <button id="searchBtn" aria-label="Search"><i class="fas fa-search"></i></button>
+                <div class="search-suggestions" id="searchSuggestions"></div>
+            </div>
+
+            <!-- Header Actions -->
+            <div class="header-actions">
+                <a href="wishlist.html" class="header-action" id="headerWishlist" aria-label="Wishlist">
+                    <i class="fas fa-heart"></i>
+                    <span class="header-action__badge" id="wishlistCount">0</span>
+                </a>
+                <a href="cart.html" class="header-action" id="headerCart" aria-label="Cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="header-action__badge" id="cartCount">0</span>
+                </a>
+                <a href="login.html" class="header-action header-action--user" id="headerUser">
+                    <i class="fas fa-user-circle"></i>
+                    <span class="header-action__label" id="userNameLabel">Sign In</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Category Navigation -->
+        <nav class="category-nav" id="categoryNav">
+            <div class="container category-nav__inner">
+                <button class="category-nav__toggle" id="categoryToggle" aria-label="Toggle categories">
+                    <i class="fas fa-bars"></i> All Categories
+                </button>
+                <ul class="category-nav__list" id="categoryList">
+                    <li><a href="#" data-category="all" class="active">All</a></li>
+                    <li><a href="#" data-category="Electronics">Electronics</a></li>
+                    <li><a href="#" data-category="Phone Accessories">Phone Accessories</a></li>
+                    <li><a href="#" data-category="Fashion">Fashion</a></li>
+                    <li><a href="#" data-category="Gaming">Gaming</a></li>
+                    <li><a href="#" data-category="Home & Living">Home & Living</a></li>
+                    <li><a href="#" data-category="Beauty">Beauty</a></li>
+                    <li><a href="#" data-category="Sports">Sports</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ============================== -->
+    <!--       SLIDING BANNER          -->
+    <!-- ============================== -->
+    <section class="banner-slider" id="bannerSlider">
+        <div class="banner-slider__track" id="bannerTrack">
+            <div class="banner-slide" style="background: linear-gradient(135deg, #FF6B00, #FF9F1A);">
+                <div class="banner-slide__content">
+                    <span class="banner-slide__tag">🔥 Mega Sale</span>
+                    <h2>Summer Mega Sale</h2>
+                    <p>Up to <strong>70% OFF</strong> on thousands of items</p>
+                    <a href="#" class="btn btn--white">Shop Now</a>
+                </div>
+            </div>
+            <div class="banner-slide" style="background: linear-gradient(135deg, #1E293B, #334155);">
+                <div class="banner-slide__content">
+                    <span class="banner-slide__tag">🌍 Global</span>
+                    <h2>Free Worldwide Shipping</h2>
+                    <p>On orders over $50 — no hidden fees</p>
+                    <a href="#" class="btn btn--white">Learn More</a>
+                </div>
+            </div>
+            <div class="banner-slide" style="background: linear-gradient(135deg, #22C55E, #16A34A);">
+                <div class="banner-slide__content">
+                    <span class="banner-slide__tag">🎁 Offer</span>
+                    <h2>Buy 2 Get 1 Free</h2>
+                    <p>Selected items — while stocks last</p>
+                    <a href="#" class="btn btn--white">Grab Deal</a>
+                </div>
+            </div>
+            <div class="banner-slide" style="background: linear-gradient(135deg, #8B5CF6, #6D28D9);">
+                <div class="banner-slide__content">
+                    <span class="banner-slide__tag">✨ New</span>
+                    <h2>New Customer Welcome Offer</h2>
+                    <p>Get 20% off your first order</p>
+                    <a href="#" class="btn btn--white">Claim Offer</a>
+                </div>
+            </div>
+            <div class="banner-slide" style="background: linear-gradient(135deg, #EF4444, #DC2626);">
+                <div class="banner-slide__content">
+                    <span class="banner-slide__tag">⚡ Flash</span>
+                    <h2>Flash Deals Ending Soon</h2>
+                    <p>Hurry — prices go back up in 2 hours</p>
+                    <a href="#" class="btn btn--white">Shop Flash Deals</a>
+                </div>
+            </div>
+        </div>
+        <button class="banner-slider__arrow banner-slider__arrow--prev" id="bannerPrev" aria-label="Previous slide">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="banner-slider__arrow banner-slider__arrow--next" id="bannerNext" aria-label="Next slide">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+        <div class="banner-slider__dots" id="bannerDots"></div>
+    </section>
+
+    <!-- ============================== -->
+    <!--      FEATURED CATEGORIES      -->
+    <!-- ============================== -->
+    <section class="section">
+        <div class="container">
+            <div class="section__header">
+                <h2 class="section__title">Shop by Category</h2>
+                <a href="#" class="section__see-all">See All <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="category-grid" id="categoryGrid">
+                <!-- Categories will be rendered by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!--       FLASH SALES             -->
+    <!-- ============================== -->
+    <section class="section section--flash">
+        <div class="container">
+            <div class="section__header">
+                <h2 class="section__title">
+                    <i class="fas fa-bolt" style="color: #EF4444;"></i> Flash Sales
+                </h2>
+                <div class="flash-timer" id="flashTimer">
+                    <span>Ends in:</span>
+                    <span class="flash-timer__item" id="flashHours">02</span>:<span class="flash-timer__item" id="flashMinutes">45</span>:<span class="flash-timer__item" id="flashSeconds">30</span>
+                </div>
+                <a href="#" class="section__see-all">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="product-grid" id="flashProducts">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!--      TRENDING PRODUCTS         -->
+    <!-- ============================== -->
+    <section class="section">
+        <div class="container">
+            <div class="section__header">
+                <h2 class="section__title">🔥 Trending Now</h2>
+                <a href="#" class="section__see-all">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="product-grid" id="trendingProducts">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!--    RECOMMENDED PRODUCTS        -->
+    <!-- ============================== -->
+    <section class="section">
+        <div class="container">
+            <div class="section__header">
+                <h2 class="section__title">⭐ Recommended for You</h2>
+                <a href="#" class="section__see-all">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="product-grid" id="recommendedProducts">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!--    RECENTLY VIEWED             -->
+    <!-- ============================== -->
+    <section class="section" id="recentlyViewedSection">
+        <div class="container">
+            <div class="section__header">
+                <h2 class="section__title">🕐 Recently Viewed</h2>
+            </div>
+            <div class="product-grid" id="recentlyViewedProducts">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!--          FOOTER                -->
+    <!-- ============================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__grid">
+                <div class="footer__col">
+                    <a href="index.html" class="logo logo--footer">
+                        <span class="logo__icon">🛒</span>
+                        <span class="logo__text">Nova<span class="logo__highlight">Mart</span></span>
+                        <span class="logo__badge">Global</span>
+                    </a>
+                    <p class="footer__desc">Your one-stop marketplace for quality products at unbeatable prices. Shop with confidence.</p>
+                    <div class="footer__social">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer__col">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="#">Electronics</a></li>
+                        <li><a href="#">Fashion</a></li>
+                        <li><a href="#">Home & Living</a></li>
+                        <li><a href="#">Beauty</a></li>
+                        <li><a href="#">Sports</a></li>
+                    </ul>
+                </div>
+                <div class="footer__col">
+                    <h4>Customer Service</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Returns & Refunds</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Track Order</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer__col">
+                    <h4>Account</h4>
+                    <ul>
+                        <li><a href="login.html">Sign In</a></li>
+                        <li><a href="login.html">Register</a></li>
+                        <li><a href="wishlist.html">Wishlist</a></li>
+                        <li><a href="cart.html">Cart</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p>&copy; 2026 NovaMart Global. All rights reserved.</p>
+                <div class="footer__payments">
+                    <i class="fab fa-cc-visa"></i>
+                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fab fa-cc-amex"></i>
+                    <i class="fab fa-cc-paypal"></i>
+                    <i class="fab fa-cc-apple-pay"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================== -->
+    <!--       QUICK VIEW MODAL         -->
+    <!-- ============================== -->
+    <div class="modal" id="quickViewModal">
+        <div class="modal__overlay" id="quickViewOverlay"></div>
+        <div class="modal__content modal__content--large" id="quickViewContent">
+            <button class="modal__close" id="quickViewClose" aria-label="Close modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="quickViewBody">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================== -->
+    <!--          TOAST                  -->
+    <!-- ============================== -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ============================== -->
+    <!--         JAVASCRIPT             -->
+    <!-- ============================== -->
+    <script src="products.js"></script>
+    <script src="auth.js"></script>
+    <script src="cart.js"></script>
+    <script src="wishlist.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

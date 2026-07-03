@@ -1,0 +1,276 @@
+<!-- ========================================= -->
+<!--  FILE: wishlist.html                      -->
+<!-- ========================================= -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NovaMart Global — My Wishlist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>" />
+    <style>
+        .wishlist-page {
+            padding: 40px 0 60px;
+        }
+        .wishlist-page h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .wishlist-page .subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+        }
+        .wishlist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 24px;
+        }
+        .wishlist-empty {
+            text-align: center;
+            padding: 60px 20px;
+            background: #fff;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+        .wishlist-empty i {
+            font-size: 3rem;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+        .wishlist-empty h3 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+        }
+        .wishlist-empty p {
+            color: var(--text-secondary);
+        }
+        .wishlist-empty .btn {
+            margin-top: 16px;
+        }
+        /* override product card in wishlist */
+        .wishlist-grid .product-card .product-card__actions {
+            opacity: 1;
+        }
+        .wishlist-grid .product-card .quick-view-btn {
+            display: none;
+        }
+        .wishlist-remove {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #fff;
+            border: none;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--danger);
+            z-index: 5;
+        }
+        .wishlist-remove:hover {
+            background: var(--danger);
+            color: #fff;
+        }
+        .wishlist-move-cart {
+            margin-top: 8px;
+            width: 100%;
+        }
+        @media (max-width: 480px) {
+            .wishlist-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== TOP BAR ===== -->
+    <div class="top-bar">
+        <div class="container top-bar__inner">
+            <span class="top-bar__tagline"><i class="fas fa-truck-fast"></i> Free shipping on orders over $50</span>
+            <div class="top-bar__links">
+                <a href="login.html"><i class="fas fa-user"></i> Account</a>
+                <a href="#"><i class="fas fa-box"></i> Orders</a>
+                <a href="#"><i class="fas fa-circle-question"></i> Help</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== HEADER ===== -->
+    <header class="header" id="mainHeader">
+        <div class="container header__inner">
+            <a href="index.html" class="logo">
+                <span class="logo__icon">🛒</span>
+                <span class="logo__text">Nova<span class="logo__highlight">Mart</span></span>
+                <span class="logo__badge">Global</span>
+            </a>
+            <div class="header-actions">
+                <a href="wishlist.html" class="header-action" id="headerWishlist">
+                    <i class="fas fa-heart"></i>
+                    <span class="header-action__badge" id="wishlistCount">0</span>
+                </a>
+                <a href="cart.html" class="header-action" id="headerCart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="header-action__badge" id="cartCount">0</span>
+                </a>
+                <a href="login.html" class="header-action header-action--user">
+                    <i class="fas fa-user-circle"></i>
+                    <span class="header-action__label" id="userNameLabel">Sign In</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== WISHLIST PAGE ===== -->
+    <section class="wishlist-page">
+        <div class="container">
+            <h1><i class="fas fa-heart" style="color:var(--danger);"></i> My Wishlist</h1>
+            <p class="subtitle">Products you've saved for later.</p>
+            <div id="wishlistContainer">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="products.js"></script>
+    <script src="auth.js"></script>
+    <script src="cart.js"></script>
+    <script src="wishlist.js"></script>
+    <script>
+        (function() {
+            'use strict';
+
+            const container = document.getElementById('wishlistContainer');
+            const productMap = {};
+            PRODUCTS.forEach(p => productMap[p.id] = p);
+
+            function showToast(message, type = 'info') {
+                const container = document.getElementById('toastContainer');
+                const toast = document.createElement('div');
+                toast.className = `toast toast--${type}`;
+                toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i> ${message}`;
+                container.appendChild(toast);
+                setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3000);
+            }
+
+            function updateBadges() {
+                const cartCount = document.getElementById('cartCount');
+                const wishlistCount = document.getElementById('wishlistCount');
+                if (cartCount) cartCount.textContent = Cart.getTotalItems();
+                if (wishlistCount) wishlistCount.textContent = Wishlist.getWishlist().length;
+                const user = Auth.getCurrentUser();
+                const label = document.getElementById('userNameLabel');
+                if (label) label.textContent = user ? user.name : 'Sign In';
+            }
+
+            function renderWishlist() {
+                const wishlistIds = Wishlist.getWishlist();
+                const items = wishlistIds.map(id => productMap[id]).filter(Boolean);
+
+                if (items.length === 0) {
+                    container.innerHTML = `
+                        <div class="wishlist-empty">
+                            <i class="fas fa-heart"></i>
+                            <h3>Your wishlist is empty</h3>
+                            <p>Start adding your favorite products!</p>
+                            <a href="index.html" class="btn btn--primary">Browse Products</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let html = '<div class="wishlist-grid">';
+                items.forEach(p => {
+                    const inStock = p.stock > 0;
+                    html += `
+                        <div class="product-card" data-product-id="${p.id}">
+                            <div class="product-card__image">
+                                <img src="${p.image}" alt="${p.name}" loading="lazy" />
+                                ${p.discount > 0 ? `<span class="product-card__badge">-${p.discount}%</span>` : ''}
+                                <button class="wishlist-remove" data-id="${p.id}" title="Remove from wishlist">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="product-card__body">
+                                <div class="product-card__name">${p.name}</div>
+                                <div class="product-card__rating">
+                                    <i class="fas fa-star"></i> ${p.rating} (${p.reviewCount})
+                                    <span style="margin-left:auto; color:var(--text-secondary); font-size:0.75rem;">Sold ${p.soldCount}</span>
+                                </div>
+                                <div class="product-card__price">
+                                    <span class="current">$${p.price.toFixed(2)}</span>
+                                    ${p.originalPrice > p.price ? `<span class="original">$${p.originalPrice.toFixed(2)}</span>` : ''}
+                                    ${p.discount > 0 ? `<span class="discount">-${p.discount}%</span>` : ''}
+                                </div>
+                                <button class="btn btn--primary btn--sm wishlist-move-cart" data-id="${p.id}" ${!inStock ? 'disabled' : ''}>
+                                    <i class="fas fa-cart-plus"></i> ${inStock ? 'Move to Cart' : 'Out of Stock'}
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                container.innerHTML = html;
+
+                // Event listeners
+                container.querySelectorAll('.wishlist-remove').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const id = parseInt(btn.dataset.id);
+                        Wishlist.removeFromWishlist(id);
+                        showToast('Removed from wishlist', 'info');
+                        updateBadges();
+                        renderWishlist();
+                    });
+                });
+
+                container.querySelectorAll('.wishlist-move-cart').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const id = parseInt(btn.dataset.id);
+                        const product = productMap[id];
+                        if (!product) return;
+                        Wishlist.removeFromWishlist(id);
+                        Cart.addToCart(id, 1);
+                        updateBadges();
+                        showToast(`${product.name} added to cart!`, 'success');
+                        renderWishlist();
+                    });
+                });
+
+                // Click on card to go to product page
+                container.querySelectorAll('.product-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const id = parseInt(card.dataset.productId);
+                        window.location.href = `product.html?id=${id}`;
+                    });
+                });
+            }
+
+            // Init
+            updateBadges();
+            renderWishlist();
+
+        })();
+    </script>
+</body>
+</html>
