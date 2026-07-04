@@ -1,6 +1,10 @@
 /**
  * app.js – Main application logic for homepage
  * Handles rendering, search, banner, modals, etc.
+ * Now data-driven from Firebase Realtime Database via store-sync.js:
+ * PRODUCTS / CATEGORIES / BANNERS are live arrays that get mutated by
+ * store-sync.js whenever admin.html saves a change, and this file
+ * re-renders automatically on the `novamart:dataUpdated` event.
  */
 (function() {
   'use strict';
@@ -32,10 +36,25 @@
   const quickViewBody = document.getElementById('quickViewBody');
   const toastContainer = document.getElementById('toastContainer');
 
-  // ----- Data -----
-  const products = PRODUCTS; // from products.js
-  const productMap = {};
-  products.forEach(p => productMap[p.id] = p);
+  const FALLBACK_CATEGORIES = [
+    { name: 'Electronics', icon: 'fa-laptop' },
+    { name: 'Phone Accessories', icon: 'fa-mobile-screen' },
+    { name: 'Fashion', icon: 'fa-tshirt' },
+    { name: 'Gaming', icon: 'fa-gamepad' },
+    { name: 'Home & Living', icon: 'fa-couch' },
+    { name: 'Beauty', icon: 'fa-spa' },
+    { name: 'Sports', icon: 'fa-running' }
+  ];
+
+  // ----- Data (live — mutated in place by store-sync.js) -----
+  const products = (typeof PRODUCTS !== 'undefined') ? PRODUCTS : [];
+  let productMap = {};
+
+  function rebuildProductMap() {
+    productMap = {};
+    products.forEach(p => productMap[p.id] = p);
+  }
+  rebuildProductMap();
 
   // ----- Utilities -----
   function showToast(message, type = 'info') {
@@ -91,7 +110,6 @@
       </div>
     `;
 
-    // Event listeners
     const quickViewBtn = card.querySelector('.quick-view-btn');
     if (quickViewBtn) {
       quickViewBtn.addEventListener('click', (e) => {
@@ -118,9 +136,7 @@
       });
     }
 
-    // Click on card to go to product page (we'll use product.html?id=...)
     card.addEventListener('click', () => {
-      // Save to recently viewed
       saveRecentlyViewed(product.id);
       window.location.href = `product.html?id=${product.id}`;
     });
@@ -164,111 +180,113 @@
     renderProductGrid(recentlyViewedProducts, recentProducts, 6);
   }
 
-  // ----- Category Grid -----
+  // ----- Category Grid + Nav (data-driven, editable from admin.html) -----
+  function getCategories() {
+    return (window.CATEGORIES && window.CATEGORIES.length) ? window.CATEGORIES : FALLBACK_CATEGORIES;
+  }
+
   function renderCategories() {
-    const cats = ['Electronics', 'Phone Accessories', 'Fashion', 'Gaming', 'Home & Living', 'Beauty', 'Sports'];
+    const cats = getCategories();
     categoryGrid.innerHTML = '';
-    const icons = {
-      Electronics: 'fa-laptop',
-      'Phone Accessories': 'fa-mobile-screen',
-      Fashion: 'fa-tshirt',
-      Gaming: 'fa-gamepad',
-      'Home & Living': 'fa-couch',
-      Beauty: 'fa-spa',
-      Sports: 'fa-running'
-    };
     cats.forEach(cat => {
       const card = document.createElement('div');
       card.className = 'category-card';
       card.innerHTML = `
-        <div class="category-card__icon"><i class="fas ${icons[cat] || 'fa-tag'}"></i></div>
-        <div class="category-card__name">${cat}</div>
+        <div class="category-card__icon"><i class="fas ${cat.icon || 'fa-tag'}"></i></div>
+        <div class="category-card__name">${cat.name}</div>
       `;
       card.addEventListener('click', () => {
-        filterByCategory(cat);
+        filterByCategory(cat.name);
       });
       categoryGrid.appendChild(card);
     });
+
+    // Rebuild the top nav list too (keep "All" first)
+    if (categoryList) {
+      let html = `<li><a href="#" data-category="all" class="active">All</a></li>`;
+      cats.forEach(cat => {
+        html += `<li><a href="#" data-category="${cat.name}">${cat.name}</a></li>`;
+      });
+      categoryList.innerHTML = html;
+    }
   }
 
   // ----- Category filter -----
   function filterByCategory(category) {
-    // Update active nav
     document.querySelectorAll('.category-nav__list a').forEach(a => a.classList.remove('active'));
     const navLink = document.querySelector(`.category-nav__list a[data-category="${category}"]`);
     if (navLink) navLink.classList.add('active');
     else {
-      // all
       document.querySelector('.category-nav__list a[data-category="all"]')?.classList.add('active');
     }
-    // Filter products on homepage sections? We'll just scroll to top and show search results style? 
-    // For simplicity, we re-render trending and recommended with filter.
-    // But better to show a filtered product list – we'll just update the trending section.
     const filtered = category === 'all' ? products : products.filter(p => p.category === category);
     renderProductGrid(trendingProducts, filtered, 8);
-    // Also update recommended to show filtered
     renderProductGrid(recommendedProducts, filtered.slice(8), 8);
-    // Flash sales remain as flash (subset)
-    // Scroll to trending
     document.querySelector('.section').scrollIntoView({ behavior: 'smooth' });
   }
 
   // ----- Flash Sales -----
+  let flashIntervalId = null;
   function renderFlashSales() {
-    // Pick random 8 products with discount > 10%
     const flash = products.filter(p => p.discount > 10).sort(() => Math.random() - 0.5).slice(0, 8);
     renderProductGrid(flashProducts, flash, 8);
-    // Timer (fake)
+
+    if (flashIntervalId) clearInterval(flashIntervalId);
     let hours = 2, minutes = 45, seconds = 30;
     const timerEls = {
       hours: document.getElementById('flashHours'),
       minutes: document.getElementById('flashMinutes'),
       seconds: document.getElementById('flashSeconds')
     };
-    setInterval(() => {
+    flashIntervalId = setInterval(() => {
       seconds--;
       if (seconds < 0) { seconds = 59; minutes--; }
       if (minutes < 0) { minutes = 59; hours--; }
       if (hours < 0) { hours = 0; minutes = 0; seconds = 0; }
-      timerEls.hours.textContent = String(hours).padStart(2, '0');
-      timerEls.minutes.textContent = String(minutes).padStart(2, '0');
-      timerEls.seconds.textContent = String(seconds).padStart(2, '0');
+      if (timerEls.hours) timerEls.hours.textContent = String(hours).padStart(2, '0');
+      if (timerEls.minutes) timerEls.minutes.textContent = String(minutes).padStart(2, '0');
+      if (timerEls.seconds) timerEls.seconds.textContent = String(seconds).padStart(2, '0');
     }, 1000);
   }
 
   // ----- Trending & Recommended -----
   function renderTrending() {
-    // Sort by soldCount descending, take top 8
     const trending = [...products].sort((a, b) => b.soldCount - a.soldCount).slice(0, 8);
     renderProductGrid(trendingProducts, trending, 8);
   }
 
   function renderRecommended() {
-    // Random 8 products (excluding trending maybe)
     const shuffled = [...products].sort(() => Math.random() - 0.5).slice(0, 8);
     renderProductGrid(recommendedProducts, shuffled, 8);
   }
 
-  // ----- Banner Slider -----
-  function initBanner() {
-    const slides = bannerTrack.querySelectorAll('.banner-slide');
-    const total = slides.length;
+  // ----- Banner Slider (data-driven, editable from admin.html) -----
+  const FALLBACK_BANNERS = [
+    { tag: '🔥 Mega Sale', title: 'Summer Mega Sale', subtitle: 'Up to 70% OFF on thousands of items', buttonText: 'Shop Now', link: '#', gradientFrom: '#FF6B00', gradientTo: '#FF9F1A' }
+  ];
+  let bannerAutoInterval = null;
+  let bannerGoTo = () => {};
+
+  function getBanners() {
+    return (window.BANNERS && window.BANNERS.length) ? window.BANNERS : FALLBACK_BANNERS;
+  }
+
+  function renderBanner() {
+    const banners = getBanners();
+    const total = banners.length;
     let current = 0;
-    let autoSlideInterval;
 
-    function goTo(index) {
-      current = (index + total) % total;
-      bannerTrack.style.transform = `translateX(-${current * 100}%)`;
-      // Update dots
-      document.querySelectorAll('.banner-slider__dots span').forEach((dot, i) => {
-        dot.classList.toggle('active', i === current);
-      });
-    }
+    bannerTrack.innerHTML = banners.map(b => `
+      <div class="banner-slide" style="background: linear-gradient(135deg, ${b.gradientFrom || '#FF6B00'}, ${b.gradientTo || '#FF9F1A'});">
+        <div class="banner-slide__content">
+          <span class="banner-slide__tag">${b.tag || ''}</span>
+          <h2>${b.title || ''}</h2>
+          <p>${b.subtitle || ''}</p>
+          <a href="${b.link || '#'}" class="btn btn--white">${b.buttonText || 'Shop Now'}</a>
+        </div>
+      </div>
+    `).join('');
 
-    function next() { goTo(current + 1); }
-    function prev() { goTo(current - 1); }
-
-    // Create dots
     bannerDots.innerHTML = '';
     for (let i = 0; i < total; i++) {
       const dot = document.createElement('span');
@@ -277,26 +295,51 @@
       bannerDots.appendChild(dot);
     }
 
-    bannerNext.addEventListener('click', () => { clearInterval(autoSlideInterval); next(); startAutoSlide(); });
-    bannerPrev.addEventListener('click', () => { clearInterval(autoSlideInterval); prev(); startAutoSlide(); });
+    function goTo(index) {
+      if (total === 0) return;
+      current = (index + total) % total;
+      bannerTrack.style.transform = `translateX(-${current * 100}%)`;
+      document.querySelectorAll('.banner-slider__dots span').forEach((dot, i) => {
+        dot.classList.toggle('active', i === current);
+      });
+    }
+    bannerGoTo = goTo;
 
+    if (bannerAutoInterval) clearInterval(bannerAutoInterval);
+    function next() { goTo(current + 1); }
     function startAutoSlide() {
-      autoSlideInterval = setInterval(next, 4000);
+      if (total > 1) bannerAutoInterval = setInterval(next, 4000);
     }
     startAutoSlide();
 
-    // Pause on hover
     const slider = document.querySelector('.banner-slider');
-    slider.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
-    slider.addEventListener('mouseleave', startAutoSlide);
+    if (slider && !slider.dataset.hoverBound) {
+      slider.dataset.hoverBound = 'true';
+      slider.addEventListener('mouseenter', () => { if (bannerAutoInterval) clearInterval(bannerAutoInterval); });
+      slider.addEventListener('mouseleave', startAutoSlide);
+    }
   }
+
+  // banner arrow buttons — bound once, always call the current bannerGoTo
+  let bannerCurrentIndex = 0;
+  bannerNext.addEventListener('click', () => {
+    if (bannerAutoInterval) clearInterval(bannerAutoInterval);
+    const total = getBanners().length;
+    bannerCurrentIndex = (bannerCurrentIndex + 1) % total;
+    bannerGoTo(bannerCurrentIndex);
+  });
+  bannerPrev.addEventListener('click', () => {
+    if (bannerAutoInterval) clearInterval(bannerAutoInterval);
+    const total = getBanners().length;
+    bannerCurrentIndex = (bannerCurrentIndex - 1 + total) % total;
+    bannerGoTo(bannerCurrentIndex);
+  });
 
   // ----- Quick View Modal -----
   function openQuickView(productId) {
     const product = productMap[productId];
     if (!product) return;
     quickViewBody.innerHTML = '';
-    // Build quick view content (simplified)
     const inStock = product.stock > 0;
     const isWishlist = Wishlist.isInWishlist(product.id);
     const div = document.createElement('div');
@@ -334,7 +377,6 @@
     `;
     quickViewBody.appendChild(div);
 
-    // Event listeners for quick view buttons
     const qvAdd = document.getElementById('qvAddToCart');
     if (qvAdd) {
       qvAdd.addEventListener('click', () => {
@@ -352,7 +394,6 @@
         const isNow = Wishlist.isInWishlist(product.id);
         qvWish.innerHTML = `<i class="fas fa-heart"></i> ${isNow ? 'Remove from' : 'Add to'} Wishlist`;
         showToast(isNow ? 'Added to wishlist' : 'Removed from wishlist', 'info');
-        // Also update any card buttons
         document.querySelectorAll(`.product-card[data-product-id="${product.id}"] .wishlist-btn`).forEach(btn => {
           btn.classList.toggle('active', isNow);
         });
@@ -408,7 +449,6 @@
       return;
     }
 
-    // Build synonym map
     const synonyms = {
       'back cover': ['phone cover', 'mobile cover', 'phone case', 'protective case', 'shockproof case', 'silicone case'],
       'phone cover': ['back cover', 'mobile cover', 'phone case', 'protective case', 'shockproof case', 'silicone case'],
@@ -420,22 +460,16 @@
       'gaming headset': ['headphones', 'earbuds', 'wireless earbuds', 'bluetooth headphones']
     };
 
-    // Build search terms: original + synonyms
     let terms = [q];
-    // Check if any key matches the query (or part of it)
     for (const [key, values] of Object.entries(synonyms)) {
       if (q.includes(key) || key.includes(q)) {
         terms = terms.concat(values);
       }
     }
-    // Also split by spaces
     const words = q.split(/\s+/);
     terms = terms.concat(words);
-
-    // Unique terms
     terms = [...new Set(terms)];
 
-    // Score products
     const scored = products.map(p => {
       let score = 0;
       const searchable = (p.name + ' ' + p.description + ' ' + p.tags.join(' ')).toLowerCase();
@@ -444,7 +478,6 @@
           score += 1;
         }
       }
-      // Boost if term appears in name
       const nameLower = p.name.toLowerCase();
       for (const term of terms) {
         if (nameLower.includes(term)) {
@@ -455,7 +488,6 @@
     });
 
     const results = scored.filter(s => s.score > 0).sort((a, b) => b.score - a.score).map(s => s.product);
-    // Render suggestions
     if (results.length === 0) {
       searchSuggestions.innerHTML = '<div class="suggestion-item">No results found</div>';
     } else {
@@ -466,7 +498,6 @@
           <span class="suggestion-price">$${p.price.toFixed(2)}</span>
         </div>
       `).join('');
-      // Add click listeners
       searchSuggestions.querySelectorAll('.suggestion-item').forEach(el => {
         el.addEventListener('click', () => {
           const id = parseInt(el.dataset.id);
@@ -477,7 +508,6 @@
     searchSuggestions.classList.add('active');
   }
 
-  // Search input events
   searchInput.addEventListener('input', (e) => {
     performSearch(e.target.value);
   });
@@ -486,21 +516,16 @@
       e.preventDefault();
       const query = searchInput.value.trim();
       if (query) {
-        // Redirect to search results? For simplicity, we'll perform search and show suggestions.
         performSearch(query);
-        // Optionally, we could redirect to product.html?search=...
-        // Instead, we'll just keep suggestions open.
       }
     }
   });
-  // Close suggestions on outside click
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.search-bar')) {
       searchSuggestions.classList.remove('active');
     }
   });
 
-  // Search button click
   searchBtn.addEventListener('click', () => {
     const query = searchInput.value.trim();
     if (query) {
@@ -508,7 +533,7 @@
     }
   });
 
-  // ----- Category nav clicks -----
+  // Category nav clicks (delegated — works even after categoryList is rebuilt)
   categoryList.addEventListener('click', (e) => {
     const link = e.target.closest('a');
     if (!link) return;
@@ -517,7 +542,6 @@
     filterByCategory(category);
   });
 
-  // ----- Header actions -----
   headerWishlist.addEventListener('click', (e) => {
     e.preventDefault();
     window.location.href = 'wishlist.html';
@@ -528,38 +552,39 @@
   });
   headerUser.addEventListener('click', (e) => {
     e.preventDefault();
-    const user = Auth.getCurrentUser();
-    if (user) {
-      // Logout option? For simplicity, we go to login page
-      window.location.href = 'login.html';
-    } else {
-      window.location.href = 'login.html';
-    }
+    window.location.href = 'login.html';
   });
 
-  // ----- Initialize -----
-  function init() {
+  // ----- Full render pass (called on init AND whenever Firebase data changes) -----
+  function renderAll() {
+    rebuildProductMap();
     renderCategories();
+    renderBanner();
     renderFlashSales();
     renderTrending();
     renderRecommended();
     renderRecentlyViewed();
-    initBanner();
     updateCartBadge();
     updateWishlistBadge();
+  }
+
+  // ----- Initialize -----
+  function init() {
+    renderAll();
     updateUserUI();
+    Auth.getCurrentUser();
 
-    // Check if user is logged in and update header
-    Auth.getCurrentUser(); // just to set
-
-    // Listen for cart/wishlist changes from other tabs (optional)
     window.addEventListener('storage', (e) => {
       if (e.key === 'novamart_cart') updateCartBadge();
       if (e.key === 'novamart_wishlist') updateWishlistBadge();
     });
+
+    // Live updates from admin.html via Firebase Realtime Database
+    window.addEventListener('novamart:dataUpdated', () => {
+      renderAll();
+    });
   }
 
-  // Expose some functions globally for other pages (optional)
   window.NovaMart = {
     products,
     productMap,
