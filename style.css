@@ -913,3 +913,259 @@ img { max-width: 100%; display: block; }
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+/* ============================================
+   FORMAL MARKETPLACE POLISH
+   ============================================ */
+:root {
+  --primary: #ea580c;
+  --primary-dark: #c2410c;
+  --secondary: #0f766e;
+  --bg: #f5f7fb;
+  --card-bg: #ffffff;
+  --text-primary: #111827;
+  --text-secondary: #64748b;
+  --border: #e5e7eb;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --radius: 8px;
+  --shadow: 0 10px 30px rgba(15, 23, 42, 0.07);
+  --transition: all 0.22s ease;
+}
+
+body {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.95), rgba(245,247,251,0.96)),
+    radial-gradient(circle at 8% 0%, rgba(234,88,12,0.08), transparent 24%);
+}
+
+.top-bar {
+  background: #0f172a;
+  color: #dbe4ef;
+}
+
+.header {
+  background: rgba(255,255,255,0.94);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 8px 26px rgba(15, 23, 42, 0.06);
+}
+
+.logo {
+  letter-spacing: 0;
+}
+
+.logo__icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary), #f97316);
+  color: #fff;
+  font-size: 1.05rem;
+}
+
+.logo__badge {
+  border-radius: 6px;
+  background: #0f766e;
+}
+
+.btn,
+.search-bar,
+.category-nav__toggle,
+.category-nav__list li a,
+.flash-timer,
+.banner-slide__tag {
+  border-radius: 8px;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn--primary {
+  background: linear-gradient(135deg, var(--primary), #f97316);
+  box-shadow: 0 8px 20px rgba(234, 88, 12, 0.18);
+}
+
+.btn--primary:hover {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+}
+
+.btn--outline {
+  background: #fff;
+  border-width: 1px;
+}
+
+.search-bar {
+  border: 1px solid var(--border);
+  background: #f8fafc;
+}
+
+.search-bar button {
+  border-radius: 0 8px 8px 0;
+}
+
+.category-nav {
+  background: #fff;
+}
+
+.category-nav__list li a.active,
+.category-nav__list li a:hover {
+  background: #111827;
+}
+
+.banner-slider {
+  border-radius: 0;
+  margin-top: 0;
+  box-shadow: none;
+  max-width: none;
+}
+
+.banner-slide {
+  position: relative;
+  min-height: 360px;
+  padding: 64px 24px;
+  overflow: hidden;
+}
+
+.banner-slide::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(15,23,42,0.86), rgba(15,23,42,0.42)),
+    radial-gradient(circle at 78% 36%, rgba(255,255,255,0.2), transparent 24%);
+}
+
+.banner-slide__content {
+  position: relative;
+  text-align: left;
+  max-width: 1100px;
+  width: 100%;
+}
+
+.banner-slide h2 {
+  max-width: 680px;
+  font-size: clamp(2rem, 5vw, 4.3rem);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.banner-slide p {
+  max-width: 520px;
+}
+
+.banner-slide__tag {
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.section {
+  padding: 48px 0;
+}
+
+.section--flash {
+  background: #fff;
+}
+
+.section__title {
+  letter-spacing: 0;
+}
+
+.category-card,
+.product-card,
+.cart-items,
+.cart-summary,
+.cart-empty,
+.wishlist-empty,
+.product-detail__grid,
+.product-detail__desc,
+.reviews-section {
+  border-radius: 8px !important;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
+}
+
+.category-card {
+  box-shadow: none;
+}
+
+.category-card__icon {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff7ed;
+  color: var(--primary);
+  font-size: 1.45rem;
+}
+
+.product-card {
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(234, 88, 12, 0.5);
+}
+
+.product-card__badge,
+.product-card__price .discount {
+  border-radius: 6px;
+}
+
+.product-card__actions {
+  opacity: 1;
+}
+
+.product-card__actions button,
+.wishlist-remove,
+.modal__close {
+  border-radius: 8px;
+}
+
+.footer {
+  background: #0f172a;
+}
+
+.toast {
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .banner-slide {
+    min-height: 300px;
+  }
+
+  .banner-slide__content {
+    padding: 0 42px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    font-size: 1.25rem;
+  }
+
+  .logo__icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .banner-slide__content {
+    padding: 0 34px;
+  }
+
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
