@@ -181,6 +181,9 @@
         <div class="auth-container">
             <h1>Welcome Back</h1>
             <p class="subtitle">Sign in to your account or create a new one.</p>
+            <div class="badge-warn" id="checkoutNotice" style="display:none; background:#FEF3C7; color:#92400E; padding:10px 14px; border-radius:8px; font-size:0.85rem; margin-bottom:16px;">
+                <i class="fas fa-lock"></i> Please sign in to continue to checkout.
+            </div>
 
             <!-- Tabs -->
             <div class="auth-tabs" id="authTabs">
@@ -296,6 +299,24 @@
             switchToRegister.addEventListener('click', () => switchTab('register'));
             switchToLogin.addEventListener('click', () => switchTab('login'));
 
+            // Support ?redirect=<page> so pages like cart.html can send
+            // users here and bring them back after signing in.
+            function getRedirectTarget() {
+                const params = new URLSearchParams(window.location.search);
+                const target = params.get('redirect');
+                // Only allow local page redirects, never external URLs
+                return (target && !target.includes('://') && !target.startsWith('//')) ? target : 'index.html';
+            }
+
+            // Show a friendly notice if the user was sent here to log in before checking out
+            (function showCheckoutNoticeIfNeeded() {
+                const params = new URLSearchParams(window.location.search);
+                if (params.get('checkout') === '1') {
+                    const notice = document.getElementById('checkoutNotice');
+                    if (notice) notice.style.display = 'block';
+                }
+            })();
+
             // Login handler
             loginForm.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -308,7 +329,7 @@
                     showToast('Welcome back, ' + result.user.name + '!', 'success');
                     updateBadges();
                     setTimeout(() => {
-                        window.location.href = 'index.html';
+                        window.location.href = getRedirectTarget();
                     }, 1000);
                 } else {
                     loginMessage.textContent = '❌ ' + result.message;
@@ -330,7 +351,7 @@
                     showToast('Welcome, ' + result.user.name + '!', 'success');
                     updateBadges();
                     setTimeout(() => {
-                        window.location.href = 'index.html';
+                        window.location.href = getRedirectTarget();
                     }, 1000);
                 } else {
                     registerMessage.textContent = '❌ ' + result.message;

@@ -36,24 +36,6 @@
   const quickViewBody = document.getElementById('quickViewBody');
   const toastContainer = document.getElementById('toastContainer');
 
-  const FALLBACK_CATEGORIES = [
-    { name: 'Electronics', icon: 'fa-laptop' },
-    { name: 'Phone Accessories', icon: 'fa-mobile-screen' },
-    { name: 'Fashion', icon: 'fa-tshirt' },
-    { name: 'Gaming', icon: 'fa-gamepad' },
-    { name: 'Home & Living', icon: 'fa-couch' },
-    { name: 'Beauty', icon: 'fa-spa' },
-    { name: 'Sports', icon: 'fa-running' },
-    { name: 'Groceries', icon: 'fa-cart-shopping' },
-    { name: 'Books & Stationery', icon: 'fa-book' },
-    { name: 'Toys & Kids', icon: 'fa-shapes' },
-    { name: 'Automotive', icon: 'fa-car' },
-    { name: 'Health & Wellness', icon: 'fa-heart-pulse' },
-    { name: 'Furniture', icon: 'fa-chair' },
-    { name: 'Pet Supplies', icon: 'fa-paw' },
-    { name: 'Jewelry & Watches', icon: 'fa-gem' }
-  ];
-
   // ----- Data (live — mutated in place by store-sync.js) -----
   const products = (typeof PRODUCTS !== 'undefined') ? PRODUCTS : [];
   let productMap = {};
@@ -190,7 +172,7 @@
 
   // ----- Category Grid + Nav (data-driven, editable from admin.html) -----
   function getCategories() {
-    return (window.CATEGORIES && window.CATEGORIES.length) ? window.CATEGORIES : FALLBACK_CATEGORIES;
+    return window.CATEGORIES || [];
   }
 
   function renderCategories() {
@@ -269,14 +251,11 @@
   }
 
   // ----- Banner Slider (data-driven, editable from admin.html) -----
-  const FALLBACK_BANNERS = [
-    { tag: '🔥 Mega Sale', title: 'Summer Mega Sale', subtitle: 'Up to 70% OFF on thousands of items', buttonText: 'Shop Now', link: '#', gradientFrom: '#FF6B00', gradientTo: '#FF9F1A' }
-  ];
   let bannerAutoInterval = null;
   let bannerGoTo = () => {};
 
   function getBanners() {
-    return (window.BANNERS && window.BANNERS.length) ? window.BANNERS : FALLBACK_BANNERS;
+    return window.BANNERS || [];
   }
 
   function renderBanner() {
@@ -331,14 +310,16 @@
   // banner arrow buttons — bound once, always call the current bannerGoTo
   let bannerCurrentIndex = 0;
   bannerNext.addEventListener('click', () => {
-    if (bannerAutoInterval) clearInterval(bannerAutoInterval);
     const total = getBanners().length;
+    if (total === 0) return;
+    if (bannerAutoInterval) clearInterval(bannerAutoInterval);
     bannerCurrentIndex = (bannerCurrentIndex + 1) % total;
     bannerGoTo(bannerCurrentIndex);
   });
   bannerPrev.addEventListener('click', () => {
-    if (bannerAutoInterval) clearInterval(bannerAutoInterval);
     const total = getBanners().length;
+    if (total === 0) return;
+    if (bannerAutoInterval) clearInterval(bannerAutoInterval);
     bannerCurrentIndex = (bannerCurrentIndex - 1 + total) % total;
     bannerGoTo(bannerCurrentIndex);
   });
