@@ -24,17 +24,19 @@
             background: #fff;
             border-radius: var(--radius);
             border: 1px solid var(--border);
-            padding: 32px;
-            margin-bottom: 40px;
+            box-shadow: var(--shadow-sm);
+            padding: 36px;
+            margin-bottom: 32px;
         }
         .product-detail__gallery img {
             width: 100%;
-            border-radius: var(--radius);
+            border-radius: var(--radius-sm);
             background: var(--bg);
         }
         .product-detail__info h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
+            font-size: 1.9rem;
+            font-weight: 800;
+            letter-spacing: -0.01em;
             margin-bottom: 8px;
         }
         .product-detail__info .rating-row {
@@ -56,9 +58,10 @@
             margin-bottom: 12px;
         }
         .product-detail__info .price-row .current {
-            font-size: 2rem;
-            font-weight: 700;
+            font-size: 2.1rem;
+            font-weight: 800;
             color: var(--primary);
+            letter-spacing: -0.01em;
         }
         .product-detail__info .price-row .original {
             font-size: 1.1rem;
@@ -94,8 +97,8 @@
         .product-detail__info .qty-selector input {
             width: 64px;
             padding: 8px 8px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
             text-align: center;
             font-size: 1rem;
             font-weight: 600;
@@ -131,8 +134,9 @@
             background: #fff;
             border-radius: var(--radius);
             border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
             padding: 28px 32px;
-            margin-bottom: 40px;
+            margin-bottom: 32px;
         }
         .product-detail__desc h3 {
             font-size: 1.2rem;
@@ -147,6 +151,7 @@
             background: #fff;
             border-radius: var(--radius);
             border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
             padding: 28px 32px;
             margin-bottom: 40px;
         }
@@ -181,8 +186,8 @@
         }
         .review-form input, .review-form textarea, .review-form select {
             padding: 10px 14px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
             font-size: 0.95rem;
             background: var(--bg);
             transition: var(--transition);
@@ -339,6 +344,20 @@
             }
 
             function renderProduct() {
+                // If Firebase data hasn't arrived yet, PRODUCTS is still empty.
+                // Show a loading state instead of a false "not found" — otherwise
+                // every click briefly (or permanently, on slow connections)
+                // flashes "Product not found" before the real data shows up.
+                if (PRODUCTS.length === 0) {
+                    container.innerHTML = `
+                        <div style="text-align:center; padding:60px 20px; background:#fff; border-radius:var(--radius); border:1px solid var(--border);">
+                            <i class="fas fa-circle-notch fa-spin" style="font-size:2.5rem; color:var(--primary);"></i>
+                            <h3 style="margin-top:16px;">Loading product…</h3>
+                        </div>
+                    `;
+                    return;
+                }
+
                 if (!productId || !productMap[productId]) {
                     container.innerHTML = `
                         <div style="text-align:center; padding:60px 20px; background:#fff; border-radius:var(--radius); border:1px solid var(--border);">
