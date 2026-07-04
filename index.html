@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>NovaMart Global - Premium Online Marketplace</title>
+    <title>NovaMart Global — Shop the Best Deals Online</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -18,7 +17,7 @@
     <link rel="stylesheet" href="style.css" />
 
     <!-- Favicon (inline SVG) -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23FF6B00'/><text x='50' y='64' text-anchor='middle' font-size='54' fill='white' font-family='Arial'>N</text></svg>" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>" />
 </head>
 <body>
     <!-- ============================== -->
@@ -42,7 +41,7 @@
         <div class="container header__inner">
             <!-- Logo -->
             <a href="index.html" class="logo">
-                <span class="logo__icon"><i class="fas fa-store"></i></span>
+                <span class="logo__icon">🛒</span>
                 <span class="logo__text">Nova<span class="logo__highlight">Mart</span></span>
                 <span class="logo__badge">Global</span>
             </a>
@@ -71,7 +70,7 @@
             </div>
         </div>
 
-        <!-- Category Navigation -->
+        <!-- Category Navigation (rendered by app.js from CATEGORIES) -->
         <nav class="category-nav" id="categoryNav">
             <div class="container category-nav__inner">
                 <button class="category-nav__toggle" id="categoryToggle" aria-label="Toggle categories">
@@ -79,13 +78,6 @@
                 </button>
                 <ul class="category-nav__list" id="categoryList">
                     <li><a href="#" data-category="all" class="active">All</a></li>
-                    <li><a href="#" data-category="Electronics">Electronics</a></li>
-                    <li><a href="#" data-category="Phone Accessories">Phone Accessories</a></li>
-                    <li><a href="#" data-category="Fashion">Fashion</a></li>
-                    <li><a href="#" data-category="Gaming">Gaming</a></li>
-                    <li><a href="#" data-category="Home & Living">Home & Living</a></li>
-                    <li><a href="#" data-category="Beauty">Beauty</a></li>
-                    <li><a href="#" data-category="Sports">Sports</a></li>
                 </ul>
             </div>
         </nav>
@@ -93,49 +85,11 @@
 
     <!-- ============================== -->
     <!--       SLIDING BANNER          -->
+    <!--  (slides rendered by app.js from BANNERS — fully editable in admin.html) -->
     <!-- ============================== -->
     <section class="banner-slider" id="bannerSlider">
         <div class="banner-slider__track" id="bannerTrack">
-            <div class="banner-slide" style="background: linear-gradient(135deg, #FF6B00, #FF9F1A);">
-                <div class="banner-slide__content">
-                    <span class="banner-slide__tag">Limited marketplace event</span>
-                    <h2>Premium Deals, Verified Products</h2>
-                    <p>Save up to <strong>70% OFF</strong> on selected essentials</p>
-                    <a href="#" class="btn btn--white">Shop Now</a>
-                </div>
-            </div>
-            <div class="banner-slide" style="background: linear-gradient(135deg, #1E293B, #334155);">
-                <div class="banner-slide__content">
-                    <span class="banner-slide__tag">Global delivery</span>
-                    <h2>Free Worldwide Shipping</h2>
-                    <p>On orders over $50 with clear checkout pricing</p>
-                    <a href="#" class="btn btn--white">Learn More</a>
-                </div>
-            </div>
-            <div class="banner-slide" style="background: linear-gradient(135deg, #22C55E, #16A34A);">
-                <div class="banner-slide__content">
-                    <span class="banner-slide__tag">Member offer</span>
-                    <h2>Buy 2 Get 1 Free</h2>
-                    <p>Selected items while stocks last</p>
-                    <a href="#" class="btn btn--white">Grab Deal</a>
-                </div>
-            </div>
-            <div class="banner-slide" style="background: linear-gradient(135deg, #8B5CF6, #6D28D9);">
-                <div class="banner-slide__content">
-                    <span class="banner-slide__tag">New customer</span>
-                    <h2>New Customer Welcome Offer</h2>
-                    <p>Get 20% off your first order</p>
-                    <a href="#" class="btn btn--white">Claim Offer</a>
-                </div>
-            </div>
-            <div class="banner-slide" style="background: linear-gradient(135deg, #EF4444, #DC2626);">
-                <div class="banner-slide__content">
-                    <span class="banner-slide__tag">Flash sale</span>
-                    <h2>Flash Deals Ending Soon</h2>
-                    <p>Prices go back up when the timer ends</p>
-                    <a href="#" class="btn btn--white">Shop Flash Deals</a>
-                </div>
-            </div>
+            <!-- Rendered by JS -->
         </div>
         <button class="banner-slider__arrow banner-slider__arrow--prev" id="bannerPrev" aria-label="Previous slide">
             <i class="fas fa-chevron-left"></i>
@@ -156,7 +110,7 @@
                 <a href="#" class="section__see-all">See All <i class="fas fa-arrow-right"></i></a>
             </div>
             <div class="category-grid" id="categoryGrid">
-                <!-- Categories will be rendered by JS -->
+                <!-- Rendered by JS -->
             </div>
         </div>
     </section>
@@ -188,7 +142,7 @@
     <section class="section">
         <div class="container">
             <div class="section__header">
-                <h2 class="section__title"><i class="fas fa-chart-line"></i> Trending Now</h2>
+                <h2 class="section__title">🔥 Trending Now</h2>
                 <a href="#" class="section__see-all">View All <i class="fas fa-arrow-right"></i></a>
             </div>
             <div class="product-grid" id="trendingProducts">
@@ -203,7 +157,7 @@
     <section class="section">
         <div class="container">
             <div class="section__header">
-                <h2 class="section__title"><i class="fas fa-award"></i> Recommended for You</h2>
+                <h2 class="section__title">⭐ Recommended for You</h2>
                 <a href="#" class="section__see-all">View All <i class="fas fa-arrow-right"></i></a>
             </div>
             <div class="product-grid" id="recommendedProducts">
@@ -218,7 +172,7 @@
     <section class="section" id="recentlyViewedSection">
         <div class="container">
             <div class="section__header">
-                <h2 class="section__title"><i class="fas fa-clock-rotate-left"></i> Recently Viewed</h2>
+                <h2 class="section__title">🕐 Recently Viewed</h2>
             </div>
             <div class="product-grid" id="recentlyViewedProducts">
                 <!-- Rendered by JS -->
@@ -234,7 +188,7 @@
             <div class="footer__grid">
                 <div class="footer__col">
                     <a href="index.html" class="logo logo--footer">
-                        <span class="logo__icon"><i class="fas fa-store"></i></span>
+                        <span class="logo__icon">🛒</span>
                         <span class="logo__text">Nova<span class="logo__highlight">Mart</span></span>
                         <span class="logo__badge">Global</span>
                     </a>
@@ -312,7 +266,14 @@
     <!-- ============================== -->
     <!--         JAVASCRIPT             -->
     <!-- ============================== -->
+    <!-- Firebase (Realtime Database powers live admin-editable content) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+    <script src="firebase-config.js"></script>
+
     <script src="products.js"></script>
+    <script src="store-sync.js"></script>
     <script src="auth.js"></script>
     <script src="cart.js"></script>
     <script src="wishlist.js"></script>
