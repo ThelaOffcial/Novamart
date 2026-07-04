@@ -3,280 +3,1068 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>NovaMart Global — Shop the Best Deals Online</title>
-
-    <!-- Google Fonts -->
+    <title>NovaMart — Shop the Best Deals Online</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
-
-    <!-- Font Awesome 6 (Free) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-
-    <!-- Main Stylesheet -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%23FF6B00'/><text x='50' y='66' text-anchor='middle' font-size='58' fill='white' font-family='Arial'>N</text></svg>" />
     <link rel="stylesheet" href="style.css" />
+    <style>
+/* ===== DARAZ-STYLE OVERRIDES ===== */
+:root {
+    --primary: #F57224;
+    --primary-dark: #d95f10;
+    --primary-light: #fff3eb;
+    --header-bg: #F57224;
+    --top-bar-bg: #1a1a2e;
+}
+body { background: #f5f5f5; }
 
-    <!-- Favicon (inline SVG) -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>" />
+/* TOP ANNOUNCEMENT BAR */
+.top-bar {
+    background: var(--top-bar-bg);
+    color: #ccc;
+    font-size: 0.78rem;
+    padding: 5px 0;
+}
+.top-bar__inner { display:flex; justify-content:space-between; align-items:center; }
+.top-bar__links a { color:#ccc; margin-left:18px; transition:.2s; }
+.top-bar__links a:hover { color:#fff; }
+.top-bar__tagline { color: #ff9f5a; font-weight:500; }
+.top-bar__tagline i { margin-right:4px; }
+
+/* HEADER */
+.header {
+    background: var(--header-bg);
+    padding: 10px 0 0;
+    box-shadow: 0 2px 12px rgba(0,0,0,.18);
+    position: sticky;
+    top: 0;
+    z-index: 200;
+}
+.header__inner { display:flex; align-items:center; gap:20px; }
+
+/* LOGO */
+.logo { display:flex; align-items:center; gap:6px; flex-shrink:0; }
+.logo__text { color:#fff; font-weight:900; font-size:1.6rem; letter-spacing:-1px; }
+.logo__text span { color:#ffe; }
+.logo__badge { background:rgba(255,255,255,.2); color:#fff; font-size:.65rem; font-weight:700; padding:2px 6px; border-radius:4px; letter-spacing:.05em; }
+
+/* SEARCH BAR */
+.search-bar {
+    flex:1;
+    display:flex;
+    border-radius:4px;
+    overflow:visible;
+    background:#fff;
+    position:relative;
+    box-shadow:0 2px 8px rgba(0,0,0,.12);
+}
+.search-bar__cat {
+    border:none;
+    background:#f0f0f0;
+    padding:0 12px;
+    font-size:.82rem;
+    font-weight:600;
+    color:#555;
+    border-right:1px solid #ddd;
+    cursor:pointer;
+    white-space:nowrap;
+    min-width:90px;
+}
+.search-bar input {
+    flex:1;
+    border:none;
+    padding:11px 14px;
+    font-size:.93rem;
+    outline:none;
+    background:transparent;
+    color:#222;
+}
+.search-bar button {
+    background: var(--primary);
+    border:none;
+    color:#fff;
+    padding:0 22px;
+    font-size:1.1rem;
+    cursor:pointer;
+    transition:.2s;
+    flex-shrink:0;
+}
+.search-bar button:hover { background: var(--primary-dark); }
+.search-suggestions {
+    position:absolute;
+    top:100%;
+    left:0; right:0;
+    background:#fff;
+    border:1px solid #eee;
+    border-top:none;
+    border-radius:0 0 8px 8px;
+    z-index:300;
+    box-shadow:0 8px 24px rgba(0,0,0,.12);
+    display:none;
+}
+.search-suggestions.open { display:block; }
+.search-suggestion-item {
+    padding:10px 16px;
+    cursor:pointer;
+    font-size:.88rem;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid #f5f5f5;
+}
+.search-suggestion-item:hover { background:#fff8f4; color:var(--primary); }
+
+/* HEADER ACTIONS */
+.header-actions { display:flex; align-items:center; gap:6px; flex-shrink:0; }
+.header-action {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    color:#fff;
+    padding:4px 10px;
+    border-radius:6px;
+    transition:.2s;
+    position:relative;
+    font-size:.75rem;
+    min-width:52px;
+    text-align:center;
+    cursor:pointer;
+}
+.header-action:hover { background:rgba(255,255,255,.15); }
+.header-action i { font-size:1.2rem; margin-bottom:2px; }
+.header-action__badge {
+    position:absolute;
+    top:0; right:6px;
+    background:#fff;
+    color:var(--primary);
+    font-size:.65rem;
+    font-weight:800;
+    width:17px; height:17px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* CATEGORY NAV */
+.category-nav {
+    background: rgba(0,0,0,.12);
+    margin-top:8px;
+}
+.category-nav__inner {
+    display:flex;
+    align-items:center;
+    overflow-x:auto;
+    scrollbar-width:none;
+}
+.category-nav__inner::-webkit-scrollbar { display:none; }
+.category-nav__list {
+    display:flex;
+    gap:0;
+    list-style:none;
+    margin:0; padding:0;
+}
+.category-nav__list li a {
+    display:block;
+    color:rgba(255,255,255,.9);
+    padding:10px 16px;
+    font-size:.83rem;
+    font-weight:500;
+    white-space:nowrap;
+    border-bottom:2px solid transparent;
+    transition:.2s;
+}
+.category-nav__list li a:hover,
+.category-nav__list li a.active {
+    color:#fff;
+    border-bottom-color:#fff;
+    background:rgba(255,255,255,.1);
+}
+.category-nav__toggle { display:none; }
+
+/* ===== HERO LAYOUT ===== */
+.hero-layout {
+    display:grid;
+    grid-template-columns: 220px 1fr 200px;
+    gap:0;
+    max-width:1280px;
+    margin:12px auto;
+    padding:0 12px;
+}
+
+/* CATEGORY SIDEBAR */
+.cat-sidebar {
+    background:#fff;
+    border-radius:6px 0 0 6px;
+    overflow:hidden;
+    box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
+.cat-sidebar__item {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:11px 16px;
+    font-size:.83rem;
+    font-weight:500;
+    color:#333;
+    cursor:pointer;
+    transition:.2s;
+    border-bottom:1px solid #f8f8f8;
+}
+.cat-sidebar__item:hover { background:var(--primary-light); color:var(--primary); }
+.cat-sidebar__item i { width:18px; color:var(--primary); font-size:.9rem; }
+.cat-sidebar__item .arrow { margin-left:auto; color:#bbb; font-size:.75rem; }
+
+/* BANNER SLIDER */
+.banner-slider {
+    position:relative;
+    overflow:hidden;
+    border-radius:0;
+    background:#fce8d5;
+}
+.banner-slider__track {
+    display:flex;
+    transition:transform .5s ease;
+    height:340px;
+}
+.banner-slide {
+    min-width:100%;
+    position:relative;
+    display:flex;
+    align-items:center;
+    padding:32px 48px;
+    overflow:hidden;
+}
+.banner-slide__bg {
+    position:absolute;
+    inset:0;
+    background:linear-gradient(135deg, #FF6B00 0%, #ff9f3c 60%, #ffd08a 100%);
+    z-index:0;
+}
+.banner-slide__content { position:relative; z-index:1; max-width:55%; }
+.banner-slide__tag {
+    display:inline-block;
+    background:rgba(255,255,255,.25);
+    color:#fff;
+    font-size:.75rem;
+    font-weight:700;
+    padding:4px 10px;
+    border-radius:4px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    margin-bottom:12px;
+}
+.banner-slide__title {
+    font-size:2.4rem;
+    font-weight:900;
+    color:#fff;
+    line-height:1.1;
+    margin-bottom:10px;
+    text-shadow:0 2px 12px rgba(0,0,0,.12);
+}
+.banner-slide__sub {
+    color:rgba(255,255,255,.88);
+    font-size:1rem;
+    margin-bottom:22px;
+}
+.banner-slide__img {
+    position:absolute;
+    right:0; bottom:0;
+    height:110%;
+    object-fit:contain;
+    z-index:1;
+    filter:drop-shadow(0 4px 24px rgba(0,0,0,.18));
+}
+.banner-slider__arrow {
+    position:absolute;
+    top:50%; transform:translateY(-50%);
+    background:rgba(255,255,255,.85);
+    border:none;
+    width:36px; height:36px;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:1rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:10;
+    box-shadow:0 2px 12px rgba(0,0,0,.2);
+    transition:.2s;
+}
+.banner-slider__arrow:hover { background:#fff; transform:translateY(-50%) scale(1.08); }
+.banner-slider__arrow--prev { left:12px; }
+.banner-slider__arrow--next { right:12px; }
+.banner-slider__dots { position:absolute; bottom:12px; left:50%; transform:translateX(-50%); display:flex; gap:6px; z-index:10; }
+.banner-dot { width:7px; height:7px; background:rgba(255,255,255,.5); border-radius:50%; cursor:pointer; transition:.25s; }
+.banner-dot.active { background:#fff; width:22px; border-radius:4px; }
+
+/* SIDE PROMOS */
+.side-promos { display:flex; flex-direction:column; gap:0; border-radius:0 6px 6px 0; overflow:hidden; }
+.side-promo {
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    padding:14px;
+    position:relative;
+    overflow:hidden;
+    cursor:pointer;
+}
+.side-promo:first-child { background:linear-gradient(135deg,#1a1a2e,#16213e); border-bottom:2px solid #222; }
+.side-promo:last-child  { background:linear-gradient(135deg,#0f3460,#533483); }
+.side-promo__label { font-size:.72rem; color:rgba(255,255,255,.6); text-transform:uppercase; letter-spacing:.06em; }
+.side-promo__title { font-size:1rem; font-weight:800; color:#fff; margin:2px 0 8px; }
+.side-promo__badge { display:inline-block; background:var(--primary); color:#fff; font-size:.72rem; font-weight:700; padding:3px 8px; border-radius:4px; }
+
+/* ===== CATEGORY ICONS STRIP ===== */
+.cat-strip {
+    background:#fff;
+    border-radius:8px;
+    padding:18px;
+    margin:0 0 12px;
+}
+.cat-strip__title { font-size:.78rem; font-weight:700; color:#888; text-transform:uppercase; letter-spacing:.06em; margin-bottom:14px; }
+.cat-strip__grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(80px, 1fr));
+    gap:8px;
+}
+.cat-strip__item {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+    padding:12px 8px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:.2s;
+    text-align:center;
+}
+.cat-strip__item:hover { background:var(--primary-light); }
+.cat-strip__icon {
+    width:52px; height:52px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.3rem;
+    background:var(--primary-light);
+    color:var(--primary);
+    transition:.2s;
+}
+.cat-strip__item:hover .cat-strip__icon { background:var(--primary); color:#fff; }
+.cat-strip__label { font-size:.72rem; font-weight:600; color:#444; }
+
+/* ===== SECTION OVERRIDES ===== */
+.section { padding:20px 0 8px; }
+.section--flash { background:linear-gradient(135deg,#1a1a2e,#16213e); padding:20px 0; border-radius:8px; margin:0 12px 12px; }
+.section__header { display:flex; align-items:center; gap:12px; margin-bottom:16px; flex-wrap:wrap; }
+.section__title { font-size:1.15rem; font-weight:800; color:var(--text-primary); display:flex; align-items:center; gap:8px; }
+.section--flash .section__title { color:#fff; }
+.section__see-all {
+    margin-left:auto;
+    font-size:.82rem;
+    font-weight:600;
+    color:var(--primary);
+    display:flex;
+    align-items:center;
+    gap:4px;
+    padding:5px 14px;
+    border:1.5px solid var(--primary);
+    border-radius:20px;
+    transition:.2s;
+}
+.section__see-all:hover { background:var(--primary); color:#fff; }
+.section--flash .section__see-all { border-color:#fff; color:#fff; }
+.section--flash .section__see-all:hover { background:#fff; color:var(--primary); }
+
+/* FLASH TIMER */
+.flash-timer { display:flex; align-items:center; gap:6px; font-size:.82rem; color:#fff; font-weight:600; }
+.flash-timer__item {
+    background:#FF4444;
+    color:#fff;
+    font-size:.9rem;
+    font-weight:800;
+    padding:4px 8px;
+    border-radius:4px;
+    min-width:32px;
+    text-align:center;
+    font-variant-numeric:tabular-nums;
+}
+.flash-timer span:not(.flash-timer__item) { color:rgba(255,255,255,.5); font-size:1.1rem; }
+
+/* PRODUCT GRID */
+.product-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(180px, 1fr));
+    gap:8px;
+}
+.product-card {
+    background:#fff;
+    border-radius:6px;
+    overflow:hidden;
+    transition:.22s;
+    cursor:pointer;
+    border:1.5px solid transparent;
+}
+.product-card:hover { border-color:var(--primary); box-shadow:0 4px 20px rgba(245,114,36,.15); transform:translateY(-2px); }
+.product-card__image { position:relative; overflow:hidden; background:#fafafa; aspect-ratio:1; }
+.product-card__image img { width:100%; height:100%; object-fit:contain; padding:8px; transition:.3s; }
+.product-card:hover .product-card__image img { transform:scale(1.05); }
+.product-card__badge {
+    position:absolute;
+    top:8px; left:8px;
+    background:#FF4444;
+    color:#fff;
+    font-size:.68rem;
+    font-weight:800;
+    padding:3px 7px;
+    border-radius:4px;
+    letter-spacing:.02em;
+}
+.product-card__actions {
+    position:absolute;
+    top:8px; right:8px;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    opacity:0;
+    transform:translateX(8px);
+    transition:.2s;
+}
+.product-card:hover .product-card__actions { opacity:1; transform:translateX(0); }
+.product-card__actions button {
+    width:32px; height:32px;
+    border-radius:50%;
+    border:none;
+    background:#fff;
+    box-shadow:0 2px 8px rgba(0,0,0,.12);
+    cursor:pointer;
+    color:#555;
+    font-size:.9rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:.2s;
+}
+.product-card__actions button:hover, .product-card__actions button.active { background:var(--primary); color:#fff; }
+.product-card__body { padding:10px 12px 14px; }
+.product-card__name {
+    font-size:.82rem;
+    font-weight:500;
+    color:#333;
+    margin-bottom:6px;
+    overflow:hidden;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    line-height:1.35;
+    min-height:2.6em;
+}
+.product-card__rating { font-size:.75rem; color:#888; display:flex; align-items:center; gap:4px; margin-bottom:6px; }
+.product-card__rating i { color:#FFC107; font-size:.75rem; }
+.product-card__price { display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom:8px; }
+.product-card__price .current { font-weight:800; color:var(--primary); font-size:1rem; }
+.product-card__price .original { color:#aaa; text-decoration:line-through; font-size:.75rem; }
+.product-card__price .discount { color:#FF4444; font-size:.72rem; font-weight:700; }
+.product-card__shipping { font-size:.7rem; color:var(--success); margin-bottom:8px; }
+.product-card__add {
+    width:100%;
+    border:none;
+    background:var(--primary);
+    color:#fff;
+    padding:8px;
+    border-radius:4px;
+    font-size:.8rem;
+    font-weight:600;
+    cursor:pointer;
+    transition:.2s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+}
+.product-card__add:hover { background:var(--primary-dark); }
+.product-card__add:disabled { background:#ccc; cursor:not-allowed; }
+
+/* CATEGORY GRID */
+.category-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(130px, 1fr));
+    gap:10px;
+}
+.category-card {
+    background:#fff;
+    border-radius:8px;
+    padding:18px 14px;
+    text-align:center;
+    cursor:pointer;
+    transition:.22s;
+    border:1.5px solid transparent;
+}
+.category-card:hover { border-color:var(--primary); box-shadow:0 4px 16px rgba(245,114,36,.12); }
+.category-card i { font-size:1.8rem; color:var(--primary); margin-bottom:10px; }
+.category-card__name { font-size:.82rem; font-weight:600; color:#333; }
+
+/* DEAL OF DAY BANNER */
+.deal-banner {
+    background:linear-gradient(135deg,#0f3460,#533483);
+    border-radius:8px;
+    padding:28px 32px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    margin-bottom:12px;
+}
+.deal-banner__left h3 { color:#FFD700; font-size:1rem; font-weight:700; margin-bottom:4px; }
+.deal-banner__left h2 { color:#fff; font-size:1.8rem; font-weight:900; line-height:1.1; margin-bottom:12px; }
+.deal-banner__timer { display:flex; gap:8px; }
+.deal-timer-box { background:rgba(255,255,255,.15); border-radius:6px; padding:8px 12px; text-align:center; min-width:52px; }
+.deal-timer-box span { display:block; }
+.deal-timer-box .num { color:#fff; font-size:1.4rem; font-weight:900; font-variant-numeric:tabular-nums; }
+.deal-timer-box .lbl { color:rgba(255,255,255,.6); font-size:.65rem; text-transform:uppercase; letter-spacing:.06em; }
+
+/* APP DOWNLOAD BANNER */
+.app-banner {
+    background:linear-gradient(135deg, #FF6B00 0%, #ff9f3c 100%);
+    border-radius:10px;
+    padding:28px 32px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    margin-bottom:24px;
+}
+.app-banner__left h3 { color:#fff; font-size:1.5rem; font-weight:900; margin-bottom:6px; }
+.app-banner__left p { color:rgba(255,255,255,.85); font-size:.9rem; margin-bottom:16px; }
+.app-banner__btns { display:flex; gap:10px; }
+.app-store-btn {
+    background:#000;
+    color:#fff;
+    padding:10px 18px;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:.82rem;
+    transition:.2s;
+}
+.app-store-btn:hover { background:#222; transform:translateY(-2px); }
+.app-store-btn i { font-size:1.4rem; }
+.app-store-btn .small { font-size:.68rem; color:rgba(255,255,255,.7); display:block; }
+.app-store-btn .big { font-size:.88rem; font-weight:700; display:block; }
+
+/* JUST FOR YOU */
+.jfy-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(175px, 1fr));
+    gap:8px;
+}
+
+/* BRANDS STRIP */
+.brands-strip { display:flex; gap:8px; overflow-x:auto; padding-bottom:8px; scrollbar-width:none; }
+.brands-strip::-webkit-scrollbar { display:none; }
+.brand-card {
+    flex-shrink:0;
+    width:120px;
+    height:72px;
+    background:#fff;
+    border-radius:6px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:.72rem;
+    font-weight:800;
+    color:#555;
+    letter-spacing:.04em;
+    border:1.5px solid #eee;
+    cursor:pointer;
+    transition:.2s;
+    text-transform:uppercase;
+}
+.brand-card:hover { border-color:var(--primary); color:var(--primary); }
+
+/* FOOTER */
+.footer {
+    background:#1a1a2e;
+    color:#aaa;
+    padding:48px 0 0;
+    margin-top:32px;
+}
+.footer__grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:32px; margin-bottom:32px; }
+.footer__col h4 { color:#fff; font-weight:700; margin-bottom:14px; font-size:.92rem; }
+.footer__col ul { list-style:none; margin:0; padding:0; }
+.footer__col ul li { margin-bottom:8px; }
+.footer__col ul li a { color:#aaa; font-size:.83rem; transition:.2s; }
+.footer__col ul li a:hover { color:var(--primary); }
+.footer__desc { font-size:.83rem; line-height:1.6; margin-bottom:16px; color:#888; }
+.footer__social { display:flex; gap:10px; }
+.footer__social a { width:34px; height:34px; border-radius:50%; border:1px solid #333; display:flex; align-items:center; justify-content:center; color:#aaa; transition:.2s; font-size:.88rem; }
+.footer__social a:hover { border-color:var(--primary); color:var(--primary); }
+.footer__bottom { border-top:1px solid #2a2a3e; padding:18px 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
+.footer__bottom p { font-size:.8rem; }
+.footer__payments { display:flex; gap:12px; font-size:1.5rem; color:#555; }
+
+/* MAIN WRAPPER */
+.main-wrapper { max-width:1280px; margin:0 auto; padding:0 12px; }
+
+/* TOAST */
+.toast-container { position:fixed; bottom:24px; right:24px; z-index:9999; display:flex; flex-direction:column; gap:8px; }
+.toast {
+    background:#1a1a2e;
+    color:#fff;
+    padding:12px 20px;
+    border-radius:8px;
+    font-size:.88rem;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    box-shadow:0 4px 20px rgba(0,0,0,.2);
+    animation:slideUp .3s ease;
+    transition:opacity .3s;
+    min-width:220px;
+}
+.toast--success { border-left:4px solid #22C55E; }
+.toast--error   { border-left:4px solid #EF4444; }
+.toast--info    { border-left:4px solid var(--primary); }
+
+/* MODAL */
+.modal { position:fixed; inset:0; z-index:1000; display:none; }
+.modal.open { display:block; }
+.modal__overlay { position:absolute; inset:0; background:rgba(0,0,0,.5); }
+.modal__content { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:#fff; border-radius:12px; width:92%; max-width:720px; max-height:88vh; overflow-y:auto; z-index:1; }
+.modal__close { position:absolute; top:14px; right:14px; background:rgba(0,0,0,.06); border:none; width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; transition:.2s; z-index:2; }
+.modal__close:hover { background:#eee; }
+
+@keyframes slideUp { from { transform:translateY(20px); opacity:0; } to { transform:translateY(0); opacity:1; } }
+@keyframes fadeIn  { from { opacity:0; } to { opacity:1; } }
+
+@media(max-width:900px){
+    .hero-layout { grid-template-columns:1fr; }
+    .cat-sidebar, .side-promos { display:none; }
+    .banner-slider__track { height:220px; }
+    .footer__grid { grid-template-columns:1fr 1fr; }
+}
+@media(max-width:600px){
+    .header__inner { gap:10px; }
+    .search-bar__cat { display:none; }
+    .logo__badge { display:none; }
+    .product-grid { grid-template-columns:repeat(2,1fr); }
+    .footer__grid { grid-template-columns:1fr; }
+    .deal-banner { flex-direction:column; }
+    .app-banner { flex-direction:column; }
+}
+    </style>
 </head>
 <body>
-    <!-- ============================== -->
-    <!--          TOP BAR              -->
-    <!-- ============================== -->
-    <div class="top-bar">
-        <div class="container top-bar__inner">
-            <span class="top-bar__tagline"><i class="fas fa-truck-fast"></i> Free shipping on orders over $50</span>
-            <div class="top-bar__links">
-                <a href="#" id="topBarAccount"><i class="fas fa-user"></i> Account</a>
-                <a href="#" id="topBarOrders"><i class="fas fa-box"></i> Orders</a>
-                <a href="#" id="topBarHelp"><i class="fas fa-circle-question"></i> Help</a>
-            </div>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+    <div class="container top-bar__inner">
+        <span class="top-bar__tagline"><i class="fas fa-truck-fast"></i> FREE Delivery on orders over $50</span>
+        <div class="top-bar__links">
+            <a href="#" id="topBarAccount"><i class="fas fa-user"></i> My Account</a>
+            <a href="#" id="topBarOrders"><i class="fas fa-box"></i> Orders</a>
+            <a href="#"><i class="fas fa-headset"></i> Help</a>
+            <a href="admin.html"><i class="fas fa-shield-halved"></i> Admin</a>
+        </div>
+    </div>
+</div>
+
+<!-- HEADER -->
+<header class="header" id="mainHeader">
+    <div class="container header__inner">
+        <a href="index.html" class="logo">
+            <span class="logo__text">Nova<span>Mart</span></span>
+            <span class="logo__badge">GLOBAL</span>
+        </a>
+
+        <div class="search-bar" id="searchBar">
+            <select class="search-bar__cat" id="searchCatFilter">
+                <option value="all">All</option>
+            </select>
+            <input type="text" id="searchInput" placeholder="Search products, brands and more..." autocomplete="off" />
+            <button id="searchBtn"><i class="fas fa-search"></i></button>
+            <div class="search-suggestions" id="searchSuggestions"></div>
+        </div>
+
+        <div class="header-actions">
+            <a href="wishlist.html" class="header-action" id="headerWishlist">
+                <i class="fas fa-heart"></i>
+                <span>Wishlist</span>
+                <span class="header-action__badge" id="wishlistCount">0</span>
+            </a>
+            <a href="cart.html" class="header-action" id="headerCart">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Cart</span>
+                <span class="header-action__badge" id="cartCount">0</span>
+            </a>
+            <a href="login.html" class="header-action header-action--user" id="headerUser">
+                <i class="fas fa-user-circle"></i>
+                <span id="userNameLabel">Sign In</span>
+            </a>
         </div>
     </div>
 
-    <!-- ============================== -->
-    <!--          HEADER / NAV          -->
-    <!-- ============================== -->
-    <header class="header" id="mainHeader">
-        <div class="container header__inner">
-            <!-- Logo -->
-            <a href="index.html" class="logo">
-                <span class="logo__icon">🛒</span>
-                <span class="logo__text">Nova<span class="logo__highlight">Mart</span></span>
-                <span class="logo__badge">Global</span>
-            </a>
-
-            <!-- Search Bar -->
-            <div class="search-bar" id="searchBar">
-                <input type="text" id="searchInput" placeholder="Search for products..." autocomplete="off" />
-                <button id="searchBtn" aria-label="Search"><i class="fas fa-search"></i></button>
-                <div class="search-suggestions" id="searchSuggestions"></div>
-            </div>
-
-            <!-- Header Actions -->
-            <div class="header-actions">
-                <a href="wishlist.html" class="header-action" id="headerWishlist" aria-label="Wishlist">
-                    <i class="fas fa-heart"></i>
-                    <span class="header-action__badge" id="wishlistCount">0</span>
-                </a>
-                <a href="cart.html" class="header-action" id="headerCart" aria-label="Cart">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="header-action__badge" id="cartCount">0</span>
-                </a>
-                <a href="login.html" class="header-action header-action--user" id="headerUser">
-                    <i class="fas fa-user-circle"></i>
-                    <span class="header-action__label" id="userNameLabel">Sign In</span>
-                </a>
-            </div>
+    <!-- CATEGORY NAV -->
+    <nav class="category-nav" id="categoryNav">
+        <div class="container category-nav__inner">
+            <ul class="category-nav__list" id="categoryList">
+                <li><a href="#" data-category="all" class="active">🏠 All</a></li>
+            </ul>
         </div>
+    </nav>
+</header>
 
-        <!-- Category Navigation (rendered by app.js from CATEGORIES) -->
-        <nav class="category-nav" id="categoryNav">
-            <div class="container category-nav__inner">
-                <button class="category-nav__toggle" id="categoryToggle" aria-label="Toggle categories">
-                    <i class="fas fa-bars"></i> All Categories
-                </button>
-                <ul class="category-nav__list" id="categoryList">
-                    <li><a href="#" data-category="all" class="active">All</a></li>
-                </ul>
-            </div>
-        </nav>
-    </header>
+<!-- HERO LAYOUT -->
+<div class="main-wrapper">
+<div class="hero-layout" style="margin-bottom:12px;">
 
-    <!-- ============================== -->
-    <!--       SLIDING BANNER          -->
-    <!--  (slides rendered by app.js from BANNERS — fully editable in admin.html) -->
-    <!-- ============================== -->
+    <!-- CATEGORY SIDEBAR -->
+    <div class="cat-sidebar" id="catSidebar">
+        <!-- Rendered by JS -->
+    </div>
+
+    <!-- BANNER SLIDER -->
     <section class="banner-slider" id="bannerSlider">
-        <div class="banner-slider__track" id="bannerTrack">
-            <!-- Rendered by JS -->
-        </div>
-        <button class="banner-slider__arrow banner-slider__arrow--prev" id="bannerPrev" aria-label="Previous slide">
-            <i class="fas fa-chevron-left"></i>
-        </button>
-        <button class="banner-slider__arrow banner-slider__arrow--next" id="bannerNext" aria-label="Next slide">
-            <i class="fas fa-chevron-right"></i>
-        </button>
+        <div class="banner-slider__track" id="bannerTrack"></div>
+        <button class="banner-slider__arrow banner-slider__arrow--prev" id="bannerPrev"><i class="fas fa-chevron-left"></i></button>
+        <button class="banner-slider__arrow banner-slider__arrow--next" id="bannerNext"><i class="fas fa-chevron-right"></i></button>
         <div class="banner-slider__dots" id="bannerDots"></div>
     </section>
 
-    <!-- ============================== -->
-    <!--      FEATURED CATEGORIES      -->
-    <!-- ============================== -->
-    <section class="section">
-        <div class="container">
-            <div class="section__header">
-                <h2 class="section__title">Shop by Category</h2>
-                <a href="#" class="section__see-all">See All <i class="fas fa-arrow-right"></i></a>
+    <!-- SIDE PROMOS -->
+    <div class="side-promos">
+        <div class="side-promo">
+            <div class="side-promo__label">Limited Time</div>
+            <div class="side-promo__title">Today's Deal</div>
+            <span class="side-promo__badge">Up to 70% OFF</span>
+        </div>
+        <div class="side-promo">
+            <div class="side-promo__label">New Arrivals</div>
+            <div class="side-promo__title">Fresh Picks</div>
+            <span class="side-promo__badge">Shop Now →</span>
+        </div>
+    </div>
+</div>
+
+<!-- CATEGORY ICONS STRIP -->
+<div class="cat-strip" id="catStrip">
+    <div class="cat-strip__title">Browse Categories</div>
+    <div class="cat-strip__grid" id="catStripGrid">
+        <!-- Rendered by JS -->
+    </div>
+</div>
+
+<!-- FLASH SALES -->
+<section class="section section--flash">
+    <div class="container">
+        <div class="section__header">
+            <h2 class="section__title"><i class="fas fa-bolt" style="color:#FFD700;"></i> Flash Sale</h2>
+            <div class="flash-timer">
+                <span>Ends in:</span>
+                <span class="flash-timer__item" id="flashHours">02</span>
+                <span>:</span>
+                <span class="flash-timer__item" id="flashMinutes">45</span>
+                <span>:</span>
+                <span class="flash-timer__item" id="flashSeconds">30</span>
             </div>
-            <div class="category-grid" id="categoryGrid">
-                <!-- Rendered by JS -->
+            <a href="#" class="section__see-all">View All <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="product-grid" id="flashProducts"></div>
+    </div>
+</section>
+
+<!-- SHOP BY CATEGORY -->
+<section class="section">
+    <div class="container">
+        <div class="section__header">
+            <h2 class="section__title"><i class="fas fa-grid-2" style="color:var(--primary);"></i> Shop by Category</h2>
+            <a href="#" class="section__see-all">See All <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="category-grid" id="categoryGrid"></div>
+    </div>
+</section>
+
+<!-- DEAL OF THE DAY -->
+<div class="deal-banner" id="dealBanner">
+    <div class="deal-banner__left">
+        <h3>⚡ DEAL OF THE DAY</h3>
+        <h2>Top Electronics<br>At Lowest Prices</h2>
+        <div class="deal-banner__timer">
+            <div class="deal-timer-box"><span class="num" id="dealH">12</span><span class="lbl">Hrs</span></div>
+            <div class="deal-timer-box"><span class="num" id="dealM">00</span><span class="lbl">Min</span></div>
+            <div class="deal-timer-box"><span class="num" id="dealS">00</span><span class="lbl">Sec</span></div>
+        </div>
+    </div>
+    <a href="#" class="btn btn--white" style="padding:12px 28px; font-size:.9rem;">Shop Now <i class="fas fa-arrow-right"></i></a>
+</div>
+
+<!-- TRENDING PRODUCTS -->
+<section class="section">
+    <div class="container">
+        <div class="section__header">
+            <h2 class="section__title">🔥 Trending Now</h2>
+            <a href="#" class="section__see-all">View All <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="product-grid" id="trendingProducts"></div>
+    </div>
+</section>
+
+<!-- TOP BRANDS -->
+<section class="section">
+    <div class="container">
+        <div class="section__header">
+            <h2 class="section__title">🏷️ Top Brands</h2>
+        </div>
+        <div class="brands-strip">
+            <div class="brand-card">Samsung</div>
+            <div class="brand-card">Apple</div>
+            <div class="brand-card">Nike</div>
+            <div class="brand-card">Adidas</div>
+            <div class="brand-card">Sony</div>
+            <div class="brand-card">LG</div>
+            <div class="brand-card">Xiaomi</div>
+            <div class="brand-card">Huawei</div>
+            <div class="brand-card">Philips</div>
+            <div class="brand-card">Puma</div>
+        </div>
+    </div>
+</section>
+
+<!-- RECOMMENDED -->
+<section class="section">
+    <div class="container">
+        <div class="section__header">
+            <h2 class="section__title">⭐ Recommended for You</h2>
+            <a href="#" class="section__see-all">View All <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="jfy-grid product-grid" id="recommendedProducts"></div>
+    </div>
+</section>
+
+<!-- APP DOWNLOAD BANNER -->
+<div class="app-banner">
+    <div class="app-banner__left">
+        <h3>📱 Shop On the Go!</h3>
+        <p>Download the NovaMart app and get exclusive mobile-only deals every day.</p>
+        <div class="app-banner__btns">
+            <a href="#" class="app-store-btn">
+                <i class="fab fa-apple"></i>
+                <div><span class="small">Download on the</span><span class="big">App Store</span></div>
+            </a>
+            <a href="#" class="app-store-btn">
+                <i class="fab fa-google-play"></i>
+                <div><span class="small">Get it on</span><span class="big">Google Play</span></div>
+            </a>
+        </div>
+    </div>
+    <i class="fas fa-mobile-screen-button" style="font-size:5rem; color:rgba(255,255,255,.25);"></i>
+</div>
+
+<!-- RECENTLY VIEWED -->
+<section class="section" id="recentlyViewedSection" style="display:none;">
+    <div class="container">
+        <div class="section__header">
+            <h2 class="section__title">🕐 Recently Viewed</h2>
+        </div>
+        <div class="product-grid" id="recentlyViewedProducts"></div>
+    </div>
+</section>
+
+</div><!-- /main-wrapper -->
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer__grid">
+            <div class="footer__col">
+                <span class="logo__text" style="color:#fff; font-size:1.5rem; font-weight:900; display:block; margin-bottom:12px;">Nova<span style="color:var(--primary);">Mart</span></span>
+                <p class="footer__desc">Your one-stop marketplace for quality products at unbeatable prices. Shop with confidence — best deals, every day.</p>
+                <div class="footer__social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            <div class="footer__col">
+                <h4>Customer Care</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Track Your Order</a></li>
+                    <li><a href="#">Returns & Refunds</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Report a Problem</a></li>
+                </ul>
+            </div>
+            <div class="footer__col">
+                <h4>NovaMart</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Affiliates</a></li>
+                    <li><a href="#">Sell on NovaMart</a></li>
+                    <li><a href="admin.html">Admin Panel</a></li>
+                </ul>
+            </div>
+            <div class="footer__col">
+                <h4>My Account</h4>
+                <ul>
+                    <li><a href="login.html">Sign In / Register</a></li>
+                    <li><a href="cart.html">Shopping Cart</a></li>
+                    <li><a href="wishlist.html">Wishlist</a></li>
+                    <li><a href="#">My Orders</a></li>
+                    <li><a href="#">Profile</a></li>
+                </ul>
+                <h4 style="margin-top:18px;">Download App</h4>
+                <ul>
+                    <li><a href="#"><i class="fab fa-apple"></i> iOS App</a></li>
+                    <li><a href="#"><i class="fab fa-google-play"></i> Android App</a></li>
+                </ul>
             </div>
         </div>
-    </section>
-
-    <!-- ============================== -->
-    <!--       FLASH SALES             -->
-    <!-- ============================== -->
-    <section class="section section--flash">
-        <div class="container">
-            <div class="section__header">
-                <h2 class="section__title">
-                    <i class="fas fa-bolt" style="color: #EF4444;"></i> Flash Sales
-                </h2>
-                <div class="flash-timer" id="flashTimer">
-                    <span>Ends in:</span>
-                    <span class="flash-timer__item" id="flashHours">02</span>:<span class="flash-timer__item" id="flashMinutes">45</span>:<span class="flash-timer__item" id="flashSeconds">30</span>
-                </div>
-                <a href="#" class="section__see-all">View All <i class="fas fa-arrow-right"></i></a>
-            </div>
-            <div class="product-grid" id="flashProducts">
-                <!-- Rendered by JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================== -->
-    <!--      TRENDING PRODUCTS         -->
-    <!-- ============================== -->
-    <section class="section">
-        <div class="container">
-            <div class="section__header">
-                <h2 class="section__title">🔥 Trending Now</h2>
-                <a href="#" class="section__see-all">View All <i class="fas fa-arrow-right"></i></a>
-            </div>
-            <div class="product-grid" id="trendingProducts">
-                <!-- Rendered by JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================== -->
-    <!--    RECOMMENDED PRODUCTS        -->
-    <!-- ============================== -->
-    <section class="section">
-        <div class="container">
-            <div class="section__header">
-                <h2 class="section__title">⭐ Recommended for You</h2>
-                <a href="#" class="section__see-all">View All <i class="fas fa-arrow-right"></i></a>
-            </div>
-            <div class="product-grid" id="recommendedProducts">
-                <!-- Rendered by JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================== -->
-    <!--    RECENTLY VIEWED             -->
-    <!-- ============================== -->
-    <section class="section" id="recentlyViewedSection">
-        <div class="container">
-            <div class="section__header">
-                <h2 class="section__title">🕐 Recently Viewed</h2>
-            </div>
-            <div class="product-grid" id="recentlyViewedProducts">
-                <!-- Rendered by JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================== -->
-    <!--          FOOTER                -->
-    <!-- ============================== -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer__grid">
-                <div class="footer__col">
-                    <a href="index.html" class="logo logo--footer">
-                        <span class="logo__icon">🛒</span>
-                        <span class="logo__text">Nova<span class="logo__highlight">Mart</span></span>
-                        <span class="logo__badge">Global</span>
-                    </a>
-                    <p class="footer__desc">Your one-stop marketplace for quality products at unbeatable prices. Shop with confidence.</p>
-                    <div class="footer__social">
-                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                <div class="footer__col">
-                    <h4>Shop</h4>
-                    <ul>
-                        <li><a href="#">Electronics</a></li>
-                        <li><a href="#">Fashion</a></li>
-                        <li><a href="#">Home & Living</a></li>
-                        <li><a href="#">Beauty</a></li>
-                        <li><a href="#">Sports</a></li>
-                    </ul>
-                </div>
-                <div class="footer__col">
-                    <h4>Customer Service</h4>
-                    <ul>
-                        <li><a href="#">Help Center</a></li>
-                        <li><a href="#">Returns & Refunds</a></li>
-                        <li><a href="#">Shipping Info</a></li>
-                        <li><a href="#">Track Order</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div class="footer__col">
-                    <h4>Account</h4>
-                    <ul>
-                        <li><a href="login.html">Sign In</a></li>
-                        <li><a href="login.html">Register</a></li>
-                        <li><a href="wishlist.html">Wishlist</a></li>
-                        <li><a href="cart.html">Cart</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer__bottom">
-                <p>&copy; 2026 NovaMart Global. All rights reserved.</p>
-                <div class="footer__payments">
-                    <i class="fab fa-cc-visa"></i>
-                    <i class="fab fa-cc-mastercard"></i>
-                    <i class="fab fa-cc-amex"></i>
-                    <i class="fab fa-cc-paypal"></i>
-                    <i class="fab fa-cc-apple-pay"></i>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- ============================== -->
-    <!--       QUICK VIEW MODAL         -->
-    <!-- ============================== -->
-    <div class="modal" id="quickViewModal">
-        <div class="modal__overlay" id="quickViewOverlay"></div>
-        <div class="modal__content modal__content--large" id="quickViewContent">
-            <button class="modal__close" id="quickViewClose" aria-label="Close modal">
-                <i class="fas fa-times"></i>
-            </button>
-            <div id="quickViewBody">
-                <!-- Rendered by JS -->
+        <div class="footer__bottom">
+            <p>© 2026 NovaMart Global. All rights reserved.</p>
+            <div class="footer__payments">
+                <i class="fab fa-cc-visa"></i>
+                <i class="fab fa-cc-mastercard"></i>
+                <i class="fab fa-cc-paypal"></i>
+                <i class="fab fa-cc-apple-pay"></i>
+                <i class="fab fa-cc-amex"></i>
             </div>
         </div>
     </div>
+</footer>
 
-    <!-- ============================== -->
-    <!--          TOAST                  -->
-    <!-- ============================== -->
-    <div class="toast-container" id="toastContainer"></div>
+<!-- QUICK VIEW MODAL -->
+<div class="modal" id="quickViewModal">
+    <div class="modal__overlay" id="quickViewOverlay"></div>
+    <div class="modal__content modal__content--large" id="quickViewContent">
+        <button class="modal__close" id="quickViewClose"><i class="fas fa-times"></i></button>
+        <div id="quickViewBody"></div>
+    </div>
+</div>
 
-    <!-- ============================== -->
-    <!--         JAVASCRIPT             -->
-    <!-- ============================== -->
-    <!-- Firebase (Realtime Database powers live admin-editable content) -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-    <script src="firebase-config.js"></script>
+<!-- TOAST -->
+<div class="toast-container" id="toastContainer"></div>
 
-    <script src="products.js"></script>
-    <script src="store-sync.js"></script>
-    <script src="auth.js"></script>
-    <script src="cart.js"></script>
-    <script src="wishlist.js"></script>
-    <script src="app.js"></script>
+<!-- SCRIPTS -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="products.js"></script>
+<script src="store-sync.js"></script>
+<script src="auth.js"></script>
+<script src="cart.js"></script>
+<script src="wishlist.js"></script>
+<script src="app.js"></script>
+<script>
+// DARAZ-STYLE ENHANCEMENTS
+(function(){
+    // Populate search category dropdown from CATEGORIES
+    function populateSearchCats() {
+        const sel = document.getElementById('searchCatFilter');
+        if (!sel || typeof CATEGORIES === 'undefined') return;
+        sel.innerHTML = '<option value="all">All</option>';
+        CATEGORIES.forEach(c => {
+            const o = document.createElement('option');
+            o.value = c.id || c.name;
+            o.textContent = c.name;
+            sel.appendChild(o);
+        });
+    }
+
+    // Populate category sidebar
+    function populateSidebar() {
+        const sb = document.getElementById('catSidebar');
+        if (!sb || typeof CATEGORIES === 'undefined') return;
+        const cats = CATEGORIES.slice(0,12);
+        const icons = ['fa-laptop','fa-shirt','fa-couch','fa-face-smile-beam','fa-dumbbell','fa-book','fa-gamepad','fa-car','fa-baby','fa-utensils','fa-paw','fa-tools'];
+        sb.innerHTML = cats.map((c,i) => `
+            <div class="cat-sidebar__item" data-category="${c.id||c.name}">
+                <i class="fas ${c.icon || icons[i % icons.length]}"></i>
+                <span>${c.name}</span>
+                <i class="fas fa-chevron-right arrow"></i>
+            </div>
+        `).join('') + `<div class="cat-sidebar__item" style="color:var(--primary); font-weight:700;" onclick="document.getElementById('categoryGrid').scrollIntoView({behavior:'smooth'})"><i class="fas fa-grid-2"></i><span>All Categories</span><i class="fas fa-chevron-right arrow"></i></div>`;
+        sb.querySelectorAll('.cat-sidebar__item[data-category]').forEach(item => {
+            item.addEventListener('click', () => {
+                const cat = item.dataset.category;
+                // Trigger category filter from app.js
+                const link = document.querySelector(`#categoryList a[data-category="${cat}"]`);
+                if (link) link.click();
+                item.scrollIntoView({behavior:'smooth', block:'center'});
+            });
+        });
+    }
+
+    // Populate category strip icons
+    function populateCatStrip() {
+        const grid = document.getElementById('catStripGrid');
+        if (!grid || typeof CATEGORIES === 'undefined') return;
+        const emojis = ['💻','👕','🛋️','💄','🏋️','📚','🎮','🚗','👶','🍳','🐾','🔧'];
+        grid.innerHTML = CATEGORIES.slice(0,12).map((c,i) => `
+            <div class="cat-strip__item" data-category="${c.id||c.name}">
+                <div class="cat-strip__icon">${emojis[i % emojis.length]}</div>
+                <span class="cat-strip__label">${c.name}</span>
+            </div>
+        `).join('');
+        grid.querySelectorAll('.cat-strip__item').forEach(item => {
+            item.addEventListener('click', () => {
+                const cat = item.dataset.category;
+                const link = document.querySelector(`#categoryList a[data-category="${cat}"]`);
+                if (link) link.click();
+                document.querySelector('.banner-slider').scrollIntoView({behavior:'smooth'});
+            });
+        });
+    }
+
+    // Deal of the day timer
+    function startDealTimer() {
+        function update() {
+            const now = new Date();
+            const end = new Date(now);
+            end.setHours(23,59,59,999);
+            const diff = end - now;
+            const h = Math.floor(diff/3600000);
+            const m = Math.floor((diff%3600000)/60000);
+            const s = Math.floor((diff%60000)/1000);
+            const pad = n => String(n).padStart(2,'0');
+            const dh = document.getElementById('dealH');
+            const dm = document.getElementById('dealM');
+            const ds = document.getElementById('dealS');
+            if (dh) dh.textContent = pad(h);
+            if (dm) dm.textContent = pad(m);
+            if (ds) ds.textContent = pad(s);
+        }
+        update();
+        setInterval(update, 1000);
+    }
+
+    startDealTimer();
+
+    window.addEventListener('novamart:dataUpdated', () => {
+        populateSearchCats();
+        populateSidebar();
+        populateCatStrip();
+    });
+
+    // Initial run (may fire before Firebase data arrives)
+    setTimeout(() => {
+        populateSearchCats();
+        populateSidebar();
+        populateCatStrip();
+    }, 800);
+})();
+</script>
 </body>
 </html>
