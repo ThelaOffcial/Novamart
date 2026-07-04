@@ -174,6 +174,255 @@
                 margin-left: 0;
             }
         }
+
+        /* --- New Orders panel (Dashboard) --- */
+        .new-orders-panel {
+            border-left: 4px solid var(--danger);
+            margin-bottom: 24px;
+        }
+        .new-orders-panel h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .new-order-icon {
+            color: var(--danger);
+            animation: novaBellPulse 1.6s infinite;
+        }
+        @keyframes novaBellPulse {
+            0%, 100% { transform: rotate(0deg); }
+            10% { transform: rotate(15deg); }
+            20% { transform: rotate(-12deg); }
+            30% { transform: rotate(8deg); }
+            40% { transform: rotate(0deg); }
+        }
+        .new-badge {
+            background: var(--danger);
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 2px 9px;
+            border-radius: 999px;
+            line-height: 1.6;
+        }
+        .new-orders-panel .empty-note {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            padding: 8px 0;
+        }
+        .row--new {
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        /* --- Status / sale / role badges --- */
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #fff;
+        }
+        .badge--onsale { background: var(--success); cursor: pointer; }
+        .badge--off { background: var(--text-secondary); cursor: pointer; }
+        .badge--role-admin { background: var(--primary); }
+        .badge--role-seller { background: #8b5cf6; }
+        .badge--role-user { background: var(--secondary); }
+
+        /* --- Order tracking stages --- */
+        .stage-track {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .stage-pill {
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: var(--border);
+            color: var(--text-secondary);
+        }
+        .stage-pill.done {
+            background: var(--primary);
+            color: #fff;
+        }
+        .stage-pill.delivered {
+            background: var(--success);
+            color: #fff;
+        }
+        .btn--stage {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+        .btn--stage:hover { background: var(--primary-dark); }
+        .btn--stage:disabled {
+            background: var(--border);
+            color: var(--text-secondary);
+            cursor: not-allowed;
+        }
+
+        /* --- Users sub-tabs (All / Sellers) --- */
+        .user-subtabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .user-subtab {
+            background: #fff;
+            border: 2px solid var(--border);
+            padding: 8px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .user-subtab.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+        .user-subtab .badge {
+            background: rgba(255,255,255,0.25);
+            color: inherit;
+            padding: 2px 8px;
+        }
+        .user-subtab:not(.active) .badge {
+            background: var(--border);
+            color: var(--text-secondary);
+        }
+        .seller-note {
+            background: var(--bg);
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        /* --- Low stock panel (Dashboard) --- */
+        .low-stock-panel {
+            border-left: 4px solid #f59e0b;
+        }
+        .low-stock-panel h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .low-stock-panel h3 i { color: #f59e0b; }
+        .badge--warning { background: #f59e0b; }
+        .dashboard-panels-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        @media (max-width: 900px) {
+            .dashboard-panels-row { grid-template-columns: 1fr; }
+        }
+
+        /* --- Product search bar --- */
+        .product-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .product-search {
+            position: relative;
+            flex: 1;
+            max-width: 340px;
+        }
+        .product-search input {
+            width: 100%;
+            padding: 10px 14px 10px 36px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        .product-search input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        .product-search i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+        .stock-low { color: #f59e0b; font-weight: 700; }
+        .stock-out { color: var(--danger); font-weight: 700; }
+
+        /* --- Order detail modal --- */
+        .order-detail-section {
+            margin-bottom: 18px;
+        }
+        .order-detail-section h4 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        .order-detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.92rem;
+        }
+        .order-detail-item:last-child { border-bottom: none; }
+        .order-detail-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding-top: 12px;
+            border-top: 2px solid var(--border);
+            margin-top: 4px;
+        }
+
+        /* --- Cancelled order state --- */
+        .stage-pill.cancelled { background: var(--danger); color: #fff; }
+        .btn--stage-cancel {
+            background: #fff;
+            color: var(--danger);
+            border: 1px solid var(--danger);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+        .btn--stage-cancel:hover { background: var(--danger); color: #fff; }
+        .btn--stage-cancel:disabled {
+            background: var(--bg);
+            color: var(--text-secondary);
+            border-color: var(--border);
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -199,10 +448,9 @@
 
             <!-- Dashboard Tab -->
             <div id="dashboard" class="admin-tab active">
-                <div class="stats-grid" id="statsGrid"></div>
-                <div class="admin-content">
-                    <h3>Recent Orders</h3>
-                    <table class="admin-table" id="recentOrdersTable">
+                <div class="admin-content new-orders-panel">
+                    <h3><i class="fas fa-bell new-order-icon"></i> New Orders <span class="new-badge" id="newOrdersCount">0</span></h3>
+                    <table class="admin-table" id="newOrdersTable">
                         <thead>
                             <tr>
                                 <th>Order ID</th>
@@ -212,14 +460,49 @@
                                 <th>Date</th>
                             </tr>
                         </thead>
-                        <tbody id="recentOrdersBody"></tbody>
+                        <tbody id="newOrdersBody"></tbody>
                     </table>
+                </div>
+                <div class="stats-grid" id="statsGrid"></div>
+                <div class="dashboard-panels-row">
+                    <div class="admin-content low-stock-panel">
+                        <h3><i class="fas fa-triangle-exclamation"></i> Low Stock Alert <span class="badge badge--warning" id="lowStockCount">0</span></h3>
+                        <table class="admin-table" id="lowStockTable">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Category</th>
+                                    <th>Stock Left</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lowStockBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="admin-content">
+                        <h3>Recent Orders</h3>
+                        <table class="admin-table" id="recentOrdersTable">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentOrdersBody"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
             <!-- Products Tab -->
             <div id="products" class="admin-tab" style="display:none;">
-                <div style="margin-bottom: 20px;">
+                <div class="product-toolbar">
+                    <div class="product-search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="productSearchInput" placeholder="Search products by name or category...">
+                    </div>
                     <button class="btn btn--primary" id="addProductBtn"><i class="fas fa-plus"></i> Add Product</button>
                 </div>
                 <div class="admin-content">
@@ -231,6 +514,7 @@
                                 <th>Category</th>
                                 <th>Price</th>
                                 <th>Stock</th>
+                                <th>For Sale</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -248,7 +532,7 @@
                                 <th>Order ID</th>
                                 <th>Customer</th>
                                 <th>Total</th>
-                                <th>Status</th>
+                                <th>Tracking</th>
                                 <th>Payment</th>
                                 <th>Date</th>
                                 <th>Actions</th>
@@ -261,6 +545,13 @@
 
             <!-- Users Tab -->
             <div id="users" class="admin-tab" style="display:none;">
+                <div class="user-subtabs">
+                    <button type="button" class="user-subtab active" data-role="all" id="allUsersSubtab"><i class="fas fa-users"></i> All Users</button>
+                    <button type="button" class="user-subtab" data-role="seller" id="sellersSubtab"><i class="fas fa-store"></i> Sellers <span class="badge" id="sellerCount">0</span></button>
+                </div>
+                <div class="seller-note" id="sellerNote" style="display:none;">
+                    Use the <i class="fas fa-store"></i> icon in All Users to promote a customer to Seller — they'll then show up here, ready for the upcoming Seller Panel where they'll manage their own listings.
+                </div>
                 <div class="admin-content">
                     <table class="admin-table" id="usersTable">
                         <thead>
@@ -333,11 +624,25 @@
                     <label>Image URL</label>
                     <input type="text" id="productImage" required>
                 </div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <input type="checkbox" id="productForSale" checked style="width:18px; height:18px;">
+                    <label for="productForSale" style="margin:0;">List this product for sale (visible to customers now)</label>
+                </div>
                 <div class="form-actions">
                     <button type="button" class="btn btn--outline" id="cancelProductBtn">Cancel</button>
                     <button type="submit" class="btn btn--primary">Save Product</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Order Detail Modal -->
+    <div class="modal" id="orderDetailModal">
+        <div class="modal__overlay"></div>
+        <div class="modal__content">
+            <button class="modal__close" id="closeOrderDetailModal"><i class="fas fa-times"></i></button>
+            <h2>Order Details</h2>
+            <div id="orderDetailBody"></div>
         </div>
     </div>
 

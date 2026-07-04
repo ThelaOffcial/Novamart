@@ -51,7 +51,8 @@
   // Load products from Firebase
   function loadProducts() {
     FirebaseProducts.listenToProducts(products => {
-      allProducts = products;
+      // Only show products the seller/admin has actually listed for sale
+      allProducts = products.filter(p => p.forSale !== false);
       renderProducts(allProducts);
     });
   }
@@ -151,6 +152,7 @@
 
     FirebaseProducts.searchProducts(query)
       .then(results => {
+        results = results.filter(p => p.forSale !== false);
         if (results.length === 0) {
           searchSuggestions.innerHTML = '<div class="suggestion-item">No results found</div>';
         } else {
