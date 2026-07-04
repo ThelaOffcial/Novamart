@@ -1211,3 +1211,95 @@ body {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* ================================================================
+   ENHANCED BUTTONS + MOUSE-HOVER ANIMATION POLISH
+   (applies site-wide: index, product, cart, wishlist, login pages)
+   ================================================================ */
+.btn,
+.product-card__add,
+.app-store-btn,
+.header-action,
+.banner-slider__arrow,
+.section__see-all,
+.cat-strip__item,
+.cat-sidebar__item,
+.category-card,
+.brand-card,
+.footer__social a,
+.category-nav__list li a,
+.search-bar button {
+  transition:
+    transform .22s cubic-bezier(.34,1.56,.64,1),
+    box-shadow .22s ease,
+    background-color .22s ease,
+    color .22s ease,
+    border-color .22s ease;
+}
+
+/* Shine + lift effect on all pill buttons */
+.btn { position: relative; overflow: hidden; will-change: transform; }
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,.35) 0%, transparent 62%);
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity .45s ease, transform .55s ease;
+  pointer-events: none;
+}
+.btn:hover::after { opacity: 1; transform: scale(1.7); }
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0) scale(.96) !important; box-shadow: none !important; }
+
+/* Product "Add to cart" gets its own lift + glow */
+.product-card__add:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(245,114,36,.35);
+}
+.product-card__add:active:not(:disabled) { transform: translateY(0) scale(.97); }
+
+/* Card-style hover targets get a gentle lift + shadow, plus a press-down on click */
+.category-card:hover,
+.brand-card:hover,
+.cat-strip__item:hover {
+  transform: translateY(-3px);
+}
+.category-card:active,
+.brand-card:active,
+.cat-strip__item:active,
+.header-action:active,
+.banner-slider__arrow:active,
+.app-store-btn:active,
+.footer__social a:active {
+  transform: scale(.93);
+}
+
+/* Icon buttons (wishlist/quick-view on product cards) get a bouncy hover */
+.product-card__actions button {
+  transition: transform .2s cubic-bezier(.34,1.56,.64,1), background-color .2s ease, color .2s ease;
+}
+.product-card__actions button:hover { transform: scale(1.12); }
+.product-card__actions button:active { transform: scale(.92); }
+
+/* Nav links / footer links get an underline sweep on hover */
+.footer__col ul li a { position: relative; }
+.footer__col ul li a:hover { padding-left: 3px; }
+
+/* Keyboard accessibility */
+.btn:focus-visible,
+.header-action:focus-visible,
+.category-nav__list a:focus-visible,
+.product-card__actions button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn, .btn::after, .product-card__add, .category-card, .brand-card,
+  .cat-strip__item, .header-action, .product-card__actions button {
+    transition: none !important;
+    animation: none !important;
+  }
+}

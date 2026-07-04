@@ -232,6 +232,7 @@ tr:hover td{background:#fafafa;}
       <button class="nav-btn" data-panel="products"><i class="fas fa-box"></i> Products</button>
       <button class="nav-btn" data-panel="categories"><i class="fas fa-tags"></i> Categories</button>
       <button class="nav-btn" data-panel="banners"><i class="fas fa-images"></i> Banners</button>
+      <button class="nav-btn" data-panel="homepage"><i class="fas fa-house-flag"></i> Homepage Content</button>
 
       <div class="sidebar__section">Sales</div>
       <button class="nav-btn" data-panel="orders"><i class="fas fa-receipt"></i> Orders <span class="badge" id="pendingOrdersBadge" style="display:none;">0</span></button>
@@ -357,6 +358,55 @@ tr:hover td{background:#fafafa;}
       <div class="card">
         <div class="card-header"><h3>All Banners</h3></div>
         <div id="bannersTableWrap"><table><tbody><tr class="empty-row"><td colspan="5">Loading…</td></tr></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ========= HOMEPAGE CONTENT (Flash Sale + Deal of the Day) ========= -->
+    <div class="panel" id="panel-homepage">
+      <div class="topbar">
+        <div><h1>Homepage Content</h1><div class="sub">Everything on the homepage's Flash Sale &amp; Deal of the Day widgets — only you can edit these.</div></div>
+      </div>
+
+      <div class="card" style="margin-bottom:20px;">
+        <div class="card-header">
+          <h3><i class="fas fa-bolt" style="color:#F57224;"></i> Flash Sale</h3>
+          <label style="display:flex;align-items:center;gap:8px;font-size:.85rem;font-weight:600;color:var(--text);cursor:pointer;">
+            <input type="checkbox" id="fs_enabled" checked style="width:18px;height:18px;accent-color:var(--primary);"/> Show on homepage
+          </label>
+        </div>
+        <form id="flashSaleForm" style="padding:20px;">
+          <div class="form-grid">
+            <div class="form-group full"><label>Section Title</label><input type="text" id="fs_title" placeholder="Flash Sale"/></div>
+            <div class="form-group"><label>Sale Ends At</label><input type="datetime-local" id="fs_endsAt" required/></div>
+          </div>
+          <div class="modal-actions" style="justify-content:flex-start;">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Flash Sale Settings</button>
+          </div>
+          <p style="font-size:.8rem;color:var(--text2);margin-top:8px;">Products shown are automatically pulled from items with a discount over 10% — add/edit discounts from the Products tab. This just controls the section title and the countdown deadline.</p>
+        </form>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3><i class="fas fa-fire" style="color:#533483;"></i> Deal of the Day</h3>
+          <label style="display:flex;align-items:center;gap:8px;font-size:.85rem;font-weight:600;color:var(--text);cursor:pointer;">
+            <input type="checkbox" id="dod_enabled" checked style="width:18px;height:18px;accent-color:var(--primary);"/> Show on homepage
+          </label>
+        </div>
+        <form id="dealOfDayForm" style="padding:20px;">
+          <div class="form-grid">
+            <div class="form-group full"><label>Eyebrow Label</label><input type="text" id="dod_eyebrow" placeholder="⚡ DEAL OF THE DAY"/></div>
+            <div class="form-group full"><label>Title (use &lt;br&gt; for a line break)</label><input type="text" id="dod_title" placeholder="Top Electronics<br>At Lowest Prices"/></div>
+            <div class="form-group"><label>Button Text</label><input type="text" id="dod_buttonText" placeholder="Shop Now"/></div>
+            <div class="form-group"><label>Button Link</label><input type="text" id="dod_link" placeholder="#"/></div>
+            <div class="form-group"><label>Gradient Color (from)</label><input type="color" id="dod_gradientFrom" value="#0f3460" style="height:42px;padding:4px;"/></div>
+            <div class="form-group"><label>Gradient Color (to)</label><input type="color" id="dod_gradientTo" value="#533483" style="height:42px;padding:4px;"/></div>
+            <div class="form-group"><label>Deal Ends At</label><input type="datetime-local" id="dod_endsAt" required/></div>
+          </div>
+          <div class="modal-actions" style="justify-content:flex-start;">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Deal of the Day</button>
+          </div>
+        </form>
       </div>
     </div>
 
@@ -566,6 +616,8 @@ tr:hover td{background:#fafafa;}
       <div class="form-group"><label>Button Text</label><input type="text" id="b_btnText" value="Shop Now"/></div>
       <div class="form-group"><label>Link URL</label><input type="text" id="b_link" placeholder="#"/></div>
       <div class="form-group"><label>Sort Order</label><input type="number" id="b_order" value="1"/></div>
+      <div class="form-group"><label>Gradient Color (from)</label><input type="color" id="b_gradientFrom" value="#FF6B00" style="height:42px;padding:4px;"/></div>
+      <div class="form-group"><label>Gradient Color (to)</label><input type="color" id="b_gradientTo" value="#FF9F1A" style="height:42px;padding:4px;"/></div>
       <div class="form-group">
         <label>Banner Image</label>
         <div class="image-upload-box">
@@ -650,6 +702,7 @@ let currentAdmin = null;
 let allProducts = [];
 let allCategories = [];
 let allBanners = [];
+let siteSettings = {};
 let allOrders = [];
 let allUsers = [];
 let allPromoCodes = [];
@@ -710,6 +763,7 @@ function switchPanel(name) {
   if (name === 'products')    renderProductsTable();
   if (name === 'categories')  renderCategoriesTable();
   if (name === 'banners')     renderBannersTable();
+  if (name === 'homepage')    loadHomepageSettings();
   if (name === 'orders')      renderOrdersTable();
   if (name === 'promoCodes')  renderPromoCodes();
   if (name === 'reports')     renderReports();
@@ -794,6 +848,10 @@ function initDataListeners() {
   rtdb.ref('banners').on('value', snap => {
     allBanners = toArray(snap.val()).sort((a,b)=>(a.order||0)-(b.order||0));
     if (document.getElementById('panel-banners').classList.contains('active')) renderBannersTable();
+  });
+  rtdb.ref('settings').on('value', snap => {
+    siteSettings = snap.val() || {};
+    if (document.getElementById('panel-homepage').classList.contains('active')) loadHomepageSettings();
   });
   rtdb.ref('orders').on('value', snap => {
     allOrders = toArray(snap.val());
@@ -1058,9 +1116,64 @@ function renderBannersTable() {
   }</tbody></table>`;
 }
 document.getElementById('addBannerBtn').addEventListener('click',()=>{ document.getElementById('bannerModalTitle').textContent='Add Banner'; document.getElementById('bannerForm').reset(); document.getElementById('b_id').value=''; document.getElementById('b_imagePreview').classList.remove('active'); openModal('bannerModal'); });
-document.getElementById('bannerForm').addEventListener('submit', async e=>{ e.preventDefault(); const id=document.getElementById('b_id').value; const data={title:document.getElementById('b_title').value, sub:document.getElementById('b_sub').value, tag:document.getElementById('b_tag').value, btnText:document.getElementById('b_btnText').value||'Shop Now', link:document.getElementById('b_link').value||'#', order:parseInt(document.getElementById('b_order').value)||1, image:document.getElementById('b_image').value}; try{ const key=id||(Date.now().toString(36)); await rtdb.ref('banners/'+key).set(Object.assign({},data,{id:key})); showToast('Banner saved ✓','success'); closeModal('bannerModal'); }catch(err){showToast('Error: '+err.message,'error');} });
-function editBanner(key){ const b=allBanners.find(x=>x._key===key); if(!b)return; document.getElementById('bannerModalTitle').textContent='Edit Banner'; document.getElementById('b_id').value=key; document.getElementById('b_title').value=b.title||''; document.getElementById('b_sub').value=b.sub||''; document.getElementById('b_tag').value=b.tag||''; document.getElementById('b_btnText').value=b.btnText||'Shop Now'; document.getElementById('b_link').value=b.link||'#'; document.getElementById('b_order').value=b.order||1; document.getElementById('b_image').value=b.image||''; const prev=document.getElementById('b_imagePreview'); if(b.image){prev.src=b.image;prev.classList.add('active');}else{prev.classList.remove('active');} openModal('bannerModal'); }
+document.getElementById('bannerForm').addEventListener('submit', async e=>{ e.preventDefault(); const id=document.getElementById('b_id').value; const data={title:document.getElementById('b_title').value, sub:document.getElementById('b_sub').value, tag:document.getElementById('b_tag').value, btnText:document.getElementById('b_btnText').value||'Shop Now', link:document.getElementById('b_link').value||'#', order:parseInt(document.getElementById('b_order').value)||1, image:document.getElementById('b_image').value, gradientFrom:document.getElementById('b_gradientFrom').value||'#FF6B00', gradientTo:document.getElementById('b_gradientTo').value||'#FF9F1A'}; try{ const key=id||(Date.now().toString(36)); await rtdb.ref('banners/'+key).set(Object.assign({},data,{id:key})); showToast('Banner saved ✓','success'); closeModal('bannerModal'); }catch(err){showToast('Error: '+err.message,'error');} });
+function editBanner(key){ const b=allBanners.find(x=>x._key===key); if(!b)return; document.getElementById('bannerModalTitle').textContent='Edit Banner'; document.getElementById('b_id').value=key; document.getElementById('b_title').value=b.title||''; document.getElementById('b_sub').value=b.sub||''; document.getElementById('b_tag').value=b.tag||''; document.getElementById('b_btnText').value=b.btnText||'Shop Now'; document.getElementById('b_link').value=b.link||'#'; document.getElementById('b_order').value=b.order||1; document.getElementById('b_image').value=b.image||''; document.getElementById('b_gradientFrom').value=b.gradientFrom||'#FF6B00'; document.getElementById('b_gradientTo').value=b.gradientTo||'#FF9F1A'; const prev=document.getElementById('b_imagePreview'); if(b.image){prev.src=b.image;prev.classList.add('active');}else{prev.classList.remove('active');} openModal('bannerModal'); }
 async function deleteBanner(key){ if(!confirm('Delete this banner?'))return; await rtdb.ref('banners/'+key).remove(); showToast('Banner deleted','success'); }
+
+// ---- HOMEPAGE CONTENT (Flash Sale + Deal of the Day) ----
+function msToLocalInputValue(ms) {
+  if (!ms) return '';
+  const d = new Date(ms);
+  const pad = n => String(n).padStart(2,'0');
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+function localInputValueToMs(val, fallbackHoursFromNow) {
+  if (val) { const t = new Date(val).getTime(); if (!isNaN(t)) return t; }
+  return Date.now() + (fallbackHoursFromNow||3)*3600000;
+}
+function loadHomepageSettings() {
+  const fs = siteSettings.flashSale || {};
+  const dod = siteSettings.dealOfDay || {};
+  document.getElementById('fs_enabled').checked = fs.enabled !== false;
+  document.getElementById('fs_title').value = fs.title || 'Flash Sale';
+  document.getElementById('fs_endsAt').value = msToLocalInputValue(fs.endsAt) || msToLocalInputValue(Date.now()+3*3600000);
+
+  document.getElementById('dod_enabled').checked = dod.enabled !== false;
+  document.getElementById('dod_eyebrow').value = dod.eyebrow || '⚡ DEAL OF THE DAY';
+  document.getElementById('dod_title').value = dod.title || 'Top Electronics<br>At Lowest Prices';
+  document.getElementById('dod_buttonText').value = dod.buttonText || 'Shop Now';
+  document.getElementById('dod_link').value = dod.link || '#';
+  document.getElementById('dod_gradientFrom').value = dod.gradientFrom || '#0f3460';
+  document.getElementById('dod_gradientTo').value = dod.gradientTo || '#533483';
+  let dodEnd = dod.endsAt;
+  if (!dodEnd) { const e = new Date(); e.setHours(23,59,59,999); dodEnd = e.getTime(); }
+  document.getElementById('dod_endsAt').value = msToLocalInputValue(dodEnd);
+}
+document.getElementById('flashSaleForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const data = {
+    enabled: document.getElementById('fs_enabled').checked,
+    title: document.getElementById('fs_title').value || 'Flash Sale',
+    endsAt: localInputValueToMs(document.getElementById('fs_endsAt').value, 3)
+  };
+  try { await rtdb.ref('settings/flashSale').set(data); showToast('Flash Sale settings saved ✓','success'); }
+  catch(err){ showToast('Error: '+err.message,'error'); }
+});
+document.getElementById('dealOfDayForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const data = {
+    enabled: document.getElementById('dod_enabled').checked,
+    eyebrow: document.getElementById('dod_eyebrow').value || '⚡ DEAL OF THE DAY',
+    title: document.getElementById('dod_title').value || 'Top Electronics<br>At Lowest Prices',
+    buttonText: document.getElementById('dod_buttonText').value || 'Shop Now',
+    link: document.getElementById('dod_link').value || '#',
+    gradientFrom: document.getElementById('dod_gradientFrom').value || '#0f3460',
+    gradientTo: document.getElementById('dod_gradientTo').value || '#533483',
+    endsAt: localInputValueToMs(document.getElementById('dod_endsAt').value, 24)
+  };
+  try { await rtdb.ref('settings/dealOfDay').set(data); showToast('Deal of the Day saved ✓','success'); }
+  catch(err){ showToast('Error: '+err.message,'error'); }
+});
 
 // ---- ORDERS ----
 function renderOrdersTable(searchFilter='') {

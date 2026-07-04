@@ -17,22 +17,8 @@
     --primary-dark: #d95f10;
     --primary-light: #fff3eb;
     --header-bg: #F57224;
-    --top-bar-bg: #1a1a2e;
 }
 body { background: #f5f5f5; }
-
-/* TOP ANNOUNCEMENT BAR */
-.top-bar {
-    background: var(--top-bar-bg);
-    color: #ccc;
-    font-size: 0.78rem;
-    padding: 5px 0;
-}
-.top-bar__inner { display:flex; justify-content:space-between; align-items:center; }
-.top-bar__links a { color:#ccc; margin-left:18px; transition:.2s; }
-.top-bar__links a:hover { color:#fff; }
-.top-bar__tagline { color: #ff9f5a; font-weight:500; }
-.top-bar__tagline i { margin-right:4px; }
 
 /* HEADER */
 .header {
@@ -662,19 +648,6 @@ body { background: #f5f5f5; }
 </head>
 <body>
 
-<!-- TOP BAR -->
-<div class="top-bar">
-    <div class="container top-bar__inner">
-        <span class="top-bar__tagline"><i class="fas fa-truck-fast"></i> FREE Delivery on orders over $50</span>
-        <div class="top-bar__links">
-            <a href="#" id="topBarAccount"><i class="fas fa-user"></i> My Account</a>
-            <a href="#" id="topBarOrders"><i class="fas fa-box"></i> Orders</a>
-            <a href="#"><i class="fas fa-headset"></i> Help</a>
-            <a href="admin.html"><i class="fas fa-shield-halved"></i> Admin</a>
-        </div>
-    </div>
-</div>
-
 <!-- HEADER -->
 <header class="header" id="mainHeader">
     <div class="container header__inner">
@@ -764,7 +737,7 @@ body { background: #f5f5f5; }
 <section class="section section--flash">
     <div class="container">
         <div class="section__header">
-            <h2 class="section__title"><i class="fas fa-bolt" style="color:#FFD700;"></i> Flash Sale</h2>
+            <h2 class="section__title"><i class="fas fa-bolt" style="color:#FFD700;"></i> <span id="flashSaleTitle">Flash Sale</span></h2>
             <div class="flash-timer">
                 <span>Ends in:</span>
                 <span class="flash-timer__item" id="flashHours">02</span>
@@ -790,18 +763,18 @@ body { background: #f5f5f5; }
     </div>
 </section>
 
-<!-- DEAL OF THE DAY -->
+<!-- DEAL OF THE DAY (fully editable from admin.html → Homepage Content) -->
 <div class="deal-banner" id="dealBanner">
     <div class="deal-banner__left">
-        <h3>⚡ DEAL OF THE DAY</h3>
-        <h2>Top Electronics<br>At Lowest Prices</h2>
+        <h3 id="dealEyebrow">⚡ DEAL OF THE DAY</h3>
+        <h2 id="dealTitle">Top Electronics<br>At Lowest Prices</h2>
         <div class="deal-banner__timer">
             <div class="deal-timer-box"><span class="num" id="dealH">12</span><span class="lbl">Hrs</span></div>
             <div class="deal-timer-box"><span class="num" id="dealM">00</span><span class="lbl">Min</span></div>
             <div class="deal-timer-box"><span class="num" id="dealS">00</span><span class="lbl">Sec</span></div>
         </div>
     </div>
-    <a href="#" class="btn btn--white" style="padding:12px 28px; font-size:.9rem;">Shop Now <i class="fas fa-arrow-right"></i></a>
+    <a href="#" class="btn btn--white" id="dealBtn" style="padding:12px 28px; font-size:.9rem;">Shop Now <i class="fas fa-arrow-right"></i></a>
 </div>
 
 <!-- TRENDING PRODUCTS -->
@@ -1028,29 +1001,9 @@ body { background: #f5f5f5; }
         });
     }
 
-    // Deal of the day timer
-    function startDealTimer() {
-        function update() {
-            const now = new Date();
-            const end = new Date(now);
-            end.setHours(23,59,59,999);
-            const diff = end - now;
-            const h = Math.floor(diff/3600000);
-            const m = Math.floor((diff%3600000)/60000);
-            const s = Math.floor((diff%60000)/1000);
-            const pad = n => String(n).padStart(2,'0');
-            const dh = document.getElementById('dealH');
-            const dm = document.getElementById('dealM');
-            const ds = document.getElementById('dealS');
-            if (dh) dh.textContent = pad(h);
-            if (dm) dm.textContent = pad(m);
-            if (ds) ds.textContent = pad(s);
-        }
-        update();
-        setInterval(update, 1000);
-    }
-
-    startDealTimer();
+    // NOTE: Deal-of-the-day + Flash Sale timers are rendered by app.js
+    // (renderDealBanner / renderFlashSales), driven live by the
+    // "Homepage Content" settings admins configure in admin.html.
 
     window.addEventListener('novamart:dataUpdated', () => {
         populateSearchCats();

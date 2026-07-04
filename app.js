@@ -215,28 +215,95 @@
     document.querySelector('.section').scrollIntoView({ behavior: 'smooth' });
   }
 
-  // ----- Flash Sales -----
+  // ----- Site Settings (Flash Sale + Deal of the Day) -----
+  // 100% admin-controlled from admin.html → Homepage Content.
+  // Falls back to sensible defaults only when the admin hasn't set a value yet.
+  function getSettings() {
+    return window.SITE_SETTINGS || {};
+  }
+
+  function countdownTo(endsAt, els, onExpire) {
+    function tick() {
+      const diff = (endsAt || 0) - Date.now();
+      let h = 0, m = 0, s = 0;
+      if (diff > 0) {
+        h = Math.floor(diff / 3600000);
+        m = Math.floor((diff % 3600000) / 60000);
+        s = Math.floor((diff % 60000) / 1000);
+      } else if (typeof onExpire === 'function') {
+        onExpire();
+      }
+      const pad = n => String(n).padStart(2, '0');
+      if (els.hours) els.hours.textContent = pad(h);
+      if (els.minutes) els.minutes.textContent = pad(m);
+      if (els.seconds) els.seconds.textContent = pad(s);
+    }
+    tick();
+    return setInterval(tick, 1000);
+  }
+
+  // ----- Flash Sales (product list + countdown, editable from admin.html) -----
   let flashIntervalId = null;
   function renderFlashSales() {
+    const settings = getSettings().flashSale || {};
+    const flashSection = flashProducts ? flashProducts.closest('.section--flash') : null;
+
+    // Admin can disable the whole section
+    if (flashSection) {
+      flashSection.style.display = settings.enabled === false ? 'none' : '';
+    }
+
+    const flashTitleEl = document.getElementById('flashSaleTitle');
+    if (flashTitleEl) flashTitleEl.textContent = settings.title || 'Flash Sale';
+
     const flash = products.filter(p => p.discount > 10).sort(() => Math.random() - 0.5).slice(0, 8);
     renderProductGrid(flashProducts, flash, 8);
 
     if (flashIntervalId) clearInterval(flashIntervalId);
-    let hours = 2, minutes = 45, seconds = 30;
-    const timerEls = {
+    // Admin sets a real target end time; if none is configured yet, default
+    // to 3 hours from now so the section still looks alive on a fresh install.
+    const endsAt = settings.endsAt || (Date.now() + 3 * 3600000);
+    flashIntervalId = countdownTo(endsAt, {
       hours: document.getElementById('flashHours'),
       minutes: document.getElementById('flashMinutes'),
       seconds: document.getElementById('flashSeconds')
-    };
-    flashIntervalId = setInterval(() => {
-      seconds--;
-      if (seconds < 0) { seconds = 59; minutes--; }
-      if (minutes < 0) { minutes = 59; hours--; }
-      if (hours < 0) { hours = 0; minutes = 0; seconds = 0; }
-      if (timerEls.hours) timerEls.hours.textContent = String(hours).padStart(2, '0');
-      if (timerEls.minutes) timerEls.minutes.textContent = String(minutes).padStart(2, '0');
-      if (timerEls.seconds) timerEls.seconds.textContent = String(seconds).padStart(2, '0');
-    }, 1000);
+    });
+  }
+
+  // ----- Deal of the Day (fully editable from admin.html) -----
+  let dealIntervalId = null;
+  function renderDealBanner() {
+    const deal = getSettings().dealOfDay || {};
+    const dealBanner = document.getElementById('dealBanner');
+    const dealEyebrow = document.getElementById('dealEyebrow');
+    const dealTitle = document.getElementById('dealTitle');
+    const dealBtn = document.getElementById('dealBtn');
+
+    if (dealBanner) {
+      dealBanner.style.display = deal.enabled === false ? 'none' : '';
+      if (deal.gradientFrom || deal.gradientTo) {
+        dealBanner.style.background = `linear-gradient(135deg, ${deal.gradientFrom || '#0f3460'}, ${deal.gradientTo || '#533483'})`;
+      }
+    }
+    if (dealEyebrow) dealEyebrow.textContent = deal.eyebrow || '⚡ DEAL OF THE DAY';
+    if (dealTitle) dealTitle.innerHTML = deal.title || 'Top Electronics<br>At Lowest Prices';
+    if (dealBtn) {
+      dealBtn.textContent = '';
+      dealBtn.innerHTML = `${deal.buttonText || 'Shop Now'} <i class="fas fa-arrow-right"></i>`;
+      dealBtn.href = deal.link || '#';
+    }
+
+    if (dealIntervalId) clearInterval(dealIntervalId);
+    const endsAt = deal.endsAt || (() => {
+      const end = new Date();
+      end.setHours(23, 59, 59, 999);
+      return end.getTime();
+    })();
+    dealIntervalId = countdownTo(endsAt, {
+      hours: document.getElementById('dealH'),
+      minutes: document.getElementById('dealM'),
+      seconds: document.getElementById('dealS')
+    });
   }
 
   // ----- Trending & Recommended -----
@@ -268,9 +335,10 @@
         <div class="banner-slide__content">
           <span class="banner-slide__tag">${b.tag || ''}</span>
           <h2>${b.title || ''}</h2>
-          <p>${b.subtitle || ''}</p>
-          <a href="${b.link || '#'}" class="btn btn--white">${b.buttonText || 'Shop Now'}</a>
+          <p>${b.sub || ''}</p>
+          <a href="${b.link || '#'}" class="btn btn--white">${b.btnText || 'Shop Now'}</a>
         </div>
+        ${b.image ? `<img src="${b.image}" alt="${b.title || ''}" class="banner-slide__img" />` : ''}
       </div>
     `).join('');
 
@@ -421,12 +489,8 @@
 
   function updateUserUI() {
     const user = Auth.getCurrentUser();
-    if (user) {
-      userNameLabel.textContent = user.name;
-      headerUser.querySelector('.header-action__label').textContent = user.name;
-    } else {
-      userNameLabel.textContent = 'Sign In';
-      headerUser.querySelector('.header-action__label').textContent = 'Sign In';
+    if (userNameLabel) {
+      userNameLabel.textContent = user ? user.name : 'Sign In';
     }
   }
 
@@ -587,6 +651,7 @@
     renderCategories();
     renderBanner();
     renderFlashSales();
+    renderDealBanner();
     renderTrending();
     renderRecommended();
     renderRecentlyViewed();

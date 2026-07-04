@@ -66,4 +66,15 @@
     console.error('[NovaMart] store-sync: failed to read banners from Firebase:', err.message);
   });
 
+  // ----- Site Settings (Flash Sale + Deal of the Day, managed from
+  // admin.html → Homepage Content). Everything shown in these homepage
+  // widgets is admin-controlled; there is no hardcoded fallback content
+  // beyond sensible defaults applied in app.js when a field is unset. -----
+  rtdb.ref('settings').on('value', (snap) => {
+    window.SITE_SETTINGS = snap.val() || {};
+    notifyUpdated();
+  }, (err) => {
+    console.error('[NovaMart] store-sync: failed to read settings from Firebase:', err.message);
+  });
+
 })();
