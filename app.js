@@ -43,7 +43,15 @@
     { name: 'Gaming', icon: 'fa-gamepad' },
     { name: 'Home & Living', icon: 'fa-couch' },
     { name: 'Beauty', icon: 'fa-spa' },
-    { name: 'Sports', icon: 'fa-running' }
+    { name: 'Sports', icon: 'fa-running' },
+    { name: 'Groceries', icon: 'fa-cart-shopping' },
+    { name: 'Books & Stationery', icon: 'fa-book' },
+    { name: 'Toys & Kids', icon: 'fa-shapes' },
+    { name: 'Automotive', icon: 'fa-car' },
+    { name: 'Health & Wellness', icon: 'fa-heart-pulse' },
+    { name: 'Furniture', icon: 'fa-chair' },
+    { name: 'Pet Supplies', icon: 'fa-paw' },
+    { name: 'Jewelry & Watches', icon: 'fa-gem' }
   ];
 
   // ----- Data (live — mutated in place by store-sync.js) -----
@@ -470,7 +478,7 @@
     terms = terms.concat(words);
     terms = [...new Set(terms)];
 
-    const scored = products.map(p => {
+    const scored = products.filter(p => Number(p.stock) > 0).map(p => {
       let score = 0;
       const searchable = (p.name + ' ' + p.description + ' ' + p.tags.join(' ')).toLowerCase();
       for (const term of terms) {
@@ -540,7 +548,44 @@
     e.preventDefault();
     const category = link.dataset.category;
     filterByCategory(category);
+    categoryDropdown.classList.remove('active');
   });
+
+  // ----- "All Categories" dropdown (toggle button in category nav) -----
+  const categoryToggle = document.getElementById('categoryToggle');
+  const categoryDropdown = document.createElement('div');
+  categoryDropdown.className = 'category-dropdown';
+  categoryDropdown.id = 'categoryDropdown';
+  if (categoryToggle) {
+    categoryToggle.insertAdjacentElement('afterend', categoryDropdown);
+
+    function renderCategoryDropdown() {
+      const cats = getCategories();
+      categoryDropdown.innerHTML = `
+        <a href="#" data-category="all"><i class="fas fa-border-all"></i> All Categories</a>
+        ${cats.map(c => `<a href="#" data-category="${c.name}"><i class="fas ${c.icon || 'fa-tag'}"></i> ${c.name}</a>`).join('')}
+      `;
+    }
+    renderCategoryDropdown();
+    window.addEventListener('novamart:dataUpdated', renderCategoryDropdown);
+
+    categoryToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      categoryDropdown.classList.toggle('active');
+    });
+    categoryDropdown.addEventListener('click', (e) => {
+      const link = e.target.closest('a');
+      if (!link) return;
+      e.preventDefault();
+      filterByCategory(link.dataset.category);
+      categoryDropdown.classList.remove('active');
+    });
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.category-nav__toggle') && !e.target.closest('.category-dropdown')) {
+        categoryDropdown.classList.remove('active');
+      }
+    });
+  }
 
   headerWishlist.addEventListener('click', (e) => {
     e.preventDefault();
