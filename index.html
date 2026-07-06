@@ -7,13 +7,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap"
-        rel="stylesheet" />
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%235B4CEB'/><text x='50' y='66' text-anchor='middle' font-size='58' fill='white' font-family='Arial'>N</text></svg>" />
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%235B4CEB'/><text x='50' y='66' text-anchor='middle' font-size='58' fill='white' font-family='Arial'>N</text></svg>" />
     <link rel="stylesheet" href="style.css" />
     <style>
+        /* ============================================================
+               ROOT VARIABLES — fully editable from admin/settings
+               ============================================================ */
         :root {
             --primary: #5B4CEB;
             --primary-dark: #4338CA;
@@ -47,6 +50,17 @@
             --transition-slow: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        /* ===== SETTINGS-DRIVEN THEME OVERRIDES ===== */
+        /* These will be dynamically applied via JS from Firebase settings */
+        .theme-primary {
+            --primary: #5B4CEB;
+            --primary-dark: #4338CA;
+            --primary-light: #EEECFF;
+        }
+
+        /* ============================================================
+               RESET & BASE
+               ============================================================ */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -83,7 +97,9 @@
             padding: 0 16px;
         }
 
-        /* ===== HEADER ===== */
+        /* ============================================================
+               HEADER
+               ============================================================ */
         .header {
             background: var(--surface);
             position: sticky;
@@ -110,7 +126,7 @@
             min-width: 0;
         }
 
-        /* LOGO */
+        /* LOGO — dynamic from settings */
         .logo {
             display: flex;
             align-items: center;
@@ -304,7 +320,7 @@
             color: #fff;
         }
 
-        /* CATEGORY NAV */
+        /* CATEGORY NAV — dynamic from categories */
         .category-nav {
             background: var(--surface);
             border-top: 1px solid var(--border-light);
@@ -346,7 +362,9 @@
             background: var(--primary-light);
         }
 
-        /* ===== HERO LAYOUT ===== */
+        /* ============================================================
+               HERO LAYOUT
+               ============================================================ */
         .hero-layout {
             display: grid;
             grid-template-columns: 210px 1fr 200px;
@@ -356,7 +374,7 @@
             padding: 0 16px;
         }
 
-        /* CATEGORY SIDEBAR */
+        /* CATEGORY SIDEBAR — dynamic from categories */
         .cat-sidebar {
             background: #fff;
             border-radius: var(--radius-xl);
@@ -398,7 +416,7 @@
             transform: translateX(3px);
         }
 
-        /* BANNER SLIDER */
+        /* BANNER SLIDER — dynamic from banners */
         .banner-slider {
             position: relative;
             overflow: hidden;
@@ -549,7 +567,7 @@
             border-radius: 4px;
         }
 
-        /* SIDE PROMOS */
+        /* SIDE PROMOS — dynamic from settings */
         .side-promos {
             display: flex;
             flex-direction: column;
@@ -611,7 +629,9 @@
             pointer-events: none;
         }
 
-        /* ===== CATEGORY ICONS STRIP ===== */
+        /* ============================================================
+               CATEGORY ICONS STRIP — dynamic from categories
+               ============================================================ */
         .cat-strip {
             background: #fff;
             border-radius: var(--radius-xl);
@@ -671,7 +691,9 @@
             line-height: 1.2;
         }
 
-        /* ===== SECTION STYLES ===== */
+        /* ============================================================
+               SECTION STYLES
+               ============================================================ */
         .section {
             padding: 22px 0 4px;
         }
@@ -742,7 +764,7 @@
             border-color: #fff;
         }
 
-        /* FLASH TIMER */
+        /* FLASH TIMER — dynamic from settings */
         .flash-timer {
             display: flex;
             align-items: center;
@@ -993,7 +1015,7 @@
             line-height: 1.2;
         }
 
-        /* DEAL BANNER */
+        /* DEAL BANNER — dynamic from settings */
         .deal-banner {
             background: linear-gradient(150deg, #1e1b4b, #312e81);
             border-radius: var(--radius-xl);
@@ -1049,7 +1071,7 @@
             letter-spacing: 0.06em;
         }
 
-        /* APP BANNER */
+        /* APP BANNER — dynamic from settings */
         .app-banner {
             background: linear-gradient(150deg, #5B4CEB, #7c6ff7);
             border-radius: var(--radius-xl);
@@ -1109,7 +1131,7 @@
             display: block;
         }
 
-        /* BRANDS STRIP */
+        /* BRANDS STRIP — dynamic from brands */
         .brands-strip {
             display: flex;
             gap: 10px;
@@ -1168,7 +1190,9 @@
             background: #f9fafb;
         }
 
-        /* FOOTER */
+        /* ============================================================
+               FOOTER — dynamic from settings
+               ============================================================ */
         .footer {
             background: #111827;
             color: #9ca3af;
@@ -1251,14 +1275,18 @@
             color: #4b5563;
         }
 
-        /* MAIN WRAPPER */
+        /* ============================================================
+               MAIN WRAPPER
+               ============================================================ */
         .main-wrapper {
             max-width: 1260px;
             margin: 0 auto;
             padding: 0;
         }
 
-        /* TOAST */
+        /* ============================================================
+               TOAST
+               ============================================================ */
         .toast-container {
             position: fixed;
             bottom: 20px;
@@ -1292,7 +1320,9 @@
             border-left: 4px solid var(--primary);
         }
 
-        /* MODAL */
+        /* ============================================================
+               MODAL
+               ============================================================ */
         .modal {
             position: fixed;
             inset: 0;
@@ -1345,7 +1375,9 @@
             color: #fff;
         }
 
-        /* ANIMATIONS */
+        /* ============================================================
+               ANIMATIONS
+               ============================================================ */
         @keyframes slideUp {
             from {
                 transform: translateY(18px);
@@ -1374,7 +1406,9 @@
             }
         }
 
-        /* RESPONSIVE */
+        /* ============================================================
+               RESPONSIVE
+               ============================================================ */
         @media (max-width: 960px) {
             .hero-layout {
                 grid-template-columns: 1fr;
@@ -1466,13 +1500,15 @@
 </head>
 <body>
 
-    <!-- HEADER -->
+    <!-- ============================================================
+    HEADER — fully dynamic from settings
+    ============================================================ -->
     <header class="header" id="mainHeader">
         <div class="container">
             <div class="header__top">
-                <a href="index.html" class="logo">
-                    <div class="logo__icon">N</div>
-                    <span class="logo__text"><span id="brandPrefix">Nova</span><span id="brandHighlight">Mart</span></span>
+                <a href="index.html" class="logo" id="brandLogo">
+                    <div class="logo__icon" id="brandIcon">N</div>
+                    <span class="logo__text" id="brandText"><span id="brandPrefix">Nova</span><span id="brandHighlight">Mart</span></span>
                     <span class="logo__badge" id="brandBadge">GLOBAL</span>
                 </a>
 
@@ -1506,7 +1542,7 @@
             </div>
         </div>
 
-        <!-- CATEGORY NAV -->
+        <!-- CATEGORY NAV — dynamic from categories -->
         <nav class="category-nav" id="categoryNav">
             <div class="container category-nav__inner">
                 <ul class="category-nav__list" id="categoryList">
@@ -1516,16 +1552,18 @@
         </nav>
     </header>
 
-    <!-- HERO LAYOUT -->
+    <!-- ============================================================
+    HERO LAYOUT — dynamic from banners & settings
+    ============================================================ -->
     <div class="main-wrapper">
         <div class="hero-layout" style="margin-bottom:10px;">
 
-            <!-- CATEGORY SIDEBAR -->
+            <!-- CATEGORY SIDEBAR — dynamic from categories -->
             <div class="cat-sidebar" id="catSidebar">
                 <!-- Rendered by JS -->
             </div>
 
-            <!-- BANNER SLIDER -->
+            <!-- BANNER SLIDER — dynamic from banners -->
             <section class="banner-slider" id="bannerSlider">
                 <div class="banner-slider__track" id="bannerTrack"></div>
                 <button class="banner-slider__arrow banner-slider__arrow--prev" id="bannerPrev"><i class="fas fa-chevron-left"></i></button>
@@ -1533,119 +1571,35 @@
                 <div class="banner-slider__dots" id="bannerDots"></div>
             </section>
 
-            <!-- SIDE PROMOS -->
+            <!-- SIDE PROMOS — dynamic from settings -->
             <div class="side-promos">
                 <a class="side-promo" id="sidePromo1" href="#">
                     <i class="fas fa-percent side-promo__icon-float"></i>
-                    <div class="side-promo__label">Limited Time</div>
-                    <div class="side-promo__title">Today's Deal</div>
-                    <span class="side-promo__badge">Up to 70% OFF</span>
+                    <div class="side-promo__label" id="sidePromo1Label">Limited Time</div>
+                    <div class="side-promo__title" id="sidePromo1Title">Today's Deal</div>
+                    <span class="side-promo__badge" id="sidePromo1Badge">Up to 70% OFF</span>
                 </a>
                 <a class="side-promo" id="sidePromo2" href="#">
                     <i class="fas fa-sparkles side-promo__icon-float"></i>
-                    <div class="side-promo__label">New Arrivals</div>
-                    <div class="side-promo__title">Fresh Picks</div>
-                    <span class="side-promo__badge">Shop Now →</span>
+                    <div class="side-promo__label" id="sidePromo2Label">New Arrivals</div>
+                    <div class="side-promo__title" id="sidePromo2Title">Fresh Picks</div>
+                    <span class="side-promo__badge" id="sidePromo2Badge">Shop Now →</span>
                 </a>
             </div>
         </div>
 
-        <!-- CATEGORY ICONS STRIP -->
-        <div class="cat-strip" id="catStrip">
-            <div class="cat-strip__title" id="catStripTitle">Browse Categories</div>
-            <div class="cat-strip__grid" id="catStripGrid">
-                <!-- Rendered by JS -->
-            </div>
+        <!-- ============================================================
+        DYNAMIC SECTIONS — rendered from homepageSections
+        Each section is a container that app.js will populate.
+        ============================================================ -->
+        <div id="homepageSectionsContainer">
+            <!-- Sections will be rendered here by app.js -->
+            <!-- Default sections are defined in app.js as fallback -->
         </div>
 
-        <!-- FLASH SALES -->
-        <section class="section section--flash">
-            <div class="container" style="padding:0;">
-                <div class="section__header">
-                    <h2 class="section__title"><i class="fas fa-bolt" style="color:#FFD700;"></i> <span id="flashSaleTitle">Flash Sale</span></h2>
-                    <div class="flash-timer">
-                        <span>Ends in:</span>
-                        <span class="flash-timer__item" id="flashHours">02</span>
-                        <span>:</span>
-                        <span class="flash-timer__item" id="flashMinutes">45</span>
-                        <span>:</span>
-                        <span class="flash-timer__item" id="flashSeconds">30</span>
-                    </div>
-                    <a href="#" class="section__see-all">View All <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-grid" id="flashProducts"></div>
-            </div>
-        </section>
-
-        <!-- SHOP BY CATEGORY -->
-        <section class="section">
-            <div class="container">
-                <div class="section__header">
-                    <h2 class="section__title"><i class="fas fa-grid-2" style="color:var(--primary);"></i> <span id="shopByCategoryTitle">Shop by Category</span></h2>
-                    <a href="#" class="section__see-all">See All <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="category-grid" id="categoryGrid"></div>
-            </div>
-        </section>
-
-        <!-- DEAL OF THE DAY -->
-        <div class="deal-banner" id="dealBanner">
-            <div class="deal-banner__left">
-                <h3 id="dealEyebrow">⚡ DEAL OF THE DAY</h3>
-                <h2 id="dealTitle">Top Electronics<br>At Lowest Prices</h2>
-                <div class="deal-banner__timer">
-                    <div class="deal-timer-box"><span class="num" id="dealH">12</span><span class="lbl">Hrs</span></div>
-                    <div class="deal-timer-box"><span class="num" id="dealM">00</span><span class="lbl">Min</span></div>
-                    <div class="deal-timer-box"><span class="num" id="dealS">00</span><span class="lbl">Sec</span></div>
-                </div>
-            </div>
-            <a href="#" class="btn--white" id="dealBtn">Shop Now <i class="fas fa-arrow-right"></i></a>
-        </div>
-
-        <!-- TRENDING PRODUCTS -->
-        <section class="section">
-            <div class="container">
-                <div class="section__header">
-                    <h2 class="section__title" id="trendingSectionTitle">🔥 Trending Now</h2>
-                    <a href="#" class="section__see-all">View All <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-grid" id="trendingProducts"></div>
-            </div>
-        </section>
-
-        <!-- TOP BRANDS -->
-        <section class="section">
-            <div class="container">
-                <div class="section__header">
-                    <h2 class="section__title" id="topBrandsSectionTitle">🏷️ Top Brands</h2>
-                </div>
-                <div class="brands-strip" id="brandsStrip">
-                    <div class="brand-card">Samsung</div>
-                    <div class="brand-card">Apple</div>
-                    <div class="brand-card">Nike</div>
-                    <div class="brand-card">Adidas</div>
-                    <div class="brand-card">Sony</div>
-                    <div class="brand-card">LG</div>
-                    <div class="brand-card">Xiaomi</div>
-                    <div class="brand-card">Huawei</div>
-                    <div class="brand-card">Philips</div>
-                    <div class="brand-card">Puma</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- RECOMMENDED -->
-        <section class="section">
-            <div class="container">
-                <div class="section__header">
-                    <h2 class="section__title" id="recommendedSectionTitle">⭐ Recommended for You</h2>
-                    <a href="#" class="section__see-all">View All <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="jfy-grid product-grid" id="recommendedProducts"></div>
-            </div>
-        </section>
-
-        <!-- APP DOWNLOAD BANNER -->
+        <!-- ============================================================
+        APP DOWNLOAD BANNER — dynamic from settings
+        ============================================================ -->
         <div class="app-banner" id="appBannerSection">
             <div class="app-banner__left">
                 <h3 id="appBannerHeading">📱 Shop On the Go!</h3>
@@ -1664,7 +1618,9 @@
             <i class="fas fa-mobile-screen-button" style="font-size:4.5rem; color:rgba(255,255,255,.2); flex-shrink:0;"></i>
         </div>
 
-        <!-- RECENTLY VIEWED -->
+        <!-- ============================================================
+        RECENTLY VIEWED — dynamic from localStorage
+        ============================================================ -->
         <section class="section" id="recentlyViewedSection" style="display:none;">
             <div class="container">
                 <div class="section__header">
@@ -1676,14 +1632,16 @@
 
     </div><!-- /main-wrapper -->
 
-    <!-- FOOTER -->
-    <footer class="footer">
+    <!-- ============================================================
+    FOOTER — fully dynamic from settings
+    ============================================================ -->
+    <footer class="footer" id="mainFooter">
         <div class="container">
             <div class="footer__grid">
                 <div class="footer__col">
-                    <span style="color:#fff; font-family:var(--font-heading); font-size:1.4rem; font-weight:900; display:block; margin-bottom:10px; letter-spacing:-0.03em;">Nova<span style="color:var(--primary);">Mart</span></span>
+                    <span style="color:#fff; font-family:var(--font-heading); font-size:1.4rem; font-weight:900; display:block; margin-bottom:10px; letter-spacing:-0.03em;" id="footerBrandName">Nova<span style="color:var(--primary);">Mart</span></span>
                     <p class="footer__desc" id="footerDesc">Your one-stop marketplace for quality products at unbeatable prices. Shop with confidence — best deals, every day.</p>
-                    <div class="footer__social">
+                    <div class="footer__social" id="footerSocial">
                         <a href="#" id="footerSocial_facebook"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" id="footerSocial_twitter"><i class="fab fa-twitter"></i></a>
                         <a href="#" id="footerSocial_instagram"><i class="fab fa-instagram"></i></a>
@@ -1714,16 +1672,16 @@
                     </ul>
                 </div>
                 <div class="footer__col">
-                    <h4>My Account</h4>
-                    <ul>
+                    <h4 id="footerCol3Title">My Account</h4>
+                    <ul id="footerCol3List">
                         <li><a href="login.html">Sign In / Register</a></li>
                         <li><a href="cart.html">Shopping Cart</a></li>
                         <li><a href="wishlist.html">Wishlist</a></li>
                         <li><a href="#">My Orders</a></li>
                         <li><a href="#">Profile</a></li>
                     </ul>
-                    <h4 style="margin-top:16px;">Download App</h4>
-                    <ul>
+                    <h4 style="margin-top:16px;" id="footerCol3SubTitle">Download App</h4>
+                    <ul id="footerCol3SubList">
                         <li><a href="#"><i class="fab fa-apple"></i> iOS App</a></li>
                         <li><a href="#"><i class="fab fa-google-play"></i> Android App</a></li>
                     </ul>
@@ -1742,7 +1700,9 @@
         </div>
     </footer>
 
-    <!-- QUICK VIEW MODAL -->
+    <!-- ============================================================
+    QUICK VIEW MODAL
+    ============================================================ -->
     <div class="modal" id="quickViewModal">
         <div class="modal__overlay" id="quickViewOverlay"></div>
         <div class="modal__content modal__content--large" id="quickViewContent">
@@ -1751,10 +1711,14 @@
         </div>
     </div>
 
-    <!-- TOAST -->
+    <!-- ============================================================
+    TOAST CONTAINER
+    ============================================================ -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- SCRIPTS -->
+    <!-- ============================================================
+    SCRIPTS
+    ============================================================ -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js">
     </script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js">
@@ -1768,14 +1732,163 @@
     <script src="cart.js"></script>
     <script src="wishlist.js"></script>
     <script src="app.js"></script>
+
     <script>
+        /**
+         * HOME PAGE CONTROLLER
+         * Applies dynamic settings from Firebase to every visible element.
+         * Runs after store-sync.js has populated window.SITE_SETTINGS.
+         */
         (function() {
-            // Populate search category dropdown from CATEGORIES
+            'use strict';
+
+            // ============================================================
+            // 1. APPLY SETTINGS TO DOM
+            // ============================================================
+            function applySettings() {
+                const s = window.SITE_SETTINGS || {};
+
+                // -- Brand / Logo --
+                const prefix = s.brandPrefix || 'Nova';
+                const highlight = s.brandHighlight || 'Mart';
+                const badge = s.brandBadge || 'GLOBAL';
+                const icon = s.brandIcon || 'N';
+
+                document.getElementById('brandPrefix').textContent = prefix;
+                document.getElementById('brandHighlight').textContent = highlight;
+                document.getElementById('brandBadge').textContent = badge;
+                document.getElementById('brandIcon').textContent = icon;
+                document.getElementById('footerBrandName').innerHTML = prefix +
+                    '<span style="color:var(--primary);">' + highlight + '</span>';
+
+                // -- Search placeholder --
+                const searchPlaceholder = s.searchPlaceholder || 'Search products, brands and more...';
+                document.getElementById('searchInput').placeholder = searchPlaceholder;
+
+                // -- Side promos --
+                const sp1Label = s.sidePromo1Label || 'Limited Time';
+                const sp1Title = s.sidePromo1Title || "Today's Deal";
+                const sp1Badge = s.sidePromo1Badge || 'Up to 70% OFF';
+                const sp1Link = s.sidePromo1Link || '#';
+
+                document.getElementById('sidePromo1Label').textContent = sp1Label;
+                document.getElementById('sidePromo1Title').textContent = sp1Title;
+                document.getElementById('sidePromo1Badge').textContent = sp1Badge;
+                document.getElementById('sidePromo1').href = sp1Link;
+
+                const sp2Label = s.sidePromo2Label || 'New Arrivals';
+                const sp2Title = s.sidePromo2Title || 'Fresh Picks';
+                const sp2Badge = s.sidePromo2Badge || 'Shop Now →';
+                const sp2Link = s.sidePromo2Link || '#';
+
+                document.getElementById('sidePromo2Label').textContent = sp2Label;
+                document.getElementById('sidePromo2Title').textContent = sp2Title;
+                document.getElementById('sidePromo2Badge').textContent = sp2Badge;
+                document.getElementById('sidePromo2').href = sp2Link;
+
+                // -- Category strip title --
+                const catStripTitle = s.catStripTitle || 'Browse Categories';
+                document.getElementById('catStripTitle').textContent = catStripTitle;
+
+                // -- App banner --
+                const appHeading = s.appBannerHeading || '📱 Shop On the Go!';
+                const appText = s.appBannerText ||
+                    'Download the NovaMart app and get exclusive mobile-only deals every day.';
+                document.getElementById('appBannerHeading').textContent = appHeading;
+                document.getElementById('appBannerText').textContent = appText;
+
+                const appStoreLink = s.appStoreLink || '#';
+                const googlePlayLink = s.googlePlayLink || '#';
+                document.getElementById('appStoreLink').href = appStoreLink;
+                document.getElementById('googlePlayLink').href = googlePlayLink;
+
+                // -- Footer --
+                const footerDesc = s.footerDesc ||
+                    'Your one-stop marketplace for quality products at unbeatable prices. Shop with confidence — best deals, every day.';
+                const footerCopyright = s.footerCopyright || '© 2026 NovaMart Global. All rights reserved.';
+                document.getElementById('footerDesc').textContent = footerDesc;
+                document.getElementById('footerCopyright').textContent = footerCopyright;
+
+                const col1Title = s.footerCol1Title || 'Customer Care';
+                const col2Title = s.footerCol2Title || 'NovaMart';
+                const col3Title = s.footerCol3Title || 'My Account';
+                const col3SubTitle = s.footerCol3SubTitle || 'Download App';
+                document.getElementById('footerCol1Title').textContent = col1Title;
+                document.getElementById('footerCol2Title').textContent = col2Title;
+                document.getElementById('footerCol3Title').textContent = col3Title;
+                document.getElementById('footerCol3SubTitle').textContent = col3SubTitle;
+
+                // -- Footer social links --
+                const social = s.socialLinks || {};
+                const socialMap = {
+                    facebook: 'footerSocial_facebook',
+                    twitter: 'footerSocial_twitter',
+                    instagram: 'footerSocial_instagram',
+                    youtube: 'footerSocial_youtube',
+                    tiktok: 'footerSocial_tiktok'
+                };
+                Object.keys(socialMap).forEach(key => {
+                    const el = document.getElementById(socialMap[key]);
+                    if (el && social[key]) {
+                        el.href = social[key];
+                    }
+                });
+
+                // -- Deal banner --
+                const dealEyebrow = s.dealEyebrow || '⚡ DEAL OF THE DAY';
+                const dealTitle = s.dealTitle || 'Top Electronics<br>At Lowest Prices';
+                const dealBtnText = s.dealBtnText || 'Shop Now';
+                const dealLink = s.dealLink || '#';
+
+                document.getElementById('dealEyebrow').textContent = dealEyebrow;
+                document.getElementById('dealTitle').innerHTML = dealTitle;
+                document.getElementById('dealBtn').innerHTML = dealBtnText + ' <i class="fas fa-arrow-right"></i>';
+                document.getElementById('dealBtn').href = dealLink;
+
+                // -- Flash sale title --
+                const flashTitle = s.flashSaleTitle || 'Flash Sale';
+                document.getElementById('flashSaleTitle').textContent = flashTitle;
+
+                // -- Section titles (used by app.js) --
+                // app.js will read these from settings as well
+                window._sectionTitles = {
+                    flash: s.flashSaleTitle || 'Flash Sale',
+                    trending: s.trendingTitle || '🔥 Trending Now',
+                    recommended: s.recommendedTitle || '⭐ Recommended for You',
+                    categories: s.shopByCategoryTitle || 'Shop by Category',
+                    brands: s.topBrandsTitle || '🏷️ Top Brands'
+                };
+
+                // -- Apply custom primary color if set --
+                if (s.primaryColor) {
+                    document.documentElement.style.setProperty('--primary', s.primaryColor);
+                    // Also update the logo icon background
+                    const logoIcon = document.querySelector('.logo__icon');
+                    if (logoIcon) logoIcon.style.background = s.primaryColor;
+                }
+                if (s.primaryDark) {
+                    document.documentElement.style.setProperty('--primary-dark', s.primaryDark);
+                }
+                if (s.primaryLight) {
+                    document.documentElement.style.setProperty('--primary-light', s.primaryLight);
+                }
+
+                // -- Maintenance mode --
+                if (s.maintenance === true) {
+                    // Show maintenance overlay (optional)
+                    // For now, we just log it
+                    console.log('[NovaMart] Maintenance mode is ON');
+                }
+            }
+
+            // ============================================================
+            // 2. POPULATE DROPDOWNS & SIDEBARS
+            // ============================================================
             function populateSearchCats() {
                 const sel = document.getElementById('searchCatFilter');
-                if (!sel || typeof CATEGORIES === 'undefined') return;
+                if (!sel || typeof window.CATEGORIES === 'undefined') return;
                 sel.innerHTML = '<option value="all">All</option>';
-                CATEGORIES.forEach(c => {
+                (window.CATEGORIES || []).forEach(c => {
                     const o = document.createElement('option');
                     o.value = c.id || c.name;
                     o.textContent = c.name;
@@ -1783,11 +1896,10 @@
                 });
             }
 
-            // Populate category sidebar
             function populateSidebar() {
                 const sb = document.getElementById('catSidebar');
-                if (!sb || typeof CATEGORIES === 'undefined') return;
-                const cats = CATEGORIES.slice(0, 12);
+                if (!sb || typeof window.CATEGORIES === 'undefined') return;
+                const cats = (window.CATEGORIES || []).slice(0, 12);
                 const icons = ['fa-laptop', 'fa-shirt', 'fa-couch', 'fa-face-smile-beam', 'fa-dumbbell',
                     'fa-book', 'fa-gamepad', 'fa-car', 'fa-baby', 'fa-utensils', 'fa-paw', 'fa-tools'
                 ];
@@ -1799,6 +1911,7 @@
                     </div>
                 `).join('') +
                     '<div class="cat-sidebar__item" style="color:var(--primary); font-weight:700;" onclick="document.getElementById(\'categoryGrid\').scrollIntoView({behavior:\'smooth\'})"><i class="fas fa-grid-2"></i><span>All Categories</span><i class="fas fa-chevron-right arrow"></i></div>';
+
                 sb.querySelectorAll('.cat-sidebar__item[data-category]').forEach(item => {
                     item.addEventListener('click', () => {
                         const cat = item.dataset.category;
@@ -1810,12 +1923,11 @@
                 });
             }
 
-            // Populate category strip icons
             function populateCatStrip() {
                 const grid = document.getElementById('catStripGrid');
-                if (!grid || typeof CATEGORIES === 'undefined') return;
+                if (!grid || typeof window.CATEGORIES === 'undefined') return;
                 const emojis = ['💻', '👕', '🛋️', '💄', '🏋️', '📚', '🎮', '🚗', '👶', '🍳', '🐾', '🔧'];
-                grid.innerHTML = CATEGORIES.slice(0, 12).map((c, i) => `
+                grid.innerHTML = (window.CATEGORIES || []).slice(0, 12).map((c, i) => `
                     <div class="cat-strip__item" data-category="${c.id||c.name}">
                         <div class="cat-strip__icon">${emojis[i % emojis.length]}</div>
                         <span class="cat-strip__label">${c.name}</span>
@@ -1832,27 +1944,77 @@
                 });
             }
 
-            // Header scroll effect
-            window.addEventListener('scroll', () => {
+            // ============================================================
+            // 3. HEADER SCROLL EFFECT
+            // ============================================================
+            function headerScrollEffect() {
                 const header = document.getElementById('mainHeader');
                 if (header) {
                     header.classList.toggle('scrolled', window.scrollY > 10);
                 }
-            });
+            }
 
-            window.addEventListener('novamart:dataUpdated', () => {
+            // ============================================================
+            // 4. RE-RENDER ON DATA UPDATE
+            // ============================================================
+            function onDataUpdate() {
+                applySettings();
                 populateSearchCats();
                 populateSidebar();
                 populateCatStrip();
-            });
+            }
 
-            // Initial run
-            setTimeout(() => {
-                populateSearchCats();
-                populateSidebar();
-                populateCatStrip();
-            }, 800);
+            // Listen for Firebase data updates
+            window.addEventListener('novamart:dataUpdated', onDataUpdate);
+
+            // ============================================================
+            // 5. INIT
+            // ============================================================
+            function init() {
+                // Wait for settings to be available
+                const checkSettings = setInterval(() => {
+                    if (window.SITE_SETTINGS) {
+                        clearInterval(checkSettings);
+                        applySettings();
+                    }
+                }, 100);
+
+                // Give up after 3 seconds
+                setTimeout(() => {
+                    clearInterval(checkSettings);
+                    if (!window.SITE_SETTINGS) {
+                        // Apply defaults anyway
+                        applySettings();
+                    }
+                }, 3000);
+
+                // Populate UI elements
+                setTimeout(() => {
+                    populateSearchCats();
+                    populateSidebar();
+                    populateCatStrip();
+                }, 400);
+
+                // Header scroll
+                window.addEventListener('scroll', headerScrollEffect);
+
+                console.log('🛒 NovaMart Homepage — fully dynamic, admin-editable.');
+                console.log('📌 All text comes from Firebase "settings". All sections from "homepageSections".');
+            }
+
+            // Start when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+
+            // Also re-apply when app.js has finished its render pass
+            // app.js dispatches 'novamart:dataUpdated' after rendering
+            // We already listen to that above.
+
         })();
     </script>
+
 </body>
 </html>
