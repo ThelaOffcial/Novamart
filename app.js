@@ -306,6 +306,117 @@
     });
   }
 
+  // ----- Site Content (100% of the homepage's static content, editable from
+  // admin.html → Site Content). Every field falls back to the original
+  // hand-written copy if the admin hasn't set it yet, so nothing ever looks
+  // broken on a fresh install. -----
+  function renderSiteContent() {
+    const sc = getSettings().siteContent || {};
+
+    // Brand / logo
+    const brandPrefix = document.getElementById('brandPrefix');
+    const brandHighlight = document.getElementById('brandHighlight');
+    const brandBadge = document.getElementById('brandBadge');
+    if (brandPrefix) brandPrefix.textContent = sc.brandPrefix || 'Nova';
+    if (brandHighlight) brandHighlight.textContent = sc.brandHighlight || 'Mart';
+    if (brandBadge) brandBadge.textContent = sc.brandBadge || 'GLOBAL';
+
+    // Accent theme color
+    if (sc.themeColor) {
+      document.documentElement.style.setProperty('--primary', sc.themeColor);
+    }
+
+    // Side promo boxes
+    (sc.sidePromos || []).forEach((p, i) => {
+      const el = document.getElementById(`sidePromo${i + 1}`);
+      if (!el) return;
+      el.href = p.link || '#';
+      const label = el.querySelector('.side-promo__label');
+      const title = el.querySelector('.side-promo__title');
+      const badge = el.querySelector('.side-promo__badge');
+      if (label) label.textContent = p.label || '';
+      if (title) title.textContent = p.title || '';
+      if (badge) badge.textContent = p.badge || '';
+    });
+
+    // Category strip title
+    const catStripTitle = document.getElementById('catStripTitle');
+    if (catStripTitle) catStripTitle.textContent = sc.catStripTitle || 'Browse Categories';
+
+    // Section titles
+    const setTitle = (id, fallback) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = sc[id] || fallback;
+    };
+    setTitle('shopByCategoryTitle', 'Shop by Category');
+    setTitle('trendingSectionTitle', '🔥 Trending Now');
+    setTitle('recommendedSectionTitle', '⭐ Recommended for You');
+    setTitle('topBrandsSectionTitle', '🏷️ Top Brands');
+
+    // Top Brands strip
+    const brandsStrip = document.getElementById('brandsStrip');
+    if (brandsStrip) {
+      const brands = (sc.topBrands && sc.topBrands.length)
+        ? sc.topBrands
+        : ['Samsung', 'Apple', 'Nike', 'Adidas', 'Sony', 'LG', 'Xiaomi', 'Huawei', 'Philips', 'Puma'];
+      brandsStrip.innerHTML = brands.map(b => `<div class="brand-card">${b}</div>`).join('');
+    }
+
+    // App download banner
+    const appBannerSection = document.getElementById('appBannerSection');
+    if (appBannerSection) appBannerSection.style.display = (sc.appBanner && sc.appBanner.enabled === false) ? 'none' : '';
+    const ab = sc.appBanner || {};
+    const appHeading = document.getElementById('appBannerHeading');
+    const appText = document.getElementById('appBannerText');
+    const appStoreLink = document.getElementById('appStoreLink');
+    const googlePlayLink = document.getElementById('googlePlayLink');
+    if (appHeading) appHeading.textContent = ab.heading || '📱 Shop On the Go!';
+    if (appText) appText.textContent = ab.text || 'Download the NovaMart app and get exclusive mobile-only deals every day.';
+    if (appStoreLink) appStoreLink.href = ab.appStoreUrl || '#';
+    if (googlePlayLink) googlePlayLink.href = ab.googlePlayUrl || '#';
+
+    // Footer
+    const fc = sc.footer || {};
+    const footerDesc = document.getElementById('footerDesc');
+    if (footerDesc) footerDesc.textContent = fc.description || 'Your one-stop marketplace for quality products at unbeatable prices. Shop with confidence — best deals, every day.';
+
+    const socialDefaults = { facebook: '#', twitter: '#', instagram: '#', youtube: '#', tiktok: '#' };
+    const social = Object.assign({}, socialDefaults, fc.social || {});
+    Object.keys(social).forEach(key => {
+      const a = document.getElementById(`footerSocial_${key}`);
+      if (a) a.href = social[key] || '#';
+    });
+
+    function renderFooterCol(colKey, titleFallback, itemsFallback, extraItemsHtml) {
+      const titleEl = document.getElementById(`${colKey}Title`);
+      const listEl = document.getElementById(`${colKey}List`);
+      const col = fc[colKey] || {};
+      if (titleEl) titleEl.textContent = col.title || titleFallback;
+      if (listEl) {
+        const items = (col.items && col.items.length) ? col.items : itemsFallback;
+        listEl.innerHTML = items.map(it => `<li><a href="${it.link || '#'}">${it.label}</a></li>`).join('') + (extraItemsHtml || '');
+      }
+    }
+    renderFooterCol('footerCol1', 'Customer Care', [
+      { label: 'Help Center', link: '#' },
+      { label: 'Track Your Order', link: '#' },
+      { label: 'Returns & Refunds', link: '#' },
+      { label: 'Shipping Info', link: '#' },
+      { label: 'Contact Us', link: '#' },
+      { label: 'Report a Problem', link: '#' }
+    ]);
+    renderFooterCol('footerCol2', 'NovaMart', [
+      { label: 'About Us', link: '#' },
+      { label: 'Careers', link: '#' },
+      { label: 'Press', link: '#' },
+      { label: 'Affiliates', link: '#' },
+      { label: 'Sell on NovaMart', link: '#' }
+    ], '<li><a href="admin.html">Admin Panel</a></li>');
+
+    const footerCopyright = document.getElementById('footerCopyright');
+    if (footerCopyright) footerCopyright.textContent = fc.copyright || '© 2026 NovaMart Global. All rights reserved.';
+  }
+
   // ----- Trending & Recommended -----
   function renderTrending() {
     const trending = [...products].sort((a, b) => b.soldCount - a.soldCount).slice(0, 8);
@@ -650,6 +761,7 @@
     rebuildProductMap();
     renderCategories();
     renderBanner();
+    renderSiteContent();
     renderFlashSales();
     renderDealBanner();
     renderTrending();
