@@ -660,8 +660,8 @@ body { background: var(--bg); }
 <header class="header" id="mainHeader">
     <div class="container header__inner">
         <a href="index.html" class="logo">
-            <span class="logo__text">Nova<span>Mart</span></span>
-            <span class="logo__badge">GLOBAL</span>
+            <span class="logo__text"><span id="brandPrefix">Nova</span><span id="brandHighlight">Mart</span></span>
+            <span class="logo__badge" id="brandBadge">GLOBAL</span>
         </a>
 
         <div class="search-bar" id="searchBar">
@@ -720,22 +720,22 @@ body { background: var(--bg); }
 
     <!-- SIDE PROMOS -->
     <div class="side-promos">
-        <div class="side-promo">
+        <a class="side-promo" id="sidePromo1" href="#">
             <div class="side-promo__label">Limited Time</div>
             <div class="side-promo__title">Today's Deal</div>
             <span class="side-promo__badge">Up to 70% OFF</span>
-        </div>
-        <div class="side-promo">
+        </a>
+        <a class="side-promo" id="sidePromo2" href="#">
             <div class="side-promo__label">New Arrivals</div>
             <div class="side-promo__title">Fresh Picks</div>
             <span class="side-promo__badge">Shop Now →</span>
-        </div>
+        </a>
     </div>
 </div>
 
 <!-- CATEGORY ICONS STRIP -->
 <div class="cat-strip" id="catStrip">
-    <div class="cat-strip__title">Browse Categories</div>
+    <div class="cat-strip__title" id="catStripTitle">Browse Categories</div>
     <div class="cat-strip__grid" id="catStripGrid">
         <!-- Rendered by JS -->
     </div>
@@ -764,7 +764,7 @@ body { background: var(--bg); }
 <section class="section">
     <div class="container">
         <div class="section__header">
-            <h2 class="section__title"><i class="fas fa-grid-2" style="color:var(--primary);"></i> Shop by Category</h2>
+            <h2 class="section__title"><i class="fas fa-grid-2" style="color:var(--primary);"></i> <span id="shopByCategoryTitle">Shop by Category</span></h2>
             <a href="#" class="section__see-all">See All <i class="fas fa-arrow-right"></i></a>
         </div>
         <div class="category-grid" id="categoryGrid"></div>
@@ -789,7 +789,7 @@ body { background: var(--bg); }
 <section class="section">
     <div class="container">
         <div class="section__header">
-            <h2 class="section__title">🔥 Trending Now</h2>
+            <h2 class="section__title" id="trendingSectionTitle">🔥 Trending Now</h2>
             <a href="#" class="section__see-all">View All <i class="fas fa-arrow-right"></i></a>
         </div>
         <div class="product-grid" id="trendingProducts"></div>
@@ -800,9 +800,9 @@ body { background: var(--bg); }
 <section class="section">
     <div class="container">
         <div class="section__header">
-            <h2 class="section__title">🏷️ Top Brands</h2>
+            <h2 class="section__title" id="topBrandsSectionTitle">🏷️ Top Brands</h2>
         </div>
-        <div class="brands-strip">
+        <div class="brands-strip" id="brandsStrip">
             <div class="brand-card">Samsung</div>
             <div class="brand-card">Apple</div>
             <div class="brand-card">Nike</div>
@@ -821,7 +821,7 @@ body { background: var(--bg); }
 <section class="section">
     <div class="container">
         <div class="section__header">
-            <h2 class="section__title">⭐ Recommended for You</h2>
+            <h2 class="section__title" id="recommendedSectionTitle">⭐ Recommended for You</h2>
             <a href="#" class="section__see-all">View All <i class="fas fa-arrow-right"></i></a>
         </div>
         <div class="jfy-grid product-grid" id="recommendedProducts"></div>
@@ -829,16 +829,16 @@ body { background: var(--bg); }
 </section>
 
 <!-- APP DOWNLOAD BANNER -->
-<div class="app-banner">
+<div class="app-banner" id="appBannerSection">
     <div class="app-banner__left">
-        <h3>📱 Shop On the Go!</h3>
-        <p>Download the NovaMart app and get exclusive mobile-only deals every day.</p>
+        <h3 id="appBannerHeading">📱 Shop On the Go!</h3>
+        <p id="appBannerText">Download the NovaMart app and get exclusive mobile-only deals every day.</p>
         <div class="app-banner__btns">
-            <a href="#" class="app-store-btn">
+            <a href="#" class="app-store-btn" id="appStoreLink">
                 <i class="fab fa-apple"></i>
                 <div><span class="small">Download on the</span><span class="big">App Store</span></div>
             </a>
-            <a href="#" class="app-store-btn">
+            <a href="#" class="app-store-btn" id="googlePlayLink">
                 <i class="fab fa-google-play"></i>
                 <div><span class="small">Get it on</span><span class="big">Google Play</span></div>
             </a>
@@ -865,18 +865,18 @@ body { background: var(--bg); }
         <div class="footer__grid">
             <div class="footer__col">
                 <span class="logo__text" style="color:#fff; font-size:1.5rem; font-weight:900; display:block; margin-bottom:12px;">Nova<span style="color:var(--primary);">Mart</span></span>
-                <p class="footer__desc">Your one-stop marketplace for quality products at unbeatable prices. Shop with confidence — best deals, every day.</p>
+                <p class="footer__desc" id="footerDesc">Your one-stop marketplace for quality products at unbeatable prices. Shop with confidence — best deals, every day.</p>
                 <div class="footer__social">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" id="footerSocial_facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" id="footerSocial_twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" id="footerSocial_instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" id="footerSocial_youtube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" id="footerSocial_tiktok"><i class="fab fa-tiktok"></i></a>
                 </div>
             </div>
             <div class="footer__col">
-                <h4>Customer Care</h4>
-                <ul>
+                <h4 id="footerCol1Title">Customer Care</h4>
+                <ul id="footerCol1List">
                     <li><a href="#">Help Center</a></li>
                     <li><a href="#">Track Your Order</a></li>
                     <li><a href="#">Returns & Refunds</a></li>
@@ -886,8 +886,8 @@ body { background: var(--bg); }
                 </ul>
             </div>
             <div class="footer__col">
-                <h4>NovaMart</h4>
-                <ul>
+                <h4 id="footerCol2Title">NovaMart</h4>
+                <ul id="footerCol2List">
                     <li><a href="#">About Us</a></li>
                     <li><a href="#">Careers</a></li>
                     <li><a href="#">Press</a></li>
@@ -913,7 +913,7 @@ body { background: var(--bg); }
             </div>
         </div>
         <div class="footer__bottom">
-            <p>© 2026 NovaMart Global. All rights reserved.</p>
+            <p id="footerCopyright">© 2026 NovaMart Global. All rights reserved.</p>
             <div class="footer__payments">
                 <i class="fab fa-cc-visa"></i>
                 <i class="fab fa-cc-mastercard"></i>
