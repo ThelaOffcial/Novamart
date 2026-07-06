@@ -241,6 +241,7 @@ tr:hover td{background:#FAFAFC;}
       <button class="nav-btn" data-panel="categories"><i class="fas fa-tags"></i> Categories</button>
       <button class="nav-btn" data-panel="banners"><i class="fas fa-images"></i> Banners</button>
       <button class="nav-btn" data-panel="homepage"><i class="fas fa-house-flag"></i> Homepage Content</button>
+      <button class="nav-btn" data-panel="siteContent"><i class="fas fa-pen-ruler"></i> Site Content</button>
 
       <div class="sidebar__section">Sales</div>
       <button class="nav-btn" data-panel="orders"><i class="fas fa-receipt"></i> Orders <span class="badge" id="pendingOrdersBadge" style="display:none;">0</span></button>
@@ -413,6 +414,119 @@ tr:hover td{background:#FAFAFC;}
           </div>
           <div class="modal-actions" style="justify-content:flex-start;">
             <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Deal of the Day</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ========= SITE CONTENT (everything else on the homepage) ========= -->
+    <div class="panel" id="panel-siteContent">
+      <div class="topbar">
+        <div><h1>Site Content</h1><div class="sub">Every remaining piece of homepage copy — branding, promos, section titles, footer &amp; more. 100% editable, no redeploy needed.</div></div>
+      </div>
+
+      <div class="card" style="margin-bottom:20px;">
+        <div class="card-header"><h3><i class="fas fa-tag" style="color:var(--primary);"></i> Branding &amp; Theme</h3></div>
+        <form id="brandForm" style="padding:20px;">
+          <div class="form-grid">
+            <div class="form-group"><label>Brand Prefix</label><input type="text" id="sc_brandPrefix" placeholder="Nova"/></div>
+            <div class="form-group"><label>Brand Highlight</label><input type="text" id="sc_brandHighlight" placeholder="Mart"/></div>
+            <div class="form-group"><label>Badge Text</label><input type="text" id="sc_brandBadge" placeholder="GLOBAL"/></div>
+            <div class="form-group"><label>Accent Theme Color</label><input type="color" id="sc_themeColor" value="#FF5A2A" style="height:42px;padding:4px;"/></div>
+          </div>
+          <div class="modal-actions" style="justify-content:flex-start;">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Branding</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card" style="margin-bottom:20px;">
+        <div class="card-header"><h3><i class="fas fa-star" style="color:#F57224;"></i> Side Promo Boxes</h3></div>
+        <form id="sidePromoForm" style="padding:20px;">
+          <div class="form-grid">
+            <div class="form-group"><label>Promo 1 — Label</label><input type="text" id="sp1_label" placeholder="Limited Time"/></div>
+            <div class="form-group"><label>Promo 1 — Title</label><input type="text" id="sp1_title" placeholder="Today's Deal"/></div>
+            <div class="form-group"><label>Promo 1 — Badge</label><input type="text" id="sp1_badge" placeholder="Up to 70% OFF"/></div>
+            <div class="form-group"><label>Promo 1 — Link</label><input type="text" id="sp1_link" placeholder="#"/></div>
+            <div class="form-group"><label>Promo 2 — Label</label><input type="text" id="sp2_label" placeholder="New Arrivals"/></div>
+            <div class="form-group"><label>Promo 2 — Title</label><input type="text" id="sp2_title" placeholder="Fresh Picks"/></div>
+            <div class="form-group"><label>Promo 2 — Badge</label><input type="text" id="sp2_badge" placeholder="Shop Now →"/></div>
+            <div class="form-group"><label>Promo 2 — Link</label><input type="text" id="sp2_link" placeholder="#"/></div>
+          </div>
+          <div class="modal-actions" style="justify-content:flex-start;">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Side Promos</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card" style="margin-bottom:20px;">
+        <div class="card-header"><h3><i class="fas fa-heading" style="color:var(--primary);"></i> Section Titles</h3></div>
+        <form id="titlesForm" style="padding:20px;">
+          <div class="form-grid">
+            <div class="form-group"><label>Category Strip Title</label><input type="text" id="sc_catStripTitle" placeholder="Browse Categories"/></div>
+            <div class="form-group"><label>"Shop by Category" Title</label><input type="text" id="sc_shopByCategoryTitle" placeholder="Shop by Category"/></div>
+            <div class="form-group"><label>"Trending" Title (emoji ok)</label><input type="text" id="sc_trendingSectionTitle" placeholder="🔥 Trending Now"/></div>
+            <div class="form-group"><label>"Recommended" Title (emoji ok)</label><input type="text" id="sc_recommendedSectionTitle" placeholder="⭐ Recommended for You"/></div>
+            <div class="form-group"><label>"Top Brands" Title (emoji ok)</label><input type="text" id="sc_topBrandsSectionTitle" placeholder="🏷️ Top Brands"/></div>
+          </div>
+          <div class="modal-actions" style="justify-content:flex-start;">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Section Titles</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card" style="margin-bottom:20px;">
+        <div class="card-header"><h3><i class="fas fa-crown" style="color:var(--primary);"></i> Top Brands Strip</h3></div>
+        <form id="brandsStripForm" style="padding:20px;">
+          <div class="form-group full"><label>Brand names, comma-separated</label><input type="text" id="sc_topBrands" placeholder="Samsung, Apple, Nike, Adidas, Sony, LG, Xiaomi, Huawei, Philips, Puma"/></div>
+          <div class="modal-actions" style="justify-content:flex-start;">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Brands</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card" style="margin-bottom:20px;">
+        <div class="card-header">
+          <h3><i class="fas fa-mobile-screen" style="color:var(--primary);"></i> App Download Banner</h3>
+          <label style="display:flex;align-items:center;gap:8px;font-size:.85rem;font-weight:600;color:var(--text);cursor:pointer;">
+            <input type="checkbox" id="ab_enabled" checked style="width:18px;height:18px;accent-color:var(--primary);"/> Show on homepage
+          </label>
+        </div>
+        <form id="appBannerForm" style="padding:20px;">
+          <div class="form-grid">
+            <div class="form-group full"><label>Heading</label><input type="text" id="ab_heading" placeholder="📱 Shop On the Go!"/></div>
+            <div class="form-group full"><label>Description</label><input type="text" id="ab_text" placeholder="Download the NovaMart app and get exclusive mobile-only deals every day."/></div>
+            <div class="form-group"><label>App Store Link</label><input type="text" id="ab_appStoreUrl" placeholder="#"/></div>
+            <div class="form-group"><label>Google Play Link</label><input type="text" id="ab_googlePlayUrl" placeholder="#"/></div>
+          </div>
+          <div class="modal-actions" style="justify-content:flex-start;">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save App Banner</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3><i class="fas fa-shoe-prints" style="color:var(--primary);"></i> Footer</h3></div>
+        <form id="footerForm" style="padding:20px;">
+          <div class="form-grid">
+            <div class="form-group full"><label>Brand Description</label><input type="text" id="ft_description" placeholder="Your one-stop marketplace for quality products..."/></div>
+            <div class="form-group"><label>Facebook URL</label><input type="text" id="ft_facebook" placeholder="#"/></div>
+            <div class="form-group"><label>Twitter/X URL</label><input type="text" id="ft_twitter" placeholder="#"/></div>
+            <div class="form-group"><label>Instagram URL</label><input type="text" id="ft_instagram" placeholder="#"/></div>
+            <div class="form-group"><label>YouTube URL</label><input type="text" id="ft_youtube" placeholder="#"/></div>
+            <div class="form-group"><label>TikTok URL</label><input type="text" id="ft_tiktok" placeholder="#"/></div>
+            <div class="form-group"><label>Copyright Line</label><input type="text" id="ft_copyright" placeholder="© 2026 NovaMart Global. All rights reserved."/></div>
+            <div class="form-group"><label>Column 1 Title</label><input type="text" id="ft_col1Title" placeholder="Customer Care"/></div>
+            <div class="form-group full"><label>Column 1 Links — one per line, format: <code>Label | URL</code></label>
+              <textarea id="ft_col1Items" rows="4" placeholder="Help Center | #&#10;Track Your Order | #"></textarea>
+            </div>
+            <div class="form-group"><label>Column 2 Title</label><input type="text" id="ft_col2Title" placeholder="NovaMart"/></div>
+            <div class="form-group full"><label>Column 2 Links — one per line, format: <code>Label | URL</code> (Admin Panel link is always added automatically)</label>
+              <textarea id="ft_col2Items" rows="4" placeholder="About Us | #&#10;Careers | #"></textarea>
+            </div>
+          </div>
+          <div class="modal-actions" style="justify-content:flex-start;">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Footer</button>
           </div>
         </form>
       </div>
@@ -772,6 +886,7 @@ function switchPanel(name) {
   if (name === 'categories')  renderCategoriesTable();
   if (name === 'banners')     renderBannersTable();
   if (name === 'homepage')    loadHomepageSettings();
+  if (name === 'siteContent') loadSiteContentSettings();
   if (name === 'orders')      renderOrdersTable();
   if (name === 'promoCodes')  renderPromoCodes();
   if (name === 'reports')     renderReports();
@@ -860,6 +975,7 @@ function initDataListeners() {
   rtdb.ref('settings').on('value', snap => {
     siteSettings = snap.val() || {};
     if (document.getElementById('panel-homepage').classList.contains('active')) loadHomepageSettings();
+    if (document.getElementById('panel-siteContent').classList.contains('active')) loadSiteContentSettings();
   });
   rtdb.ref('orders').on('value', snap => {
     allOrders = toArray(snap.val());
@@ -1180,6 +1296,165 @@ document.getElementById('dealOfDayForm').addEventListener('submit', async e => {
     endsAt: localInputValueToMs(document.getElementById('dod_endsAt').value, 24)
   };
   try { await rtdb.ref('settings/dealOfDay').set(data); showToast('Deal of the Day saved ✓','success'); }
+  catch(err){ showToast('Error: '+err.message,'error'); }
+});
+
+// ---- SITE CONTENT ----
+function parseFooterItems(text) {
+  return text.split('\n').map(l => l.trim()).filter(Boolean).map(line => {
+    const [label, link] = line.split('|').map(s => (s || '').trim());
+    return { label: label || line, link: link || '#' };
+  });
+}
+function footerItemsToText(items) {
+  return (items || []).map(it => `${it.label} | ${it.link || '#'}`).join('\n');
+}
+function loadSiteContentSettings() {
+  const sc = siteSettings.siteContent || {};
+  document.getElementById('sc_brandPrefix').value = sc.brandPrefix || 'Nova';
+  document.getElementById('sc_brandHighlight').value = sc.brandHighlight || 'Mart';
+  document.getElementById('sc_brandBadge').value = sc.brandBadge || 'GLOBAL';
+  document.getElementById('sc_themeColor').value = sc.themeColor || '#FF5A2A';
+
+  const sp = sc.sidePromos || [];
+  const sp1 = sp[0] || {}, sp2 = sp[1] || {};
+  document.getElementById('sp1_label').value = sp1.label || 'Limited Time';
+  document.getElementById('sp1_title').value = sp1.title || "Today's Deal";
+  document.getElementById('sp1_badge').value = sp1.badge || 'Up to 70% OFF';
+  document.getElementById('sp1_link').value = sp1.link || '#';
+  document.getElementById('sp2_label').value = sp2.label || 'New Arrivals';
+  document.getElementById('sp2_title').value = sp2.title || 'Fresh Picks';
+  document.getElementById('sp2_badge').value = sp2.badge || 'Shop Now →';
+  document.getElementById('sp2_link').value = sp2.link || '#';
+
+  document.getElementById('sc_catStripTitle').value = sc.catStripTitle || 'Browse Categories';
+  document.getElementById('sc_shopByCategoryTitle').value = sc.shopByCategoryTitle || 'Shop by Category';
+  document.getElementById('sc_trendingSectionTitle').value = sc.trendingSectionTitle || '🔥 Trending Now';
+  document.getElementById('sc_recommendedSectionTitle').value = sc.recommendedSectionTitle || '⭐ Recommended for You';
+  document.getElementById('sc_topBrandsSectionTitle').value = sc.topBrandsSectionTitle || '🏷️ Top Brands';
+
+  document.getElementById('sc_topBrands').value = (sc.topBrands || ['Samsung','Apple','Nike','Adidas','Sony','LG','Xiaomi','Huawei','Philips','Puma']).join(', ');
+
+  const ab = sc.appBanner || {};
+  document.getElementById('ab_enabled').checked = ab.enabled !== false;
+  document.getElementById('ab_heading').value = ab.heading || '📱 Shop On the Go!';
+  document.getElementById('ab_text').value = ab.text || 'Download the NovaMart app and get exclusive mobile-only deals every day.';
+  document.getElementById('ab_appStoreUrl').value = ab.appStoreUrl || '#';
+  document.getElementById('ab_googlePlayUrl').value = ab.googlePlayUrl || '#';
+
+  const fc = sc.footer || {};
+  document.getElementById('ft_description').value = fc.description || 'Your one-stop marketplace for quality products at unbeatable prices. Shop with confidence — best deals, every day.';
+  const social = fc.social || {};
+  document.getElementById('ft_facebook').value = social.facebook || '#';
+  document.getElementById('ft_twitter').value = social.twitter || '#';
+  document.getElementById('ft_instagram').value = social.instagram || '#';
+  document.getElementById('ft_youtube').value = social.youtube || '#';
+  document.getElementById('ft_tiktok').value = social.tiktok || '#';
+  document.getElementById('ft_copyright').value = fc.copyright || '© 2026 NovaMart Global. All rights reserved.';
+  const col1 = fc.footerCol1 || {};
+  const col2 = fc.footerCol2 || {};
+  document.getElementById('ft_col1Title').value = col1.title || 'Customer Care';
+  document.getElementById('ft_col1Items').value = footerItemsToText(col1.items && col1.items.length ? col1.items : [
+    { label: 'Help Center', link: '#' }, { label: 'Track Your Order', link: '#' },
+    { label: 'Returns & Refunds', link: '#' }, { label: 'Shipping Info', link: '#' },
+    { label: 'Contact Us', link: '#' }, { label: 'Report a Problem', link: '#' }
+  ]);
+  document.getElementById('ft_col2Title').value = col2.title || 'NovaMart';
+  document.getElementById('ft_col2Items').value = footerItemsToText(col2.items && col2.items.length ? col2.items : [
+    { label: 'About Us', link: '#' }, { label: 'Careers', link: '#' },
+    { label: 'Press', link: '#' }, { label: 'Affiliates', link: '#' }, { label: 'Sell on NovaMart', link: '#' }
+  ]);
+}
+
+document.getElementById('brandForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  try {
+    await rtdb.ref('settings/siteContent').update({
+      brandPrefix: document.getElementById('sc_brandPrefix').value || 'Nova',
+      brandHighlight: document.getElementById('sc_brandHighlight').value || 'Mart',
+      brandBadge: document.getElementById('sc_brandBadge').value || 'GLOBAL',
+      themeColor: document.getElementById('sc_themeColor').value || '#FF5A2A'
+    });
+    showToast('Branding saved ✓','success');
+  } catch(err){ showToast('Error: '+err.message,'error'); }
+});
+
+document.getElementById('sidePromoForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const sidePromos = [
+    {
+      label: document.getElementById('sp1_label').value || 'Limited Time',
+      title: document.getElementById('sp1_title').value || "Today's Deal",
+      badge: document.getElementById('sp1_badge').value || 'Up to 70% OFF',
+      link: document.getElementById('sp1_link').value || '#'
+    },
+    {
+      label: document.getElementById('sp2_label').value || 'New Arrivals',
+      title: document.getElementById('sp2_title').value || 'Fresh Picks',
+      badge: document.getElementById('sp2_badge').value || 'Shop Now →',
+      link: document.getElementById('sp2_link').value || '#'
+    }
+  ];
+  try { await rtdb.ref('settings/siteContent/sidePromos').set(sidePromos); showToast('Side promos saved ✓','success'); }
+  catch(err){ showToast('Error: '+err.message,'error'); }
+});
+
+document.getElementById('titlesForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  try {
+    await rtdb.ref('settings/siteContent').update({
+      catStripTitle: document.getElementById('sc_catStripTitle').value || 'Browse Categories',
+      shopByCategoryTitle: document.getElementById('sc_shopByCategoryTitle').value || 'Shop by Category',
+      trendingSectionTitle: document.getElementById('sc_trendingSectionTitle').value || '🔥 Trending Now',
+      recommendedSectionTitle: document.getElementById('sc_recommendedSectionTitle').value || '⭐ Recommended for You',
+      topBrandsSectionTitle: document.getElementById('sc_topBrandsSectionTitle').value || '🏷️ Top Brands'
+    });
+    showToast('Section titles saved ✓','success');
+  } catch(err){ showToast('Error: '+err.message,'error'); }
+});
+
+document.getElementById('brandsStripForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const brands = document.getElementById('sc_topBrands').value.split(',').map(s => s.trim()).filter(Boolean);
+  try { await rtdb.ref('settings/siteContent/topBrands').set(brands); showToast('Top brands saved ✓','success'); }
+  catch(err){ showToast('Error: '+err.message,'error'); }
+});
+
+document.getElementById('appBannerForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const data = {
+    enabled: document.getElementById('ab_enabled').checked,
+    heading: document.getElementById('ab_heading').value || '📱 Shop On the Go!',
+    text: document.getElementById('ab_text').value || 'Download the NovaMart app and get exclusive mobile-only deals every day.',
+    appStoreUrl: document.getElementById('ab_appStoreUrl').value || '#',
+    googlePlayUrl: document.getElementById('ab_googlePlayUrl').value || '#'
+  };
+  try { await rtdb.ref('settings/siteContent/appBanner').set(data); showToast('App banner saved ✓','success'); }
+  catch(err){ showToast('Error: '+err.message,'error'); }
+});
+
+document.getElementById('footerForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const data = {
+    description: document.getElementById('ft_description').value || 'Your one-stop marketplace for quality products at unbeatable prices. Shop with confidence — best deals, every day.',
+    social: {
+      facebook: document.getElementById('ft_facebook').value || '#',
+      twitter: document.getElementById('ft_twitter').value || '#',
+      instagram: document.getElementById('ft_instagram').value || '#',
+      youtube: document.getElementById('ft_youtube').value || '#',
+      tiktok: document.getElementById('ft_tiktok').value || '#'
+    },
+    copyright: document.getElementById('ft_copyright').value || '© 2026 NovaMart Global. All rights reserved.',
+    footerCol1: {
+      title: document.getElementById('ft_col1Title').value || 'Customer Care',
+      items: parseFooterItems(document.getElementById('ft_col1Items').value)
+    },
+    footerCol2: {
+      title: document.getElementById('ft_col2Title').value || 'NovaMart',
+      items: parseFooterItems(document.getElementById('ft_col2Items').value)
+    }
+  };
+  try { await rtdb.ref('settings/siteContent/footer').set(data); showToast('Footer saved ✓','success'); }
   catch(err){ showToast('Error: '+err.message,'error'); }
 });
 
